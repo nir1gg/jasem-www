@@ -219,33 +219,6 @@ if (layers.length && !reduced) {
   drive();
 }
 
-/* ── drag-and-throw stickers ────────────────────────────────────────────── */
-
-document.querySelectorAll("[data-drag]").forEach((el) => {
-  let x = 0, y = 0, vx = 0, vy = 0, px = 0, py = 0, held = false, anim = 0;
-  const apply = () => { el.style.translate = `${x}px ${y}px`; };
-  el.addEventListener("pointerdown", (ev) => {
-    held = true; cancelAnimationFrame(anim);
-    px = ev.clientX; py = ev.clientY;
-    el.setPointerCapture(ev.pointerId);
-  });
-  el.addEventListener("pointermove", (ev) => {
-    if (!held) return;
-    vx = ev.clientX - px; vy = ev.clientY - py;
-    x += vx; y += vy; px = ev.clientX; py = ev.clientY;
-    apply();
-  });
-  el.addEventListener("pointerup", () => {
-    held = false;
-    if (reduced) return;
-    const glide = () => {                          // thrown: friction, no spring
-      vx *= 0.94; vy *= 0.94; x += vx; y += vy; apply();
-      if (Math.hypot(vx, vy) > 0.4) anim = requestAnimationFrame(glide);
-    };
-    anim = requestAnimationFrame(glide);
-  });
-});
-
 /* ── spray-paint cursor trail, hero only ────────────────────────────────── */
 
 const hero = document.querySelector(".hero");
@@ -336,6 +309,54 @@ if (hat) {
     const r = hat.getBoundingClientRect();
     confetti(r.left + r.width / 2, r.top, 80);
     setTimeout(() => footer.classList.remove("party"), 6000);
+  });
+}
+
+/* ── the marquee is a tuning dial: the page scroll turns it ─────────────── */
+
+const tracks = [...document.querySelectorAll(".chant__track")];
+if (tracks.length) {
+  let ticking2 = false;
+  const turn = () => {
+    ticking2 = false;
+    for (const track of tracks) {
+      const half = track.scrollWidth / 2;
+      if (!half) continue;
+      const dir = track.classList.contains("chant__track--rev") ? -1 : 1;
+      /* Stay inside [0, half] — the range the duplicated spans cover. */
+      const x = ((scrollY * 0.55 * dir) % half + half) % half;
+      track.style.transform = `translateX(${x}px)`;
+    }
+  };
+  addEventListener("scroll", () => {
+    if (!ticking2) { ticking2 = true; requestAnimationFrame(turn); }
+  }, { passive: true });
+  turn();
+}
+
+/* ── the نوبت pad: tear a queue ticket off ──────────────────────────────── */
+
+const nobat = document.getElementById("nobat");
+if (nobat) {
+  nobat.hidden = false;
+  const btn = document.getElementById("nobat-tear");
+  const num = btn.querySelector(".nobat__num");
+  const FA = "۰۱۲۳۴۵۶۷۸۹";
+  const fa = (n) => String(n).replace(/\d/g, (d) => FA[d]);
+  let turn2 = 1;
+  btn.addEventListener("click", () => {
+    const r = btn.getBoundingClientRect();
+    const torn = btn.cloneNode(true);
+    torn.className = "nobat__ticket nobat__torn";
+    torn.style.left = r.left + "px";
+    torn.style.top = r.top + "px";
+    torn.style.inlineSize = r.width + "px";
+    document.body.appendChild(torn);
+    torn.addEventListener("animationend", () => torn.remove());
+    num.textContent = fa(++turn2);
+    if (turn2 === 20) {                         /* patience is rewarded once */
+      confetti(r.left + r.width / 2, r.top, 50);
+    }
   });
 }
 

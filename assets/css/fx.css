@@ -89,3 +89,42 @@ html.js .oath:not(.sworn) .oath__tick path { stroke-dashoffset: 44; }
 @keyframes jsm-confetti {
   to { translate: var(--dx, 0) var(--dy, 70vh); rotate: var(--rot, 400deg); opacity: 0; }
 }
+
+/*  With JS the marquee is driven by the page scroll (a tuning dial, not a
+ *  motor); the CSS motor is switched off. */
+html.js .chant__track { animation: none; }
+
+/*  The نوبت queue-ticket pad beside the CTA. JS-only device. */
+.nobat__ticket {
+  display: grid;
+  gap: 2px;
+  padding: var(--jsm-space-2) var(--jsm-space-5) var(--jsm-space-3);
+  background: var(--jsm-color-poster-bg-canvas);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  border-block-start-style: dashed;
+  box-shadow: var(--jsm-shadow-sticker);
+  text-align: center;
+  rotate: 2deg;
+}
+.nobat__num {
+  font-family: var(--jsm-font-family-poster);
+  font-size: var(--jsm-font-size-3xl);
+  line-height: 1;
+  color: var(--jsm-color-ink-shangarf);
+}
+.nobat__label {
+  font-size: var(--jsm-font-size-xs);
+  font-weight: var(--jsm-font-weight-medium);
+  color: var(--jsm-color-poster-fg-secondary);
+}
+/*  A torn ticket flying off the pad (node cloned by app.js). */
+.nobat__torn {
+  position: fixed;
+  z-index: 20;
+  pointer-events: none;
+  animation: jsm-tear 900ms var(--jsm-motion-easing-accelerate) forwards;
+}
+@keyframes jsm-tear {
+  20% { rotate: -6deg; }
+  to  { translate: -40px 80vh; rotate: 28deg; opacity: 0; }
+}

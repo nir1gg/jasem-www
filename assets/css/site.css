@@ -1,11 +1,7 @@
 /*  آقا جاسم — the landing as a neighbourhood wall (دیوارِ محله).
- *
- *  A plastered wall pasted over in layers. Every colour and measurement comes
- *  from build/tokens.css; hardcoded values are geometry, not tokens. Motion is
- *  loud here by licence (brand/07-motion.md) but always mechanical — sheets
- *  paste, bulbs chase, reels spin. base.css clamps it under reduced-motion.
- *  app.js adds .js only when it runs: everything must work without it.
- */
+ *  Tokens only; hardcoded values are geometry. Motion is loud by licence
+ *  (brand/07-motion.md) but always mechanical; base.css clamps it under
+ *  reduced-motion. app.js adds .js only when it runs. */
 
 /* ══ layout ═══════════════════════════════════════════════════════════════ */
 
@@ -50,39 +46,9 @@ body {
   pointer-events: none;
 }
 
-/*  Cheap printing never lined up. Headings only. */
-.misregister { position: relative; display: inline-block; }
-.misregister > .ghost {
-  position: absolute;
-  inset-block-start: var(--jsm-metric-misregister);
-  inset-inline-start: calc(var(--jsm-metric-misregister) * -1);
-  white-space: nowrap;
-  color: var(--jsm-color-ink-surati);
-  mix-blend-mode: multiply;
-  pointer-events: none;
-  user-select: none;
-}
-
-/*  «ارزون!» — the rosette, poster cut. لیمویی never touches paper: it lives
- *  inside ink blocks or on its own pasted ground. */
-.starburst {
-  clip-path: var(--jsm-rosette);
-  display: grid;
-  place-items: center;
-  inline-size: 128px;
-  aspect-ratio: 1;
-  background: var(--jsm-color-ink-limu);
-  color: var(--jsm-color-ink-morakkab);
-  font-family: var(--jsm-font-family-display);
-  font-size: var(--jsm-font-size-xl);
-  line-height: 1;
-  text-align: center;
-  rotate: -12deg;
-}
-
-/*  Sheets pasted to the wall: slab shadow, one tape strip that peels on hover. */
+/*  Pasted sheets; taped ones get a strip that peels on hover. */
 .sheet { position: relative; }
-.sheet::before {
+.sheet--taped::before {
   content: "";
   position: absolute;
   inset-block-start: -10px;
@@ -98,7 +64,7 @@ body {
   transition: rotate var(--jsm-motion-duration-peel) var(--jsm-motion-easing-standard),
               translate var(--jsm-motion-duration-peel) var(--jsm-motion-easing-standard);
 }
-.sheet:hover::before { rotate: -6deg; translate: 0 -3px; }
+.sheet--taped:hover::before { rotate: -6deg; translate: 0 -3px; }
 
 /* ══ paste-up choreography ════════════════════════════════════════════════ */
 
@@ -158,34 +124,81 @@ body {
   padding-block: var(--jsm-space-16) var(--jsm-space-12);
 }
 
-/*  The CSS wall: colour sheets at the edges, away from the type column. When
- *  WebGL is gated off (no JS, reduced motion, save-data, narrow, old device),
- *  this IS the wall and nothing is missing. */
+/*  The wall behind the hero: the flyers Jasem pinned to his own room's wall —
+ *  a soda sheet, a Film-Farsi one-sheet, the grocer's sign, a matchbox label.
+ *  Era ads, not the brand repeated. aria-hidden; the copy is CSS content. */
 .wall,
-.wall::before,
-.wall::after {
+.wall::before {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-/*  Paint on ::after so the canvas child never inherits its opacity. */
-.wall::after {
-  content: "";
-  background:
-    linear-gradient(var(--jsm-color-ink-lajvardi), var(--jsm-color-ink-lajvardi))
-      left -60px top 8% / 240px 300px no-repeat,
-    linear-gradient(var(--jsm-color-ink-narenji), var(--jsm-color-ink-narenji))
-      right -70px top 4% / 260px 210px no-repeat,
-    linear-gradient(var(--jsm-color-ink-shangarf), var(--jsm-color-ink-shangarf))
-      left -40px bottom -8% / 200px 260px no-repeat,
-    linear-gradient(var(--jsm-color-ink-sabz), var(--jsm-color-ink-sabz))
-      right -50px bottom -4% / 220px 180px no-repeat,
-    linear-gradient(var(--jsm-tint-surati-20), var(--jsm-tint-surati-20))
-      left 12% top -30px / 170px 190px no-repeat;
-  opacity: 0.5;
+.wall .flyer {
+  position: absolute;
+  display: block;
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  box-shadow: var(--jsm-shadow-slab);
   transition: opacity 600ms var(--jsm-motion-easing-decelerate);
 }
-/*  Paper grain so the sheets read pasted, not floating. */
+.wall .flyer::after {
+  content: var(--txt);
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: var(--y, 18px);
+  text-align: center;
+  font-family: var(--jsm-font-family-poster);
+  font-size: var(--fs, 3rem);
+  line-height: 1;
+  color: var(--ink, var(--jsm-color-ink-morakkab));
+}
+/*  «نوشابه» — the 1961 soda ad: rays, a roundel, black type on orange. */
+.flyer--soda {
+  --txt: "نوشابه"; --fs: 3.4rem;
+  inline-size: 200px; block-size: 270px;
+  inset-inline-end: -2%; inset-block-start: 5%;
+  rotate: 3deg;
+  background:
+    radial-gradient(circle at 50% 30%, var(--jsm-color-ink-limu) 0 36px, transparent 37px),
+    repeating-conic-gradient(from 8deg at 50% 30%,
+      var(--jsm-tint-narenji-40) 0 6deg, transparent 6deg 16deg) 50% 0 / 100% 60% no-repeat;
+  background-color: var(--jsm-color-ink-narenji);
+}
+/*  The Film-Farsi one-sheet: لاجوردی night, لیمویی burst, red title. */
+.flyer--film {
+  --txt: "سینما"; --fs: 3rem; --ink: var(--jsm-color-ink-shangarf); --y: 16px;
+  inline-size: 190px; block-size: 260px;
+  inset-inline-start: -2.5%; inset-block-start: 10%;
+  rotate: -4deg;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 42%,
+      var(--jsm-color-ink-limu) 0 7deg, transparent 7deg 18deg) 50% 0 / 100% 84% no-repeat,
+    radial-gradient(circle at 50% 42%, var(--jsm-color-ink-limu) 0 30px, transparent 31px);
+  background-color: var(--jsm-color-poster-bg-inked-cool);
+}
+.flyer--film::after { -webkit-text-stroke: 1px var(--jsm-color-ink-kaghaz); }
+/*  The grocer's sign: awning stripes over bottle green. */
+.flyer--mive {
+  --txt: "میوهٔ تازه"; --fs: 2.1rem; --ink: var(--jsm-color-ink-kaghaz); --y: 36%;
+  inline-size: 175px; block-size: 225px;
+  inset-inline-start: 4%; inset-block-end: -4%;
+  rotate: 2.5deg;
+  background: repeating-linear-gradient(90deg,
+    var(--jsm-color-ink-kaghaz) 0 16px, transparent 16px 32px) 0 0 / 100% 34px no-repeat;
+  background-color: var(--jsm-color-poster-bg-inked-alt);
+}
+/*  کبریت — the matchbox label at wall scale. */
+.flyer--kebrit {
+  --txt: "کبریت"; --fs: 2.2rem; --ink: var(--jsm-color-ink-kaghaz); --y: 44%;
+  inline-size: 145px; block-size: 180px;
+  inset-inline-end: 17%; inset-block-start: -3%;
+  rotate: -2deg;
+  background: linear-gradient(var(--jsm-color-ink-surati), var(--jsm-color-ink-surati))
+    50% 50% / 72% 58% no-repeat;
+  background-color: var(--jsm-color-ink-kaghaz);
+  box-shadow: var(--jsm-shadow-slab), inset 0 0 0 8px var(--jsm-color-ink-kaghaz),
+    inset 0 0 0 10px var(--jsm-color-ink-morakkab);
+}
+/*  Paper grain over the wall. */
 .wall::before {
   content: "";
   background-image: radial-gradient(var(--jsm-tint-morakkab-20) 1px, transparent 1px);
@@ -203,63 +216,32 @@ body {
 }
 .wall.wall--on canvas { opacity: 1; }
 
-/*  Marquee-bulb frame: lamps chasing along the hero's rules. */
-.bulbframe::before,
-.bulbframe::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  block-size: var(--jsm-metric-bulb);
-  background-image: radial-gradient(circle at center,
-    var(--jsm-color-ink-limu) 34%, var(--jsm-tint-morakkab-40) 38%, transparent 42%);
-  background-size: calc(var(--jsm-metric-bulb) * 2.4) var(--jsm-metric-bulb);
-  background-position-x: 0;
-  animation: jsm-chase 900ms steps(2) infinite;
-  z-index: 2;
-  pointer-events: none;
-}
-.bulbframe::before { inset-block-start: 4px; }
-.bulbframe::after  { inset-block-end: 4px; animation-delay: 450ms; }
-@keyframes jsm-chase {
-  to { background-position-x: calc(var(--jsm-metric-bulb) * 2.4); }
-}
-
 .hero__wrap { position: relative; z-index: 1; }
 
-.hero__title {
-  font-family: var(--jsm-font-family-poster);
-  /* 7xl is the ceiling; the clamp walks up to it. */
-  font-size: clamp(4.25rem, 21vw, var(--jsm-font-size-7xl));
-  line-height: var(--jsm-line-height-poster);
-  margin-block-end: var(--jsm-space-2);
-}
-
-/*  Vermilion banner bar, paper type knocked out, pasted off-level. */
-.hero__banner { margin-block-end: var(--jsm-space-4); }
+/*  Vermilion banner bar — the headline of the wall, pasted off-level. */
+.hero__banner { margin-block: var(--jsm-space-4) var(--jsm-space-4); }
 .hero__banner > span {
   display: inline-block;
   background: var(--jsm-color-poster-bg-inked);
   color: var(--jsm-color-poster-fg-on-inked);
   border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
-  padding: var(--jsm-space-1) var(--jsm-space-4) 0;
+  padding: var(--jsm-space-2) var(--jsm-space-5) var(--jsm-space-1);
   font-family: var(--jsm-font-family-display);
-  font-size: clamp(1.375rem, 4.4vw, 2.25rem);
-  line-height: 1.5;
+  font-size: clamp(1.75rem, 5.4vw, 3rem);
+  line-height: 1.4;
   rotate: -1deg;
-  box-shadow: var(--jsm-shadow-hard);
+  box-shadow: var(--jsm-shadow-slab);
 }
 
-/*  The tagline as a spray stencil: ink-bled, misted halo. */
+/*  The tagline, big and crisp — لاجوردی is 8.7:1 on paper; no filter may
+ *  smudge it. */
 .hero__stencil {
   margin-block-end: var(--jsm-space-6);
-  font-family: var(--jsm-font-family-display);
-  font-size: clamp(1.25rem, 3.6vw, 2rem);
+  font-family: var(--jsm-font-family-poster);
+  font-size: clamp(2.5rem, 7.5vw, 4.5rem);
+  line-height: 1;
   color: var(--jsm-color-ink-lajvardi);
-  rotate: -1.5deg;
-}
-.hero__stencil > span {
-  filter: url("#jsm-ink");
-  text-shadow: 0 0 8px var(--jsm-tint-lajvardi-40);
+  rotate: -1deg;
 }
 
 .hero__cols {
@@ -283,26 +265,16 @@ body {
 .hero__cta {
   display: flex;
   align-items: center;
-  gap: var(--jsm-space-3);
+  gap: var(--jsm-space-5);
 }
-.hero__hand {
-  inline-size: 56px;
-  height: 56px;
-  color: var(--jsm-color-ink-shangarf);
-  flex: none;
+/*  The CTA is a plate you can actually hit with a thumb. */
+.button--cta {
+  font-size: var(--jsm-font-size-3xl);
+  padding: var(--jsm-space-4) var(--jsm-space-10);
+  min-inline-size: 220px;
 }
+.button:active { translate: 0 4px; box-shadow: none; }
 
-/*  A loose sticker: drags and throws with JS, pasted without. */
-.hero__sticker {
-  position: absolute;
-  inset-inline-end: 4%;
-  inset-block-start: 6%;
-  z-index: 2;
-  cursor: grab;
-  touch-action: none;
-  box-shadow: none;
-}
-.hero__sticker:active { cursor: grabbing; }
 
 /*  The action: black plate, chrome-yellow type; pressing drops it onto its
  *  own shadow — mechanical, not soft. */
@@ -330,12 +302,34 @@ body {
   color: var(--jsm-color-poster-fg-on-inked);
 }
 
-/* ══ the ledger — دفتر نسیه, now a machine you can crank ══════════════════ */
+/* ══ the ledger — printed out of the shop's receipt machine ═══════════════ */
 
 .demo { padding-block: var(--jsm-space-10) var(--jsm-space-12); }
 
+/*  The receipt machine's head; the ledger feeds out of its slot. */
+.printer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  block-size: 38px;
+  padding-inline: var(--jsm-space-5);
+  background: var(--jsm-color-ink-morakkab);
+  border-radius: var(--jsm-radius-md);
+  box-shadow: var(--jsm-shadow-slab);
+}
+.printer__slot {
+  inline-size: 52%;
+  block-size: 6px;
+  border-radius: var(--jsm-radius-sm);
+  background: var(--jsm-tint-morakkab-65);
+}
+
 .ledger {
   position: relative;
+  margin-block-start: -7px;                  /* the paper comes out of the slot */
+  margin-inline: var(--jsm-space-5);
   background: var(--jsm-color-poster-bg-canvas);
   background-image: repeating-linear-gradient(
     to bottom,
@@ -346,8 +340,21 @@ body {
   );
   background-position-y: var(--jsm-space-4);
   border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  border-block-end: 0;
   box-shadow: var(--jsm-shadow-slab);
   padding: var(--jsm-space-4) var(--jsm-space-4) var(--jsm-space-6);
+}
+/*  Serration where the receipt tore off the roll. */
+.receipt::after {
+  content: "";
+  position: absolute;
+  inset-inline: calc(-1 * var(--jsm-metric-keyline));
+  inset-block-end: -9px;
+  block-size: 9px;
+  background:
+    linear-gradient(-135deg, var(--jsm-color-poster-bg-canvas) 7px, transparent 0) 0 0 / 14px 9px repeat-x,
+    linear-gradient(135deg, var(--jsm-color-poster-bg-canvas) 7px, transparent 0) 7px 0 / 14px 9px repeat-x;
+  filter: drop-shadow(0 4px 0 var(--jsm-tint-morakkab-40));
 }
 .ledger::before {
   content: "";
@@ -435,8 +442,7 @@ body {
   stroke-dashoffset: 1400;
 }
 
-/*  The winner sticker — the rosette, small cut. The one poster element that
- *  crosses into the product UI. */
+/*  The winner sticker — the rosette, small cut. */
 .sticker {
   position: absolute;
   inset-inline-start: 34%;
@@ -489,15 +495,17 @@ html:not(.js) .sticker,
   to   { scale: 1;   rotate: -7deg;  opacity: 1; }
 }
 
-/* ══ chant — the marquee strips ═══════════════════════════════════════════ */
+/* ══ chant — the stereo marquee display ═══════════════════════════════════ */
 
-/*  A marquee is a motor. The accessible name carries the sentence. */
+/*  The marquee as a 70s hi-fi display: glowing segments behind a pixel
+ *  grid, status LEDs. Scroll-driven with JS; motor (CSS) without. */
 .chant {
+  position: relative;
   overflow: hidden;
   background: var(--jsm-color-poster-action-bg);
   color: var(--jsm-color-poster-action-fg);
   border-block: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
-  padding-block: var(--jsm-space-1) 0;
+  padding-block: var(--jsm-space-4) var(--jsm-space-2);
 }
 .chant__track {
   display: flex;
@@ -506,29 +514,59 @@ html:not(.js) .sticker,
   font-size: clamp(2rem, 6vw, 3.25rem);
   line-height: 1.05;
   white-space: nowrap;
+  text-shadow: 0 0 14px var(--jsm-color-ink-limu);
   animation: jsm-chant var(--jsm-motion-duration-marquee) linear infinite;
 }
 .chant__track > span { display: block; padding-inline-end: var(--jsm-space-6); }
 .chant__track--rev { animation-direction: reverse; }
 @keyframes jsm-chant { to { transform: translateX(50%); } }
 
-/*  Bulb rows above and below the words, chasing out of phase. */
-.chant__bulbs {
-  block-size: var(--jsm-metric-bulb);
-  margin-block-end: var(--jsm-space-1);
-  background-image: radial-gradient(circle at center,
-    var(--jsm-color-ink-limu) 34%, transparent 42%);
-  background-size: calc(var(--jsm-metric-bulb) * 2.4) var(--jsm-metric-bulb);
-  animation: jsm-chase 900ms steps(2) infinite;
+/*  The pixel grid of the display, over the glow. */
+.chant::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2px, var(--jsm-color-poster-action-bg) 2px 4px),
+    repeating-linear-gradient(90deg, transparent 0 2px, var(--jsm-color-poster-action-bg) 2px 4px);
+  opacity: 0.4;
 }
-.chant__bulbs--end { margin-block: var(--jsm-space-1) var(--jsm-space-1); animation-delay: 450ms; }
 
-/*  The لاجوردی cut — the one saturated ground that carries paper type. */
+/*  Status LEDs, old tape-deck style. */
+.chant__leds,
+.printer__leds {
+  display: flex;
+  gap: 7px;
+}
+.chant__leds {
+  position: absolute;
+  inset-block-start: var(--jsm-space-2);
+  inset-inline-start: var(--jsm-space-4);
+  z-index: 1;
+}
+.chant__leds i,
+.printer__leds i {
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: var(--jsm-radius-pill);
+  background: var(--led, var(--jsm-color-ink-sabz));
+  box-shadow: 0 0 7px var(--led, var(--jsm-color-ink-sabz));
+  animation: jsm-led 1.6s steps(2) infinite var(--d, 0s);
+}
+@keyframes jsm-led { 50% { opacity: 0.25; box-shadow: none; } }
+
+/*  The لاجوردی cut — a blue VFD, paper type. */
 .chant--cool {
   background: var(--jsm-color-poster-bg-inked-cool);
   color: var(--jsm-color-poster-fg-on-inked);
-  padding-block: var(--jsm-space-2) 0;
 }
+.chant--cool::after {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2px, var(--jsm-color-poster-bg-inked-cool) 2px 4px),
+    repeating-linear-gradient(90deg, transparent 0 2px, var(--jsm-color-poster-bg-inked-cool) 2px 4px);
+}
+.chant--cool .chant__track { text-shadow: 0 0 14px var(--jsm-color-ink-kaghaz); }
 
 /* ══ ink blocks ═══════════════════════════════════════════════════════════ */
 
@@ -562,8 +600,7 @@ html:not(.js) .sticker,
   perspective: 900px;
 }
 
-/*  کبریت توکلی: label, keyline, inner rule, object, stencil numeral.
- *  Hand-pasted, never level; tilts in 3D with JS. */
+/*  کبریت توکلی labels. Hand-pasted, never level; tilt in 3D with JS. */
 .matchbox {
   position: relative;
   background: var(--jsm-color-poster-bg-canvas);
@@ -830,15 +867,15 @@ html:not(.js) .scratch__foil { display: none; }
   .nameplate__row { grid-template-columns: 1fr; }
   .nameplate__side { display: none; }
   .hero__cols { grid-template-columns: 1fr; }
-  .hero__sticker { inline-size: 96px; font-size: var(--jsm-font-size-md); inset-block-start: 2%; }
+  .wall .flyer--film, .wall .flyer--kebrit { display: none; }
+  .button--cta { inline-size: 100%; }
 }
 
 @media (max-width: 640px) {
   .section { padding-block: var(--jsm-space-10); }
   .ledger__inner { padding-inline-start: var(--jsm-space-8); }
   .ledger::before { inset-inline-start: 2rem; }
-  /* Rows stack; the end side frees up for the sticker, which must never
-     cover a price. */
+  /* Rows stack; the sticker must never cover a price. */
   .row {
     grid-template-columns: 1fr;
     block-size: auto;
@@ -854,6 +891,5 @@ html:not(.js) .scratch__foil { display: none; }
     inset-block-start: 50%;
   }
   .row__circle { inset-block-start: 4%; block-size: 92%; }
-  .starburst { inline-size: 100px; font-size: var(--jsm-font-size-md); }
   .ticket__body::before, .ticket__body::after { display: none; }
 }

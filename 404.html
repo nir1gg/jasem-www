@@ -27,6 +27,18 @@
   /* The desk fan turns while he is out looking. Blades only — the cage and
      base never move. Reduced motion parks it via base.css. */
   .lost__fan { inline-size: 72px; color: var(--jsm-color-poster-fg-muted); }
+  /* The misregister device lives here now — this page is its last user. */
+  .misregister { position: relative; display: inline-block; }
+  .misregister > .ghost {
+    position: absolute;
+    inset-block-start: var(--jsm-metric-misregister);
+    inset-inline-start: calc(var(--jsm-metric-misregister) * -1);
+    white-space: nowrap;
+    color: var(--jsm-color-ink-surati);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    user-select: none;
+  }
 </style>
 </head>
 <body>

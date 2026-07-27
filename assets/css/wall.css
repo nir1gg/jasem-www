@@ -5,9 +5,9 @@
  *  is the wall for everyone the gates exclude.
  */
 
-/*  While the scene runs, the painted CSS sheets step back so the two walls do
- *  not fight; the canvas fades up over them (.wall--on is set by wall.js). */
-.wall.wall--on::after  { opacity: 0.1; }
+/*  While the scene runs, the pinned flyers step back so the two walls do not
+ *  fight; the canvas fades up over them (.wall--on is set by wall.js). */
+.wall.wall--on .flyer  { opacity: 0.12; }
 .wall.wall--on::before { opacity: 0.12; }
 
 .wall canvas { will-change: transform; }

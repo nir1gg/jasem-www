@@ -66,57 +66,87 @@ function posterTexture(kind) {
     lajvardi: css("--jsm-color-ink-lajvardi"),
     narenji: css("--jsm-color-ink-narenji"),
   };
-  // Grounds paired with a type ink that passes at poster scale. نارنجی takes
-  // مرکب only; لیمویی only ever sits on dark inks. Same rules as the page.
-  const pairs = [
-    [inks.kaghaz, inks.morakkab],
-    [inks.shangarf, inks.kaghaz],
-    [inks.sabz, inks.limu],
-    [inks.lajvardi, inks.limu],
-    [inks.narenji, inks.morakkab],
-    [inks.morakkab, inks.limu],
-    [inks.surati, inks.kaghaz],
-  ];
-  const [bg, fg] = pairs[(rand() * pairs.length) | 0];
-
   const c = document.createElement("canvas");
   c.width = 256; c.height = 340;
   const x = c.getContext("2d");
-  x.fillStyle = bg;
-  x.fillRect(0, 0, 256, 340);
-  // The double rule of a newspaper ad.
-  x.strokeStyle = fg;
-  x.lineWidth = 8;
-  x.strokeRect(10, 10, 236, 320);
-  x.lineWidth = 2;
-  x.strokeRect(22, 22, 212, 296);
-
-  x.fillStyle = fg;
   x.textAlign = "center";
   x.direction = "rtl";
-  if (kind % 3 === 0) {
-    x.font = "96px Jomhuria, Tahoma, sans-serif";
-    x.fillText("ارزون!", 128, 150);
+
+  const frame = (fg) => {
+    x.strokeStyle = fg;
+    x.lineWidth = 8;
+    x.strokeRect(10, 10, 236, 320);
+    x.lineWidth = 2;
+    x.strokeRect(22, 22, 212, 296);
+  };
+  const rays = (cx, cy, color, n = 16, r0 = 34, r1 = 150) => {
+    x.strokeStyle = color;
+    x.lineWidth = 10;
+    for (let i = 0; i < n; i++) {
+      const a = (Math.PI * 2 * i) / n;
+      x.beginPath();
+      x.moveTo(cx + r0 * Math.cos(a), cy + r0 * Math.sin(a));
+      x.lineTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a));
+      x.stroke();
+    }
+  };
+
+  // The wall carries era ads — the things Jasem pinned up — not the brand
+  // repeated. Each obeys the ink rules: مرکب on نارنجی, لیمویی on darks.
+  const kindN = kind % 4;
+  if (kindN === 0) {
+    // The 1961 soda sheet: rays, a roundel, black lettering on orange.
+    x.fillStyle = inks.narenji;
+    x.fillRect(0, 0, 256, 340);
+    rays(128, 108, inks.limu, 14, 40, 130);
+    x.fillStyle = inks.limu;
+    x.beginPath(); x.arc(128, 108, 44, 0, Math.PI * 2); x.fill();
+    x.fillStyle = inks.morakkab;
+    x.font = "40px Jomhuria, Tahoma, sans-serif";
+    x.fillText("جدید", 128, 122);
+    x.font = "88px Jomhuria, Tahoma, sans-serif";
+    x.fillText("نوشابه", 128, 268);
+    frame(inks.morakkab);
+  } else if (kindN === 1) {
+    // The Film-Farsi one-sheet: لاجوردی night, لیمویی burst, red title.
+    x.fillStyle = inks.lajvardi;
+    x.fillRect(0, 0, 256, 340);
+    rays(128, 130, inks.limu, 18, 30, 160);
+    x.fillStyle = inks.limu;
+    x.beginPath(); x.arc(128, 130, 36, 0, Math.PI * 2); x.fill();
+    x.font = "84px Jomhuria, Tahoma, sans-serif";
+    x.lineWidth = 3;
+    x.strokeStyle = inks.kaghaz;
+    x.fillStyle = inks.shangarf;
+    x.strokeText("سینما", 128, 286);
+    x.fillText("سینما", 128, 286);
+    frame(inks.limu);
+  } else if (kindN === 2) {
+    // The grocer's sign: awning stripes over bottle green.
+    x.fillStyle = inks.sabz;
+    x.fillRect(0, 0, 256, 340);
+    x.fillStyle = inks.kaghaz;
+    for (let i = 0; i < 8; i += 2) x.fillRect(10 + i * 30, 10, 30, 52);
+    x.font = "64px Jomhuria, Tahoma, sans-serif";
+    x.fillText("میوهٔ تازه", 128, 210);
     x.font = "44px Jomhuria, Tahoma, sans-serif";
-    x.fillText("گرون نخر", 128, 240);
-  } else if (kind % 3 === 1) {
-    x.font = "72px Jomhuria, Tahoma, sans-serif";
-    x.fillText("آقا جاسم", 128, 130);
-    // The rosette, printed under the words.
-    x.beginPath();
-    for (let i = 0; i < 28; i++) {
-      const a = (Math.PI * 2 * i) / 28 - Math.PI / 2;
-      const r = i % 2 ? 44 : 60;
-      x[i ? "lineTo" : "moveTo"](128 + r * Math.cos(a), 235 + r * Math.sin(a));
-    }
-    x.closePath();
-    x.fill();
+    x.fillText("سبزی · لبنیات", 128, 280);
+    frame(inks.kaghaz);
   } else {
-    // Awning stripes — the shopfront, not a message.
-    for (let i = 0; i < 8; i++) {
-      if (i % 2 === 0) x.fillRect(28 + i * 25, 28, 25, 284);
-    }
+    // کبریت توکلی at wall scale: paper ground, صورتی plate.
+    x.fillStyle = inks.kaghaz;
+    x.fillRect(0, 0, 256, 340);
+    x.fillStyle = inks.surati;
+    x.fillRect(40, 66, 176, 190);
+    x.fillStyle = inks.kaghaz;
+    x.font = "66px Jomhuria, Tahoma, sans-serif";
+    x.fillText("کبریت", 128, 180);
+    x.fillStyle = inks.morakkab;
+    x.font = "34px Jomhuria, Tahoma, sans-serif";
+    x.fillText("۵۰ عددی", 128, 300);
+    frame(inks.morakkab);
   }
+
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   return tex;
@@ -231,7 +261,7 @@ export function mount(el) {
   };
   if (document.fonts?.load) {
     Promise.all([
-      document.fonts.load('96px Jomhuria', 'ارزون'),
+      document.fonts.load('96px Jomhuria', 'نوشابه سینما'),
     ]).then(start, start);
   } else {
     start();
