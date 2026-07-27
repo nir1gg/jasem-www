@@ -4,6 +4,11 @@
  *  render-blocking and none of it is missed when scripts never arrive.
  */
 
+/*  CTA anchors (#download) ride there instead of teleporting. Progressive:
+ *  html.js only, so it costs the critical CSS nothing; the reduced-motion
+ *  clamp in base.css (`scroll-behavior: auto !important`) still wins. */
+html.js { scroll-behavior: smooth; }
+
 /*  Sheets wait for the viewport only when app.js runs (.pasted via IO). */
 html.js .sheet { opacity: 0; }
 html.js .sheet.pasted {
@@ -34,7 +39,11 @@ html.js .sheet.pasted {
 }
 .reel__strip > span { display: block; block-size: 1.35em; line-height: 1.35; }
 
-.button--search { font-size: var(--jsm-font-size-xl); padding-block: var(--jsm-space-2); }
+.button--search {
+  font-size: var(--jsm-font-size-xl);
+  /* Keep the Lalezar optical shift from .button when tightening the plate. */
+  padding-block: calc(var(--jsm-space-2) + 0.12em) calc(var(--jsm-space-2) - 0.12em);
+}
 
 html.js .ledger:not(.is-inked) .sticker { opacity: 0; }
 
@@ -62,6 +71,40 @@ html.js .oath:not(.sworn) .oath__tick path { stroke-dashoffset: 44; }
 .scratch__foil.cleared { opacity: 0; pointer-events: none; }
 
 .party .fan__blades { animation-duration: 450ms; }
+
+/* ══ the flyers come off the wall ═════════════════════════════════════════ */
+
+/*  With JS the pinned flyers are real paper: pick one up, drag it somewhere
+ *  else, or fling it off the wall. The .wall itself stays pointer-events:
+ *  none — only the sheets catch the hand, the hero copy stays clickable. */
+html.js .wall .flyer {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/*  Once touched, a flyer is loose paper: full ink and above the WebGL wall —
+ *  it has been peeled off that layer too. */
+html.js .wall .flyer.is-loose { z-index: 2; opacity: 1; }
+html.js .wall .flyer.is-held { cursor: grabbing; transition: none; }
+/*  Thrown past the hero's edge, it is gone (app.js removes the node). */
+html.js .wall .flyer.is-gone { opacity: 0; }
+/*  The hero wrap is a transparent hit-plate above the wall; drop it out of
+ *  hit testing so the paper underneath can be grabbed. Its real surfaces —
+ *  copy sheets, banner, CTA, the نوبت pad — opt back in. */
+html.js .hero__wrap { pointer-events: none; }
+html.js .hero__wrap :is(a, button, .hero__banner > span, .hero__stencil, .sheet-note) {
+  pointer-events: auto;
+}
+
+/* ══ CRT — the page pixelates while it scrolls ════════════════════════════ */
+
+/*  Scroll fast and the whole print re-renders coarse, then resolves in
+ *  steps — an old tube catching up with the beam. app.js drives the tile
+ *  size on #jsm-crt and sets .crt on the root; fixed-position ephemera live
+ *  directly under <body>, outside the filtered subtrees, on purpose. */
+html.crt body > :is(.nameplate, main, .footer) { filter: url(#jsm-crt); }
 
 /* ══ ephemera — spray trail and confetti (nodes made by app.js) ═══════════ */
 

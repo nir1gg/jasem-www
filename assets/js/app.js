@@ -269,6 +269,75 @@ if (hero && !reduced && matchMedia("(pointer: fine)").matches) {
   }, { passive: true });
 }
 
+/* ── the flyers: pick them up, move them, throw them away ───────────────── */
+
+/*  The pinned flyers are loose paper. Drag one somewhere else and it stays;
+ *  fling it and it sails with the throw, tilting into the motion, and if it
+ *  crosses the hero's edge it is thrown away for good. Direct manipulation
+ *  stays under reduced motion — only the inertia is dropped. */
+if (hero) {
+  document.querySelectorAll(".wall .flyer").forEach((flyer) => {
+    const base = parseFloat(getComputedStyle(flyer).rotate) || 0;
+    let x = 0, y = 0, vx = 0, vy = 0, tilt = 0;
+    let lastX = 0, lastY = 0, lastT = 0, raf = 0, held = false;
+
+    const put = () => {
+      flyer.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
+      flyer.style.rotate = (base + tilt).toFixed(2) + "deg";
+    };
+    const outside = () => {
+      const f = flyer.getBoundingClientRect();
+      const h = hero.getBoundingClientRect();
+      return f.bottom < h.top || f.top > h.bottom ||
+             f.right < h.left || f.left > h.right;
+    };
+    const sail = () => {
+      vx *= 0.95; vy *= 0.95; tilt *= 0.98;
+      x += vx; y += vy;
+      put();
+      if (outside()) {                       /* thrown off the wall: gone */
+        flyer.classList.add("is-gone");
+        setTimeout(() => flyer.remove(), 650);
+        return;
+      }
+      if (Math.hypot(vx, vy) > 0.3) raf = requestAnimationFrame(sail);
+    };
+
+    flyer.addEventListener("pointerdown", (ev) => {
+      ev.preventDefault();
+      cancelAnimationFrame(raf);
+      flyer.setPointerCapture(ev.pointerId);
+      flyer.classList.add("is-held", "is-loose");
+      held = true;
+      lastX = ev.clientX; lastY = ev.clientY; lastT = performance.now();
+      vx = vy = 0;
+    });
+    flyer.addEventListener("pointermove", (ev) => {
+      if (!held) return;
+      const now = performance.now();
+      const dx = ev.clientX - lastX, dy = ev.clientY - lastY;
+      const dt = Math.max(now - lastT, 1);
+      lastX = ev.clientX; lastY = ev.clientY; lastT = now;
+      x += dx; y += dy;
+      /* Velocity in px/frame (16ms), smoothed so a jitter is not a throw. */
+      vx = vx * 0.6 + (dx / dt) * 16 * 0.4;
+      vy = vy * 0.6 + (dy / dt) * 16 * 0.4;
+      tilt = tilt * 0.85 + vx * 0.18;        /* paper leans into the motion */
+      put();
+    });
+    const drop = () => {
+      if (!held) return;
+      held = false;
+      flyer.classList.remove("is-held");
+      tilt *= 0.5;
+      put();
+      if (!reduced && Math.hypot(vx, vy) > 3) sail();
+    };
+    flyer.addEventListener("pointerup", drop);
+    flyer.addEventListener("pointercancel", drop);
+  });
+}
+
 /* ── the scratch-off coupon ─────────────────────────────────────────────── */
 
 const foil = document.querySelector(".scratch__foil");
@@ -410,6 +479,79 @@ if (nobat) {
       confetti(r.left + r.width / 2, r.top, 50);
     }
   });
+}
+
+/* ── CRT scroll: the page re-renders coarse while it moves ──────────────── */
+
+/*  Old tube logic: while the page scrolls fast the beam cannot keep up, so
+ *  the whole print drops to a coarse dot grid; stop, and it resolves back in
+ *  steps, not a fade. The tile size follows scroll velocity. The filter is a
+ *  JS-only device, so it is built here, not shipped in the critical HTML.
+ *  Skipped for reduced motion and for the devices that can least afford a
+ *  full-page filter — same doctrine as the wall. */
+function buildCrtFilter() {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("width", "0");
+  svg.setAttribute("height", "0");
+  svg.setAttribute("aria-hidden", "true");
+  svg.style.position = "absolute";
+  const filter = document.createElementNS(NS, "filter");
+  filter.id = "jsm-crt";
+  filter.setAttribute("color-interpolation-filters", "sRGB");
+  /* Dot-grid samples the page; dilate rebuilds each sample as a block. */
+  for (const [tag, attrs] of [
+    ["feFlood",      { x: 2, y: 2, width: 2, height: 2 }],
+    ["feComposite",  { width: 8, height: 8 }],
+    ["feTile",       { result: "grid" }],
+    ["feComposite",  { in: "SourceGraphic", in2: "grid", operator: "in" }],
+    ["feMorphology", { operator: "dilate", radius: 4 }],
+  ]) {
+    const el = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    filter.appendChild(el);
+  }
+  svg.appendChild(filter);
+  document.body.appendChild(svg);
+  return filter;
+}
+
+if (!reduced &&
+    !(navigator.connection || {}).saveData &&
+    (navigator.deviceMemory ?? 8) >= 4) {
+  const crt = buildCrtFilter();
+  const flood = crt.querySelector("feFlood");
+  const tile  = crt.querySelector("feComposite");
+  const morph = crt.querySelector("feMorphology");
+  let px = 0, lastY = scrollY, lastT = performance.now(), vel = 0, settle = 0;
+
+  const resample = (n) => {
+    if (n === px) return;
+    px = n;
+    if (!n) { root.classList.remove("crt"); return; }
+    flood.setAttribute("x", n / 4);
+    flood.setAttribute("y", n / 4);
+    flood.setAttribute("width", n / 4);
+    flood.setAttribute("height", n / 4);
+    tile.setAttribute("width", n);
+    tile.setAttribute("height", n);
+    morph.setAttribute("radius", n / 2);
+    root.classList.add("crt");
+  };
+  const resolve = () => {                    /* step back down, CRT-style */
+    resample(px > 8 ? 8 : px > 4 ? 4 : 0);
+    if (px) settle = setTimeout(resolve, 90);
+  };
+
+  addEventListener("scroll", () => {
+    const now = performance.now();
+    vel = vel * 0.7 + (Math.abs(scrollY - lastY) / Math.max(now - lastT, 1)) * 0.3;
+    lastY = scrollY; lastT = now;
+    const want = vel > 2.4 ? 12 : vel > 1.2 ? 8 : vel > 0.5 ? 4 : 0;
+    if (want > px) resample(want);
+    clearTimeout(settle);
+    settle = setTimeout(resolve, 130);
+  }, { passive: true });
 }
 
 /* ── the WebGL wall, behind every gate ──────────────────────────────────── */

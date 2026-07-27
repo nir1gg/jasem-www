@@ -190,18 +190,83 @@ export function mount(el) {
       -1 - rand() * 5.5,
     );
     mesh.rotation.z = (rand() - 0.5) * 0.12;
-    mesh.userData = { lift: 0, baseZ: mesh.position.z };
+    mesh.userData = {
+      lift: 0,
+      baseZ: mesh.position.z,
+      rotZ: mesh.rotation.z,
+      flying: false,
+      vel: new THREE.Vector3(),
+    };
     posters.push(mesh);
     scene.add(mesh);
   }
 
   const ray = new THREE.Raycaster();
   const pointer = new THREE.Vector2(2, 2);         /* off-screen until moved */
-  addEventListener("pointermove", (ev) => {
+  let overWall = false;              /* pointer is on bare hero, not on copy */
+  const toNDC = (ev) => {
     const r = el.getBoundingClientRect();
     pointer.x = ((ev.clientX - r.left) / r.width) * 2 - 1;
     pointer.y = -((ev.clientY - r.top) / r.height) * 2 + 1;
+  };
+  const heroEl = el.parentElement;                 /* .hero — the hit surface */
+  addEventListener("pointermove", (ev) => {
+    toNDC(ev);
+    overWall = ev.target === heroEl;
   }, { passive: true });
+
+  /* ── grabbing: the deep posters are loose paper too ─────────────────────
+   *  The canvas never takes pointer events (the copy above must stay
+   *  clickable), so grabbing rides window events: a press on the bare hero
+   *  raycasts into the wall. Drag moves the poster on its own depth plane;
+   *  release with speed throws it, and past the frame it is gone. */
+  let grabbed = null;
+  const vGrab = new THREE.Vector3();
+  const vTmp = new THREE.Vector3();
+
+  /* The pointer ray, cut at the plane of depth z. */
+  function pointerWorld(out, z) {
+    out.set(pointer.x, pointer.y, 0.5).unproject(camera);
+    out.sub(camera.position).normalize();
+    return out.multiplyScalar((z - camera.position.z) / out.z)
+              .add(camera.position);
+  }
+  function discard(p) {
+    scene.remove(p);
+    p.material.uniforms.uMap.value.dispose();
+    p.material.dispose();
+    p.geometry.dispose();
+    posters.splice(posters.indexOf(p), 1);
+  }
+  addEventListener("pointerdown", (ev) => {
+    /* Never a link, a button, a copy sheet, or a CSS flyer — those own
+       their pointer. Touch keeps scrolling the page. */
+    if (ev.pointerType === "touch" || ev.target !== heroEl) return;
+    toNDC(ev);
+    ray.setFromCamera(pointer, camera);
+    const hit = ray.intersectObjects(posters)[0]?.object;
+    if (!hit) return;
+    ev.preventDefault();
+    grabbed = hit;
+    grabbed.userData.flying = false;
+    vGrab.set(0, 0, 0);
+    heroEl.style.cursor = "grabbing";
+  });
+  const release = () => {
+    if (!grabbed) return;
+    const m = grabbed;
+    grabbed = null;
+    heroEl.style.cursor = "";
+    if (vGrab.length() > 0.12) {                  /* a real throw: it sails */
+      m.userData.flying = true;
+      m.userData.vel.copy(vGrab);
+    } else {                                      /* put down where it is */
+      m.userData.baseZ = m.position.z;
+      m.userData.rotZ = m.rotation.z;
+    }
+  };
+  addEventListener("pointerup", release);
+  addEventListener("pointercancel", release);
 
   /* Pause when the tab hides or the hero scrolls away. */
   let raf = 0, running = false, visible = true, inView = true;
@@ -235,10 +300,43 @@ export function mount(el) {
     camera.position.z = 10 - Math.min(scrollY * 0.004, 2.5);
     camera.lookAt(0, 0, -3);
 
+    /* The held poster follows the hand on its own depth plane, leaning
+       into the motion; its velocity is smoothed so a jitter is not a throw. */
+    if (grabbed) {
+      /* Capped so repeated grabs cannot float a poster into the camera. */
+      pointerWorld(vTmp, Math.min(grabbed.userData.baseZ + 1.0, -1.2));
+      vTmp.sub(grabbed.position).multiplyScalar(0.45);
+      vGrab.lerp(vTmp, 0.5);
+      grabbed.position.add(vTmp);
+      grabbed.rotation.z = grabbed.userData.rotZ +
+        Math.max(-0.3, Math.min(0.3, -vGrab.x * 0.6));
+    }
+
     /* Posters near the cursor lift and tilt; the nearest one peels. */
     ray.setFromCamera(pointer, camera);
     const hit = ray.intersectObjects(posters)[0]?.object;
-    for (const p of posters) {
+    if (!grabbed) {
+      heroEl.style.cursor = hit && overWall ? "grab" : "";
+    }
+    for (let i = posters.length - 1; i >= 0; i--) {
+      const p = posters[i];
+      if (p.userData.flying) {                    /* thrown: it sails away */
+        p.userData.vel.multiplyScalar(0.97);
+        p.position.add(p.userData.vel);
+        p.rotation.z += p.userData.vel.x * 0.03;
+        if (Math.abs(p.position.x) > 18 || Math.abs(p.position.y) > 11) {
+          discard(p);                             /* off the wall: gone */
+        } else if (p.userData.vel.length() < 0.01) {
+          p.userData.flying = false;
+          p.userData.baseZ = p.position.z;
+          p.userData.rotZ = p.rotation.z;
+        }
+        continue;
+      }
+      if (p === grabbed) {
+        p.material.uniforms.uPeel.value += (1 - p.material.uniforms.uPeel.value) * 0.15;
+        continue;
+      }
       const want = p === hit ? 1 : 0;
       p.userData.lift += (want - p.userData.lift) * 0.08;
       const l = p.userData.lift;

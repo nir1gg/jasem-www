@@ -273,18 +273,18 @@ body {
 /*  The CTA is a plate you can actually hit with a thumb. */
 .button--cta {
   font-size: var(--jsm-font-size-3xl);
-  padding: var(--jsm-space-4) var(--jsm-space-10);
+  padding: calc(var(--jsm-space-4) + .12em) var(--jsm-space-10) calc(var(--jsm-space-4) - .12em);
   min-inline-size: 220px;
 }
 .button:active { translate: 0 4px; box-shadow: none; }
 
-
 /*  The action: black plate, chrome-yellow type; pressing drops it onto its
  *  own shadow — mechanical, not soft. */
 .button {
+  /* Lalezar sits high; nudge to optical middle. */
   display: inline-grid;
   gap: 2px;
-  padding: var(--jsm-space-3) var(--jsm-space-6);
+  padding: calc(var(--jsm-space-3) + .12em) var(--jsm-space-6) calc(var(--jsm-space-3) - .12em);
   background: var(--jsm-color-poster-action-bg);
   color: var(--jsm-color-poster-action-fg);
   border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
@@ -603,7 +603,7 @@ html:not(.js) .sticker,
   margin-block-end: var(--jsm-space-6);
 }
 .split .section__head { margin-block-end: 0; }
-.button--start { font-size: var(--jsm-font-size-xl); padding: var(--jsm-space-3) var(--jsm-space-6); }
+.button--start { font-size: var(--jsm-font-size-xl); }
 
 /*  Centered oath section; rows keep reading alignment. */
 .section--center { text-align: center; }
