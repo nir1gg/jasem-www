@@ -1,8 +1,12 @@
 /*  آقا جاسم — landing page.
  *
+ *  The page is one poster job: a nameplate like a neighbourhood paper, a
+ *  poster-scale hero, the ledger as the thesis artifact, a cinema-marquee
+ *  chant, matchbox labels pasted on a vermilion wall, and a download coupon.
+ *
  *  Every colour and measurement comes from build/tokens.css. If a value is
- *  hardcoded here it is a bug; the one exception is the halftone dot geometry,
- *  which is a gradient recipe rather than a token.
+ *  hardcoded here it is a bug; the exceptions are gradient recipes (halftone
+ *  dots, crop marks, punched coupon notches), which are geometry, not tokens.
  *
  *  The era devices that make this read as print rather than as flat design:
  *  a keyline on every shape, double rule frames, coarse countable halftone,
@@ -19,23 +23,14 @@
 .section { padding-block: var(--jsm-space-16); }
 .section--tight { padding-block: var(--jsm-space-12); }
 
-/* ══ era devices ══════════════════════════════════════════════════════════ */
+.smallprint {
+  margin-block-start: var(--jsm-space-4);
+  font-size: var(--jsm-font-size-sm);
+  color: var(--jsm-color-poster-fg-secondary);
+  max-inline-size: 56ch;
+}
 
-/*  The newspaper-ad double frame: heavy keyline, second rule inset inside it. */
-.frame {
-  position: relative;
-  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
-  padding: var(--jsm-space-6);
-  background: var(--jsm-color-poster-bg-canvas);
-}
-.frame::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border: 1.5px solid var(--jsm-color-poster-line-frame);
-  pointer-events: none;
-}
-.frame--thick { border-width: var(--jsm-metric-frame-rule); }
+/* ══ era devices ══════════════════════════════════════════════════════════ */
 
 /*  Coarse countable halftone — ~35 lpi dots, not noise. */
 .halftone { position: relative; isolation: isolate; }
@@ -71,7 +66,29 @@
   user-select: none;
 }
 
-/*  «ارزون!» — the spiky rosette that was on every era price ad. */
+/*  Printers' crop marks. The sheet was trimmed by hand; the marks stayed on
+ *  the proof. Physical corners on purpose — registration is symmetric. */
+.cropmarks { position: relative; }
+.cropmarks::before {
+  --jsm-crop: var(--jsm-color-poster-fg-muted);
+  content: "";
+  position: absolute;
+  inset: var(--jsm-space-3);
+  pointer-events: none;
+  background:
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) left 0 top 0 / 22px 2px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) left 0 top 0 / 2px 22px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) right 0 top 0 / 22px 2px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) right 0 top 0 / 2px 22px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) left 0 bottom 0 / 22px 2px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) left 0 bottom 0 / 2px 22px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) right 0 bottom 0 / 22px 2px,
+    linear-gradient(var(--jsm-crop), var(--jsm-crop)) right 0 bottom 0 / 2px 22px;
+  background-repeat: no-repeat;
+}
+
+/*  «ارزون!» — the spiky rosette that was on every era price ad. لیمویی never
+ *  touches paper, so this badge exists only inside ink blocks. */
 .starburst {
   --pts:
     polygon(50% 0%, 60% 12%, 74% 5%, 78% 20%, 93% 19%, 90% 34%, 100% 44%,
@@ -81,7 +98,7 @@
   clip-path: var(--pts);
   display: grid;
   place-items: center;
-  inline-size: 116px;
+  inline-size: 128px;
   aspect-ratio: 1;
   background: var(--jsm-color-ink-limu);
   color: var(--jsm-color-ink-morakkab);
@@ -92,43 +109,117 @@
   rotate: -12deg;
 }
 
-/* ══ masthead ═════════════════════════════════════════════════════════════ */
+/* ══ nameplate ════════════════════════════════════════════════════════════ */
 
-.masthead {
-  display: flex;
+/*  Newspaper nameplate: heavy rule, hairline under it, the mark dead centre,
+ *  issue lines in the ears. The landing is an issue of the neighbourhood
+ *  paper, and this is its front-page furniture. */
+.nameplate {
+  border-block-end: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  position: relative;
+}
+.nameplate::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 3px;
+  border-block-end: 1px solid var(--jsm-color-poster-line-keyline);
+}
+.nameplate__row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: var(--jsm-space-4);
   padding-block: var(--jsm-space-4);
-  border-block-end: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
 }
-.masthead__logo { inline-size: clamp(140px, 26vw, 200px); }
-.masthead__logo svg { inline-size: 100%; height: auto; color: var(--jsm-color-poster-fg-primary); }
-.masthead__tag {
+.nameplate__logo { inline-size: clamp(150px, 24vw, 220px); justify-self: center; }
+.nameplate__logo svg { inline-size: 100%; height: auto; color: var(--jsm-color-poster-fg-primary); }
+.nameplate__side {
   font-size: var(--jsm-font-size-xs);
-  letter-spacing: var(--jsm-letter-spacing-micro);
+  line-height: var(--jsm-line-height-normal);
   color: var(--jsm-color-poster-fg-secondary);
-  text-align: end;
 }
+.nameplate__side--end { text-align: end; }
 
 /* ══ hero ═════════════════════════════════════════════════════════════════ */
 
-.hero { padding-block: var(--jsm-space-10) var(--jsm-space-12); }
+.hero { padding-block: var(--jsm-space-12) var(--jsm-space-10); }
 
 .hero__title {
   font-family: var(--jsm-font-family-poster);
-  font-size: clamp(3.5rem, 17vw, 8.5rem);
+  font-size: clamp(4.25rem, 21vw, 15rem);
   line-height: var(--jsm-line-height-poster);
-  margin-block-end: var(--jsm-space-4);
+  margin-block-end: var(--jsm-space-2);
+}
+
+/*  The red banner line of a poster: vermilion bar, paper type knocked out,
+ *  pasted a hair off-level the way a paste-up line always sat. */
+.hero__banner {
+  margin-block-end: var(--jsm-space-6);
+}
+.hero__banner > span {
+  display: inline-block;
+  background: var(--jsm-color-poster-bg-inked);
+  color: var(--jsm-color-poster-fg-on-inked);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  padding: var(--jsm-space-1) var(--jsm-space-4) 0;
+  font-family: var(--jsm-font-family-display);
+  font-size: clamp(1.375rem, 4.4vw, 2.25rem);
+  line-height: 1.5;
+  rotate: -1deg;
+}
+
+.hero__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--jsm-space-6);
 }
 .hero__lede {
   font-size: clamp(1.0625rem, 2.4vw, 1.375rem);
   max-inline-size: 46ch;
-  color: var(--jsm-color-poster-fg-primary);
-  margin-block-end: var(--jsm-space-6);
+}
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--jsm-space-3);
+}
+.hero__hand {
+  inline-size: 56px;
+  height: 56px;
+  color: var(--jsm-color-ink-shangarf);
+  flex: none;
+}
+
+/*  The action: black plate, chrome-yellow type, hard offset shadow. Pressing
+ *  it pushes the plate down onto its own shadow — mechanical, not soft. */
+.button {
+  display: inline-grid;
+  gap: 2px;
+  padding: var(--jsm-space-3) var(--jsm-space-6);
+  background: var(--jsm-color-poster-action-bg);
+  color: var(--jsm-color-poster-action-fg);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  text-decoration: none;
+  text-align: center;
+  font-family: var(--jsm-font-family-display);
+  font-size: var(--jsm-font-size-2xl);
+  line-height: 1.25;
+  box-shadow: var(--jsm-shadow-hard);
+  transition: translate var(--jsm-motion-duration-instant) var(--jsm-motion-easing-standard),
+              box-shadow var(--jsm-motion-duration-instant) var(--jsm-motion-easing-standard);
+}
+.button:hover, .button:focus-visible { translate: 0 3px; box-shadow: 0 1px 0 var(--jsm-color-ink-morakkab); }
+.button__note {
+  font-family: var(--jsm-font-family-body);
+  font-size: var(--jsm-font-size-xs);
+  font-weight: var(--jsm-font-weight-medium);
+  color: var(--jsm-color-poster-fg-on-inked);
 }
 
 /* ══ the ledger — دفتر نسیه, the signature element ════════════════════════ */
+
+.demo { padding-block-end: var(--jsm-space-12); }
 
 .ledger {
   position: relative;
@@ -142,6 +233,7 @@
   );
   background-position-y: var(--jsm-space-4);
   border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  box-shadow: var(--jsm-shadow-hard);
   padding: var(--jsm-space-4) var(--jsm-space-4) var(--jsm-space-6);
 }
 /* The vertical margin rule of a ledger page. */
@@ -198,6 +290,13 @@
 }
 .row--win .row__price { color: var(--jsm-color-ink-sabz); }
 
+.demo__caption {
+  margin-block-start: var(--jsm-space-3);
+  font-size: var(--jsm-font-size-xs);
+  color: var(--jsm-color-poster-fg-secondary);
+  text-align: end;
+}
+
 /*  The red pencil circle. An open path with an overshoot where the pencil
  *  crossed its own start — nobody draws a closed ellipse by hand. */
 .row__circle {
@@ -222,10 +321,7 @@
   stroke-linecap: round;
   stroke-dasharray: 1400;
   stroke-dashoffset: 1400;
-  animation: jsm-draw var(--jsm-motion-duration-draw)
-             var(--jsm-motion-easing-decelerate) 0.5s forwards;
 }
-@keyframes jsm-draw { to { stroke-dashoffset: 0; } }
 
 /*  The stamp. The only poster element allowed through into the product UI,
  *  because it is the moment of truth. */
@@ -246,8 +342,6 @@
   line-height: 1.2;
   rotate: -7deg;
   filter: url("#jsm-ink");
-  animation: jsm-slam var(--jsm-motion-duration-stamp)
-             var(--jsm-motion-easing-slam) 0.75s backwards;
 }
 /* Misregistered second impression. */
 .stamp::before {
@@ -260,10 +354,53 @@
   border-radius: inherit;
   z-index: -1;
 }
+
+/*  The orchestrated moment. With JS the ink waits for the ledger to actually
+ *  be on screen (`.is-inked`, set by IntersectionObserver); without JS the
+ *  selectors below match on load and it behaves exactly as a timer would. */
+html:not(.js) .row__circle path,
+.is-inked .row__circle path {
+  animation: jsm-draw var(--jsm-motion-duration-draw)
+             var(--jsm-motion-easing-decelerate) 0.3s forwards;
+}
+html:not(.js) .stamp,
+.is-inked .stamp {
+  animation: jsm-slam var(--jsm-motion-duration-stamp)
+             var(--jsm-motion-easing-slam) 0.6s backwards;
+}
+html.js .ledger:not(.is-inked) .stamp { opacity: 0; }
+
+@keyframes jsm-draw { to { stroke-dashoffset: 0; } }
 @keyframes jsm-slam {
   from { scale: 1.6; rotate: -14deg; opacity: 0; }
   to   { scale: 1;   rotate: -7deg;  opacity: 1; }
 }
+
+/* ══ chant — the marquee strip ════════════════════════════════════════════ */
+
+/*  A cinema marquee is a mechanical sign turned by a motor, which is why this
+ *  is the one continuous motion on the page: it is a machine, not a float.
+ *  The accessible name carries the sentence; the track is decoration. */
+.chant {
+  overflow: hidden;
+  background: var(--jsm-color-poster-action-bg);
+  color: var(--jsm-color-poster-action-fg);
+  border-block: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  padding-block: var(--jsm-space-2) 0;
+}
+.chant__track {
+  display: flex;
+  inline-size: max-content;
+  font-family: var(--jsm-font-family-poster);
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1.05;
+  white-space: nowrap;
+  animation: jsm-chant 36s linear infinite;
+}
+.chant__track > span { display: block; padding-inline-end: var(--jsm-space-6); }
+@keyframes jsm-chant { to { transform: translateX(50%); } }
+/* base.css clamps animation-duration to 1ms under prefers-reduced-motion,
+   which parks the strip at its first frame: readable, static, still black. */
 
 /* ══ ink blocks ═══════════════════════════════════════════════════════════ */
 
@@ -283,19 +420,46 @@
   margin-block-end: var(--jsm-space-6);
 }
 
-/* ══ steps ════════════════════════════════════════════════════════════════ */
+/* ══ steps — matchbox labels pasted on the wall ═══════════════════════════ */
 
 .steps {
   display: grid;
-  gap: var(--jsm-space-4);
+  gap: var(--jsm-space-5);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
-.step {
-  border: var(--jsm-metric-keyline) solid currentColor;
+
+/*  کبریت توکلی: paper label, heavy keyline, thin inner rule, one naive object,
+ *  a big stencil numeral. Pasted by hand, so none of them sits level. */
+.matchbox {
+  position: relative;
+  background: var(--jsm-color-poster-bg-canvas);
+  color: var(--jsm-color-poster-fg-primary);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  box-shadow: var(--jsm-shadow-hard);
   padding: var(--jsm-space-5);
   display: grid;
   gap: var(--jsm-space-3);
   align-content: start;
+}
+.matchbox::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1.5px solid var(--jsm-color-poster-line-frame);
+  pointer-events: none;
+}
+.steps > .matchbox:nth-child(1) { rotate: -1deg; }
+.steps > .matchbox:nth-child(2) { rotate: 0.6deg; }
+.steps > .matchbox:nth-child(3) { rotate: -0.5deg; }
+
+.matchbox__num {
+  position: absolute;
+  inset-block-start: var(--jsm-space-2);
+  inset-inline-end: var(--jsm-space-4);
+  font-family: var(--jsm-font-family-poster);
+  font-size: var(--jsm-font-size-4xl);
+  line-height: 1;
+  color: var(--jsm-color-ink-shangarf);
 }
 .step__obj { inline-size: 56px; height: 56px; }
 .step__title {
@@ -323,7 +487,97 @@
    see brand/09-third-party-brands.md. */
 .chip__mark { inline-size: 20px; height: 20px; }
 
-/* ══ download ═════════════════════════════════════════════════════════════ */
+/* ══ who ══════════════════════════════════════════════════════════════════ */
+
+.who {
+  display: grid;
+  gap: var(--jsm-space-8);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: center;
+}
+.who__body { max-inline-size: 48ch; }
+.who__things {
+  display: grid;
+  justify-items: center;
+  gap: var(--jsm-space-5);
+}
+.who__objects {
+  display: flex;
+  gap: var(--jsm-space-5);
+  color: var(--jsm-color-poster-fg-on-inked);
+}
+.who__objects svg { inline-size: 44px; height: 44px; }
+
+/* ══ honesty ══════════════════════════════════════════════════════════════ */
+
+.oaths {
+  display: grid;
+  border-block-start: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  max-inline-size: 72ch;
+}
+.oath {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--jsm-space-4);
+  align-items: baseline;
+  padding-block: var(--jsm-space-4);
+  border-block-end: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+}
+.oath__mark {
+  font-family: var(--jsm-font-family-poster);
+  font-size: var(--jsm-font-size-3xl);
+  line-height: 1;
+  color: var(--jsm-color-ink-shangarf);
+}
+
+/* ══ download — the coupon ════════════════════════════════════════════════ */
+
+/*  A بن: heavy plate frame, vermilion header band, a perforation between the
+ *  header and the body with punched notches at both ends. */
+.ticket {
+  position: relative;
+  border: var(--jsm-metric-frame-rule) solid var(--jsm-color-poster-line-keyline);
+  background: var(--jsm-color-poster-bg-canvas);
+  box-shadow: var(--jsm-shadow-hard);
+}
+.ticket__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--jsm-space-2) var(--jsm-space-4);
+  background: var(--jsm-color-poster-bg-inked);
+  color: var(--jsm-color-poster-fg-on-inked);
+  padding: var(--jsm-space-3) var(--jsm-space-5) var(--jsm-space-2);
+}
+.ticket__title {
+  font-family: var(--jsm-font-family-poster);
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  line-height: 0.9;
+}
+.ticket__meta { font-size: var(--jsm-font-size-sm); }
+
+.ticket__body {
+  position: relative;
+  padding: var(--jsm-space-6) var(--jsm-space-5) var(--jsm-space-5);
+  border-block-start: 2px dashed var(--jsm-color-poster-line-keyline);
+}
+/*  The punched notches. Two half-circles of page ground biting into the frame
+ *  where the perforation meets it. */
+.ticket__body::before,
+.ticket__body::after {
+  content: "";
+  position: absolute;
+  inset-block-start: calc(-1 * var(--jsm-space-3));
+  inline-size: var(--jsm-space-6);
+  block-size: var(--jsm-space-6);
+  border-radius: var(--jsm-radius-pill);
+  background: var(--jsm-color-poster-bg-canvas);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+}
+.ticket__body::before { inset-inline-start: calc(-1 * var(--jsm-space-5)); }
+.ticket__body::after  { inset-inline-end:  calc(-1 * var(--jsm-space-5)); }
 
 .stores {
   display: grid;
@@ -358,29 +612,37 @@
   font-weight: var(--jsm-font-weight-bold);
 }
 
-/* ══ footer ═══════════════════════════════════════════════════════════════ */
+/* ══ colophon ═════════════════════════════════════════════════════════════ */
 
 .footer {
   border-block-start: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
   padding-block: var(--jsm-space-8);
   font-size: var(--jsm-font-size-xs);
   color: var(--jsm-color-poster-fg-secondary);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--jsm-space-4);
-  justify-content: space-between;
-  align-items: center;
+}
+.footer__inner {
+  display: grid;
+  justify-items: center;
+  gap: var(--jsm-space-3);
+  text-align: center;
 }
 .footer__objects { display: flex; gap: var(--jsm-space-3); color: var(--jsm-color-poster-fg-muted); }
 .footer__objects svg { inline-size: 30px; height: 30px; }
+.footer__press { color: var(--jsm-color-poster-fg-muted); }
 
 /* ══ narrow ═══════════════════════════════════════════════════════════════ */
 
+@media (max-width: 720px) {
+  .nameplate__row { grid-template-columns: 1fr; }
+  .nameplate__side { display: none; }
+  .hero__cols { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 640px) {
   .section { padding-block: var(--jsm-space-10); }
+  .cropmarks::before { display: none; }
   .ledger__inner { padding-inline-start: var(--jsm-space-8); }
   .ledger::before { inset-inline-start: 2rem; }
-  .row { block-size: auto; padding-block: var(--jsm-space-3); }
   /* Narrow rows stack: name over price, both aligned to the start edge. That
      frees the whole end side for the stamp — putting it at inset-inline-end on
      a side-by-side row lands it straight on the price, which is the one thing
@@ -399,5 +661,6 @@
     inset-block-start: 50%;
   }
   .row__circle { inset-block-start: 4%; block-size: 92%; }
-  .starburst { inline-size: 92px; font-size: var(--jsm-font-size-md); }
+  .starburst { inline-size: 100px; font-size: var(--jsm-font-size-md); }
+  .ticket__body::before, .ticket__body::after { display: none; }
 }

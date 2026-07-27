@@ -200,9 +200,12 @@
 </symbol>
 </svg>
 
-<header class="wrap masthead">
-  <a class="masthead__logo logo" href="./" aria-label="آقا جاسم">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 391 161" role="img" aria-label="آقا جاسم">
+<!-- ══ nameplate — the page is an issue of a neighbourhood paper ══════════ -->
+<header class="nameplate">
+  <div class="wrap nameplate__row">
+    <p class="nameplate__side">نرخ‌نامهٔ محله<br>خرید با چشمِ باز</p>
+    <a class="nameplate__logo logo" href="./" aria-label="آقا جاسم">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 391 161" role="img" aria-label="آقا جاسم">
   <title>آقا جاسم</title>
   <g fill="currentColor">
     <g transform="translate(15.44 105.15)">
@@ -216,26 +219,37 @@
     </g>
   </g>
 </svg>
-  </a>
-  <p class="masthead__tag">
-    خرید محله‌ای،<br>با چشمِ باز
-  </p>
+    </a>
+    <p class="nameplate__side nameplate__side--end">سال اول · شمارهٔ یک<br>رایگان — مثل همیشه</p>
+  </div>
 </header>
 
 <main id="main">
 
-  <!-- ══ hero: the ledger is the thesis ══════════════════════════════════ -->
-  <section class="wrap hero">
-    <h1 class="hero__title"><span class="misregister"
-      ><span class="ghost" aria-hidden="true">آقا جاسم</span>آقا جاسم</span></h1>
+  <!-- ══ hero: the poster ═════════════════════════════════════════════════ -->
+  <section class="hero cropmarks">
+    <div class="wrap">
+      <h1 class="hero__title"><span class="misregister"
+        ><span class="ghost" aria-hidden="true">آقا جاسم</span>آقا جاسم</span></h1>
 
-    <p class="hero__lede">
-      بهش می‌گی چی می‌خوای. می‌ره سه تا پلتفرم رو می‌گرده، سه تا سبد می‌آره —
-      با قیمت، با تاریخ انقضا، با کیفیت. بعد بهت می‌گه کدوم صرف می‌کنه.
-    </p>
+      <p class="hero__banner"><span>می‌ره، می‌گرده، قیمتا رو درمی‌آره.</span></p>
 
-    <!-- The resident writes the errand in Jasem's ledger; Jasem writes the
-         prices back underneath. Hero and results are one artifact. -->
+      <div class="hero__cols">
+        <p class="hero__lede">
+          بهش می‌گی چی می‌خوای. می‌ره سه تا پلتفرم رو می‌گرده، سه تا سبد
+          می‌آره — با قیمت، با تاریخ انقضا، با کیفیت. بعد نظرش‌و می‌گه:
+          کدوم صرف می‌کنه.
+        </p>
+        <p class="hero__cta">
+          <a class="button" href="#download">بگیرش<span class="button__note">اندروید · رایگان</span></a>
+          <svg class="hero__hand icon-directional" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-dast"/></svg>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ the ledger — دفتر نسیه, the thesis as an artifact ════════════════ -->
+  <section class="wrap demo">
     <div class="ledger halftone">
       <div class="ledger__inner">
         <p class="ledger__note">
@@ -275,15 +289,25 @@
         </div>
       </div>
     </div>
+    <p class="demo__caption">دفترِ آقا جاسم — تو بالای صفحه می‌نویسی، اون زیرش جواب می‌ده.</p>
   </section>
 
-  <!-- ══ how ═════════════════════════════════════════════════════════════ -->
+  <!-- ══ chant — the repeated line of a cinema marquee ════════════════════ -->
+  <aside class="chant" aria-label="ارزون‌ترین کجاست؟ آقا جاسم می‌دونه.">
+    <div class="chant__track" aria-hidden="true">
+      <span>ارزون‌ترین کجاست؟ ٭ آقا جاسم می‌دونه ٭ گرون نخر ٭ تاریخش‌و نگاه کن ٭ </span
+      ><span>ارزون‌ترین کجاست؟ ٭ آقا جاسم می‌دونه ٭ گرون نخر ٭ تاریخش‌و نگاه کن ٭ </span>
+    </div>
+  </aside>
+
+  <!-- ══ how — three matchbox labels pasted on the red wall ═══════════════ -->
   <section class="section inked halftone">
     <div class="wrap">
       <h2 class="section__head">چه‌جوری کار می‌کنه</h2>
 
       <ol class="steps">
-        <li class="step">
+        <li class="step matchbox">
+          <span class="matchbox__num" aria-hidden="true">۱</span>
           <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-daftar"/></svg>
           <h3 class="step__title">بهش می‌گی</h3>
           <p class="step__body">
@@ -291,7 +315,8 @@
             باش.» لازم نیست اسم دقیق برند رو بلد باشی.
           </p>
         </li>
-        <li class="step">
+        <li class="step matchbox">
+          <span class="matchbox__num" aria-hidden="true">۲</span>
           <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-honda"/></svg>
           <h3 class="step__title">می‌ره می‌گرده</h3>
           <p class="step__body">
@@ -299,7 +324,8 @@
             هر فروشنده تا حالا چه‌جور جنسی داده.
           </p>
         </li>
-        <li class="step">
+        <li class="step matchbox">
+          <span class="matchbox__num" aria-hidden="true">۳</span>
           <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-qapan"/></svg>
           <h3 class="step__title">نظرش‌و می‌گه</h3>
           <p class="step__body">
@@ -318,7 +344,7 @@
       <ul class="chips"><li class="chip">دیجی‌کالا جت</li>
         <li class="chip">اسنپ‌مارکت</li>
         <li class="chip">اکالا</li></ul>
-      <p style="margin-block-start:var(--jsm-space-4);font-size:var(--jsm-font-size-sm);color:var(--jsm-color-poster-fg-secondary);max-inline-size:56ch">
+      <p class="smallprint">
         با حساب خودت. آقا جاسم حساب جدید برات نمی‌سازه و آدرس‌هایی که خودت
         قبلاً ثبت کردی رو استفاده می‌کنه.
       </p>
@@ -326,47 +352,109 @@
   </section>
 
   <!-- ══ who ═════════════════════════════════════════════════════════════ -->
-  <section class="section inked inked--green">
-    <div class="wrap" style="display:grid;gap:var(--jsm-space-6);grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:center">
+  <section class="section inked inked--green halftone">
+    <div class="wrap who">
       <div>
         <h2 class="section__head">آقا جاسم کیه؟</h2>
-        <p style="max-inline-size:48ch">
+        <p class="who__body">
           همون آقا جاسمِ خودمون. هفتاد سالشه، جوونی‌هاش شیطون‌تر از تو بوده، و
           هنوزم می‌دونه از کدوم مغازه نباید جنس خرید. حالا برای نسل تو می‌ره
           خرید — و چون خودش زمانی همه‌ی کلک‌ها رو بلد بوده، کسی نمی‌تونه سرش
           کلاه بذاره.
         </p>
       </div>
-      <div style="display:flex;justify-content:center">
+      <div class="who__things">
         <p class="starburst">ارزون!</p>
+        <div class="who__objects" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><use href="#jsm-hat"/></svg>
+          <svg viewBox="0 0 64 64"><use href="#jsm-tasbih"/></svg>
+          <svg viewBox="0 0 64 64"><use href="#jsm-estekan"/></svg>
+          <svg viewBox="0 0 64 64"><use href="#jsm-zanbil"/></svg>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ download ════════════════════════════════════════════════════════ -->
-  <section class="section" id="download">
+  <!-- ══ honesty — the part nobody else prints ═════════════════════════════ -->
+  <section class="section">
     <div class="wrap">
-      <h2 class="section__head">بگیرش</h2>
-      <div class="stores"><span class="store" aria-disabled="true"><span class="store__name">کافه بازار</span><span class="store__note">اندروید</span><span class="store__soon">به‌زودی</span></span>
+      <h2 class="section__head">سرت شیره نمی‌ماله</h2>
+      <ul class="oaths">
+        <li class="oath">
+          <span class="oath__mark" aria-hidden="true">٭</span>
+          اگه مطمئن نباشه همون جنسیه که خواستی، می‌گه «مطمئن نیستم». یه جنسِ
+          ارزونِ اشتباه، از یه «نبودِ» راست گرون‌تر درمی‌آد.
+        </li>
+        <li class="oath">
+          <span class="oath__mark" aria-hidden="true">٭</span>
+          تاریخ انقضا رو قبل از قیمت نگاه می‌کنه. شیری که فردا خراب می‌شه،
+          ارزون نیست.
+        </li>
+        <li class="oath">
+          <span class="oath__mark" aria-hidden="true">٭</span>
+          هیچ‌جا نبود؟ می‌گه نبود. «نبود» خطا نیست — دروغش خطاست.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ download — the coupon ═════════════════════════════════════════════ -->
+  <section class="section section--tight" id="download">
+    <div class="wrap">
+      <div class="ticket">
+        <div class="ticket__head">
+          <h2 class="ticket__title">بنِ دانلود</h2>
+          <p class="ticket__meta">رایگان · بدون قرعه‌کشی · <span class="ltr" dir="ltr">APK</span></p>
+        </div>
+        <div class="ticket__body">
+          <div class="stores"><span class="store" aria-disabled="true"><span class="store__name">کافه بازار</span><span class="store__note">اندروید</span><span class="store__soon">به‌زودی</span></span>
         <span class="store" aria-disabled="true"><span class="store__name">مایکت</span><span class="store__note">اندروید</span><span class="store__soon">به‌زودی</span></span>
         <span class="store" aria-disabled="true"><span class="store__name">دانلود مستقیم</span><span class="store__note">فایل APK</span><span class="store__soon">به‌زودی</span></span></div>
-      <p style="margin-block-start:var(--jsm-space-4);font-size:var(--jsm-font-size-xs);color:var(--jsm-color-poster-fg-secondary)">
-        فعلاً فقط اندروید. <span class="ltr" dir="ltr">iOS</span> بعداً.
-      </p>
+          <p class="smallprint">
+            فعلاً فقط اندروید. <span class="ltr" dir="ltr">iOS</span> بعداً.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
 </main>
 
-<footer class="wrap footer">
-  <p>آقا جاسم · <span class="ltr" dir="ltr">aghajasem.ir</span></p>
-  <div class="footer__objects" aria-hidden="true">
-    <svg viewBox="0 0 64 64"><use href="#jsm-hat"/></svg>
-    <svg viewBox="0 0 64 64"><use href="#jsm-tasbih"/></svg>
-    <svg viewBox="0 0 64 64"><use href="#jsm-estekan"/></svg>
-    <svg viewBox="0 0 64 64"><use href="#jsm-zanbil"/></svg>
+<!-- ══ colophon ═══════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div class="footer__objects" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><use href="#jsm-hat"/></svg>
+      <svg viewBox="0 0 64 64"><use href="#jsm-tasbih"/></svg>
+      <svg viewBox="0 0 64 64"><use href="#jsm-estekan"/></svg>
+      <svg viewBox="0 0 64 64"><use href="#jsm-zanbil"/></svg>
+    </div>
+    <p>آقا جاسم · <span class="ltr" dir="ltr">aghajasem.ir</span></p>
+    <p class="footer__press">چاپِ محله · هر روز، سرِ صبح</p>
   </div>
 </footer>
+
+<!-- The one orchestrated moment: the stamp lands when the ledger is actually
+     on screen, not on a timer racing the scroll position. Without JS the
+     animations simply run on load, exactly as before. -->
+<script>
+(function () {
+  var root = document.documentElement;
+  if (!("IntersectionObserver" in window)) return;
+  root.classList.add("js");
+  var ledger = document.querySelector(".ledger");
+  if (!ledger) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        ledger.classList.add("is-inked");
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  io.observe(ledger);
+})();
+</script>
 
 </body>
 </html>
