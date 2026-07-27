@@ -124,9 +124,8 @@ body {
   padding-block: var(--jsm-space-16) var(--jsm-space-12);
 }
 
-/*  The wall behind the hero: the flyers Jasem pinned to his own room's wall —
- *  a soda sheet, a Film-Farsi one-sheet, the grocer's sign, a matchbox label.
- *  Era ads, not the brand repeated. aria-hidden; the copy is CSS content. */
+/*  The flyers Jasem pinned up — era ads, not the brand. aria-hidden;
+ *  the copy is CSS content. */
 .wall,
 .wall::before {
   position: absolute;
@@ -155,7 +154,7 @@ body {
 .flyer--soda {
   --txt: "نوشابه"; --fs: 3.4rem;
   inline-size: 200px; block-size: 270px;
-  inset-inline-end: -2%; inset-block-start: 5%;
+  inset-inline-end: -3%; inset-block-start: 2%;
   rotate: 3deg;
   background:
     radial-gradient(circle at 50% 30%, var(--jsm-color-ink-limu) 0 36px, transparent 37px),
@@ -167,7 +166,7 @@ body {
 .flyer--film {
   --txt: "سینما"; --fs: 3rem; --ink: var(--jsm-color-ink-shangarf); --y: 16px;
   inline-size: 190px; block-size: 260px;
-  inset-inline-start: -2.5%; inset-block-start: 10%;
+  inset-inline-start: -3%; inset-block-start: 30%;
   rotate: -4deg;
   background:
     repeating-conic-gradient(from 0deg at 50% 42%,
@@ -180,7 +179,7 @@ body {
 .flyer--mive {
   --txt: "میوهٔ تازه"; --fs: 2.1rem; --ink: var(--jsm-color-ink-kaghaz); --y: 36%;
   inline-size: 175px; block-size: 225px;
-  inset-inline-start: 4%; inset-block-end: -4%;
+  inset-inline-start: 24%; inset-block-end: -8%;
   rotate: 2.5deg;
   background: repeating-linear-gradient(90deg,
     var(--jsm-color-ink-kaghaz) 0 16px, transparent 16px 32px) 0 0 / 100% 34px no-repeat;
@@ -190,7 +189,7 @@ body {
 .flyer--kebrit {
   --txt: "کبریت"; --fs: 2.2rem; --ink: var(--jsm-color-ink-kaghaz); --y: 44%;
   inline-size: 145px; block-size: 180px;
-  inset-inline-end: 17%; inset-block-start: -3%;
+  inset-inline-end: 4%; inset-block-end: -5%;
   rotate: -2deg;
   background: linear-gradient(var(--jsm-color-ink-surati), var(--jsm-color-ink-surati))
     50% 50% / 72% 58% no-repeat;
@@ -233,13 +232,17 @@ body {
   box-shadow: var(--jsm-shadow-slab);
 }
 
-/*  The tagline, big and crisp — لاجوردی is 8.7:1 on paper; no filter may
- *  smudge it. */
+/*  The tagline on its own paper plate — no flyer can undercut it. */
 .hero__stencil {
+  inline-size: fit-content;
   margin-block-end: var(--jsm-space-6);
+  padding: var(--jsm-space-2) var(--jsm-space-5) 0;
+  background: var(--jsm-color-poster-bg-canvas);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-ink-lajvardi);
+  box-shadow: var(--jsm-shadow-hard);
   font-family: var(--jsm-font-family-poster);
-  font-size: clamp(2.5rem, 7.5vw, 4.5rem);
-  line-height: 1;
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  line-height: 1.1;
   color: var(--jsm-color-ink-lajvardi);
   rotate: -1deg;
 }
@@ -590,6 +593,21 @@ html:not(.js) .sticker,
   line-height: var(--jsm-line-height-tight);
   margin-block-end: var(--jsm-space-6);
 }
+/*  Heading with an action pinned to the end side. */
+.split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--jsm-space-4);
+  margin-block-end: var(--jsm-space-6);
+}
+.split .section__head { margin-block-end: 0; }
+.button--start { font-size: var(--jsm-font-size-xl); padding: var(--jsm-space-3) var(--jsm-space-6); }
+
+/*  Centered oath section; rows keep reading alignment. */
+.section--center { text-align: center; }
+.section--center .oaths { margin-inline: auto; text-align: start; }
 
 /* ══ steps — matchbox labels pasted on the orange wall ════════════════════ */
 
@@ -690,14 +708,7 @@ html:not(.js) .sticker,
   justify-items: center;
   gap: var(--jsm-space-5);
 }
-.who__objects {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--jsm-space-5);
-  color: var(--jsm-color-poster-fg-on-inked);
-}
-.who__objects svg { inline-size: 44px; height: 44px; }
+.who__jasem { inline-size: min(240px, 70%); height: auto; }
 /* Parallax: app.js drives --py; static without it. */
 [data-depth] { translate: 0 var(--py, 0); }
 
@@ -817,16 +828,11 @@ html:not(.js) .scratch__foil { display: none; }
 .store__name { font-family: var(--jsm-font-family-display); font-size: var(--jsm-font-size-xl); line-height: 1.2; }
 .store__note { font-size: var(--jsm-font-size-xs); opacity: 0.8; }
 
-.store[aria-disabled="true"] {
-  background: var(--jsm-color-poster-action-disabled-bg);
-  color: var(--jsm-color-poster-action-disabled-fg);
-  box-shadow: none;
-  cursor: not-allowed;
-  pointer-events: none;
-}
+button.store { text-align: center; }
 .store__soon {
   font-size: var(--jsm-font-size-xs);
   font-weight: var(--jsm-font-weight-bold);
+  color: var(--jsm-color-poster-fg-flag);
 }
 
 /* ══ colophon ═════════════════════════════════════════════════════════════ */

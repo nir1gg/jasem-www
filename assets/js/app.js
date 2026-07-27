@@ -134,10 +134,33 @@ function inkLedger({ spin } = {}) {
   }, wait);
 }
 
+/*  Each run of the machine is a fresh errand: pre-formatted price literals
+ *  from the markup (never JS-formatted — see CLAUDE.md), and the winner —
+ *  circle, sticker, green price — moves to whichever row is cheapest.
+ *  Equal-length Persian numerals compare correctly as strings. */
+const rows = ledger ? [...ledger.querySelectorAll(".row")] : [];
+const scenarios = ledger ? JSON.parse(ledger.dataset.scenarios || "[]") : [];
+let scen = 0;
+function nextErrand() {
+  if (!scenarios.length || !rows.length) return;
+  const prices = scenarios[scen++ % scenarios.length];
+  let win = 0;
+  prices.forEach((v, i) => { if (v < prices[win]) win = i; });
+  const circle = ledger.querySelector(".row__circle");
+  const sticker = ledger.querySelector(".sticker");
+  rows.forEach((row, i) => {
+    row.querySelector(".reel").dataset.price = prices[i];
+    row.classList.toggle("row--win", i === win);
+  });
+  rows[win].prepend(circle);
+  rows[win].append(sticker);
+}
+
 if (ledger) {
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (e.isIntersecting) {
+        nextErrand();
         inkLedger({ spin: true });
         io.disconnect();
       }
@@ -148,7 +171,10 @@ if (ledger) {
   const again = document.getElementById("search-again");
   if (again) {
     again.hidden = false;
-    again.addEventListener("click", () => inkLedger({ spin: true }));
+    again.addEventListener("click", () => {
+      nextErrand();
+      inkLedger({ spin: true });
+    });
   }
 }
 
@@ -262,15 +288,19 @@ if (foil) {
       ctx.fillRect(i, 0, 5, h);
     }
     ctx.fillStyle = css("--jsm-color-ink-kaghaz");
-    ctx.font = `700 ${Math.min(28, w / 12)}px Vazirmatn, Tahoma, sans-serif`;
+    ctx.font = `${Math.min(44, w / 8)}px Jomhuria, Tahoma, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.direction = "rtl";
-    ctx.fillText("بخراش!", w / 2, h / 2);
+    ctx.fillText("بخراش!", w / 2, h / 2 + 4);
     return ctx;
   };
   let ctx = paint();
   let strokes = 0;
+  /* First paint can race the webfont; repaint in the real face once loaded. */
+  document.fonts?.load("44px Jomhuria", "بخراش").then(() => {
+    if (strokes === 0 && !foil.classList.contains("cleared")) ctx = paint();
+  }).catch(() => {});
   const scratch = (ev) => {
     if (ev.buttons === 0 && ev.type === "pointermove") return;
     const r = foil.getBoundingClientRect();
@@ -293,6 +323,28 @@ if (foil) {
     if (!foil.classList.contains("cleared")) ctx = paint();
   });
 }
+
+/* ── the stores: tap one, get the honest surprise ───────────────────────── */
+
+document.querySelectorAll("[data-soon]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (document.querySelector(".soon-badge")) return;
+    const r = btn.getBoundingClientRect();
+    const badge = document.createElement("p");
+    badge.className = "soon-badge";
+    badge.textContent = "به‌زودی";
+    badge.style.left = r.left + r.width / 2 + "px";
+    badge.style.top = r.top + r.height / 2 + "px";
+    document.body.appendChild(badge);
+    badge.addEventListener("animationend", (ev) => {
+      if (ev.animationName === "jsm-soon-out") badge.remove();
+    });
+    if (!reduced) {
+      document.body.classList.add("quake");
+      setTimeout(() => document.body.classList.remove("quake"), 550);
+    }
+  });
+});
 
 /* ── the easter egg: tap the hat, wake the fan ──────────────────────────── */
 

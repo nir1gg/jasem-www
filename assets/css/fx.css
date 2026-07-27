@@ -128,3 +128,37 @@ html.js .chant__track { animation: none; }
   20% { rotate: -6deg; }
   to  { translate: -40px 80vh; rotate: 28deg; opacity: 0; }
 }
+
+/*  Store buttons: with JS the printed «به‌زودی» hides and the badge surprises
+ *  on tap instead — with a whole-page quake. */
+html.js .store__soon { display: none; }
+
+.soon-badge {
+  position: fixed;
+  z-index: 30;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  inline-size: 170px;
+  aspect-ratio: 1;
+  clip-path: var(--jsm-rosette);
+  background: var(--jsm-color-poster-sticker-bg);
+  color: var(--jsm-color-poster-sticker-fg);
+  font-family: var(--jsm-font-family-poster);
+  font-size: var(--jsm-font-size-3xl);
+  line-height: 1;
+  pointer-events: none;
+  rotate: -7deg;
+  animation:
+    jsm-slam var(--jsm-motion-duration-slap) var(--jsm-motion-easing-slam) backwards,
+    jsm-soon-out 350ms var(--jsm-motion-easing-accelerate) 1400ms forwards;
+}
+@keyframes jsm-soon-out { to { opacity: 0; scale: 0.6; } }
+
+body.quake { animation: jsm-quake 500ms var(--jsm-motion-easing-standard); }
+@keyframes jsm-quake {
+  15% { translate: 0 -6px; rotate: -0.4deg; }
+  35% { translate: 0 5px;  rotate: 0.35deg; }
+  55% { translate: 0 -4px; rotate: -0.25deg; }
+  75% { translate: 0 3px;  rotate: 0.15deg; }
+}
