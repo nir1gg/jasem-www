@@ -1,0 +1,91 @@
+/*  آقا جاسم — styles for devices that exist only when app.js runs.
+ *
+ *  Loaded by app.js before it sets the .js class, so none of this is
+ *  render-blocking and none of it is missed when scripts never arrive.
+ */
+
+/*  Sheets wait for the viewport only when app.js runs (.pasted via IO). */
+html.js .sheet { opacity: 0; }
+html.js .sheet.pasted {
+  opacity: 1;
+  animation: jsm-paste var(--jsm-motion-duration-paste) var(--jsm-motion-easing-bounce) backwards;
+}
+
+.ledger.shudder { animation: jsm-shudder 300ms var(--jsm-motion-easing-standard); }
+@keyframes jsm-shudder {
+  20% { translate: 0 2px; rotate: -0.3deg; }
+  45% { translate: 0 -2px; rotate: 0.25deg; }
+  70% { translate: 0 1px; rotate: -0.1deg; }
+}
+
+/*  Price reels: app.js builds digit strips that scroll and stop hard. */
+/* Persian numbers read most-significant-first; per-digit spans must not be
+   bidi-reordered, so the reel is an isolated LTR run. */
+.reel { display: inline-block; direction: ltr; unicode-bidi: isolate; }
+.reel__col {
+  display: inline-block;
+  overflow: hidden;
+  block-size: 1.35em;
+  vertical-align: bottom;
+}
+.reel__strip {
+  display: block;
+  transition: translate var(--jsm-motion-duration-reel) var(--jsm-motion-easing-standard);
+}
+.reel__strip > span { display: block; block-size: 1.35em; line-height: 1.35; }
+
+.button--search { font-size: var(--jsm-font-size-xl); padding-block: var(--jsm-space-2); }
+
+html.js .ledger:not(.is-inked) .sticker { opacity: 0; }
+
+.matchbox {
+  transform: rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg));
+  transition: transform var(--jsm-motion-duration-fast) var(--jsm-motion-easing-standard);
+  transform-style: preserve-3d;
+}
+
+html.js .oath:not(.sworn) .oath__tick path { stroke-dashoffset: 44; }
+.oath.sworn .oath__tick path {
+  animation: jsm-tick var(--jsm-motion-duration-draw) var(--jsm-motion-easing-decelerate) forwards;
+}
+@keyframes jsm-tick { from { stroke-dashoffset: 44; } to { stroke-dashoffset: 0; } }
+
+.scratch__foil {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  transition: opacity 500ms var(--jsm-motion-easing-decelerate);
+}
+.scratch__foil.cleared { opacity: 0; pointer-events: none; }
+
+.party .fan__blades { animation-duration: 450ms; }
+
+/* ══ ephemera — spray trail and confetti (nodes made by app.js) ═══════════ */
+
+.spray {
+  position: fixed;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: var(--jsm-radius-pill);
+  pointer-events: none;
+  z-index: 20;
+  animation: jsm-spray 600ms var(--jsm-motion-easing-decelerate) forwards;
+}
+@keyframes jsm-spray {
+  to { opacity: 0; scale: 0.2; translate: var(--sx, 0) var(--sy, 8px); }
+}
+
+.confetti {
+  position: fixed;
+  inline-size: 8px;
+  block-size: 12px;
+  pointer-events: none;
+  z-index: 20;
+  animation: jsm-confetti var(--t, 1200ms) var(--jsm-motion-easing-accelerate) forwards;
+}
+@keyframes jsm-confetti {
+  to { translate: var(--dx, 0) var(--dy, 70vh); rotate: var(--rot, 400deg); opacity: 0; }
+}

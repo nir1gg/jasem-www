@@ -30,8 +30,7 @@
 
 <a class="skip-link" href="#main">برو به متن اصلی</a>
 
-<!-- Ink-bleed filter. Uneven absorption at the edge of a stamped or written
-     mark; the era's paper was absorbent and nothing printed cleanly. -->
+<!-- Ink-bleed filter: nothing in the era printed cleanly. -->
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
   <filter id="jsm-ink" x="-6%" y="-6%" width="112%" height="112%">
     <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/>
@@ -39,139 +38,14 @@
   </filter>
 </svg>
 
+<!-- Above-the-fold symbols only; the rest load from the sprite file. -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-<!--
-  آقا جاسم — the object set.
-
-  We do not draw his face. The identity is carried by his things, which is both
-  a design choice and an era-correct one: کبریت توکلی matchbox labels and shop
-  signage worked the same way, one naive figurative subject inside a heavy
-  keyline. Every symbol here is built on a 64×64 grid with a 3px stroke so they
-  keep the same weight when set beside each other.
-
-  Notes on specificity, because the generic version of each of these is wrong:
-    کلاه مخملی  not a flat cap. A flat cap reads British; the velvet hat is the
-                جاهل of Film-Farsi and carries the whole backstory in one shape.
-    هوندا ۱۲۵   not a Vespa. Upright commuter bike with a rear rack and a crate;
-                the rack is what makes the silhouette legible as an errand.
-    زنبیل حصیری  woven reed, not the plastic string bag — that one reads as a
-                housewife at the bazaar rather than as the man running errands.
-    قپان        a steelyard, not a two-pan balance. Same idea, less European.
-
-  Use: <svg class="obj"><use href="./assets/icon/objects.svg#jsm-hat"/></svg>
-  Fill and stroke both follow currentColor.
--->
 <defs>
   <style>
     symbol { --jsm-obj-w: 3; }
     symbol * { vector-effect: non-scaling-stroke; }
   </style>
 </defs>
-
-<!-- کلاه مخملی — the primary mark. Low pinched crown, wide upturned brim. -->
-<symbol id="jsm-hat" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3"
-     stroke-linejoin="round" stroke-linecap="round">
-    <path d="M20 40 L20.5 25 Q21 16 32 16 Q43 16 43.5 25 L44 40 Z" fill="currentColor"/>
-    <path d="M26 17.5 Q32 21 38 17.5" stroke-width="2.4" fill="none" stroke="#fff"
-          opacity="0.85"/>
-    <path d="M19 34.5 H45" stroke-width="4.5" stroke="#fff" opacity="0.9"/>
-    <path d="M6 43.5 Q32 53 58 43.5 Q32 36.5 6 43.5 Z" fill="currentColor"/>
-  </g>
-</symbol>
-
-<!-- تسبیح — also the loading spinner and the section divider. -->
-<symbol id="jsm-tasbih" viewBox="0 0 64 64">
-  <g fill="currentColor" stroke="none">
-    <circle cx="32" cy="12" r="4"/><circle cx="45" cy="16" r="4"/>
-    <circle cx="52" cy="27" r="4"/><circle cx="52" cy="40" r="4"/>
-    <circle cx="45" cy="51" r="4"/><circle cx="32" cy="55" r="4"/>
-    <circle cx="19" cy="51" r="4"/><circle cx="12" cy="40" r="4"/>
-    <circle cx="12" cy="27" r="4"/><circle cx="19" cy="16" r="4"/>
-  </g>
-  <path d="M32 55 L32 61" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-</symbol>
-
-<!-- قپان — the steelyard. The product metaphor as a physical object.
-     Legibility needs all four parts present and separated: suspension hook,
-     graduated beam, hanging pan, sliding counterweight. -->
-<symbol id="jsm-qapan" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3"
-     stroke-linejoin="round" stroke-linecap="round">
-    <path d="M24 8 a6 6 0 1 1 0 12" stroke-width="2.6"/>
-    <path d="M24 20 V26"/>
-    <path d="M8 28 H58" stroke-width="4"/>
-    <path d="M34 28 v5 M40 28 v5 M46 28 v5 M52 28 v5" stroke-width="2"/>
-    <path d="M14 28 L10 38 M14 28 L20 38"/>
-    <path d="M6 38 H26 L22 50 H10 Z" fill="currentColor"/>
-    <path d="M44 28 L44 34"/>
-    <path d="M44 34 L49 46 L39 46 Z" fill="currentColor"/>
-  </g>
-</symbol>
-
-<!-- استکان کمرباریک و نعلبکی — the errand man's fee is a glass of tea. -->
-<symbol id="jsm-estekan" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3"
-     stroke-linejoin="round" stroke-linecap="round">
-    <path d="M22 14 L25 30 Q26 34 32 36 Q38 34 39 30 L42 14 Z" fill="currentColor"/>
-    <path d="M32 36 V44"/>
-    <path d="M10 47 Q32 58 54 47 Q32 42 10 47 Z" fill="currentColor"/>
-    <path d="M46 20 a5 5 0 0 1 0 10" stroke-width="2.6"/>
-  </g>
-</symbol>
-
-<!-- زنبیل حصیری — woven reed basket, hung off the handlebar. -->
-<symbol id="jsm-zanbil" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3"
-     stroke-linejoin="round" stroke-linecap="round">
-    <path d="M22 24 Q22 10 32 10 Q42 10 42 24" stroke-width="3"/>
-    <path d="M12 26 H52 L46 54 H18 Z" fill="currentColor"/>
-    <g stroke="#fff" stroke-width="2" opacity="0.85">
-      <path d="M14 34 H50 M15.5 42 H48.5"/>
-      <path d="M24 27 L22 53 M32 27 V53 M40 27 L42 53"/>
-    </g>
-  </g>
-</symbol>
-
-<!-- هوندا ۱۲۵ — rear rack and crate are what make it read as an errand.
-     The engine block and fuel tank are load-bearing: without their mass this
-     silhouette is a bicycle, which is a different man doing a different job. -->
-<symbol id="jsm-honda" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3"
-     stroke-linejoin="round" stroke-linecap="round">
-    <circle cx="14" cy="47" r="10" stroke-width="3.4"/>
-    <circle cx="50" cy="47" r="10" stroke-width="3.4"/>
-    <circle cx="14" cy="47" r="2.6" fill="currentColor" stroke="none"/>
-    <circle cx="50" cy="47" r="2.6" fill="currentColor" stroke="none"/>
-    <rect x="24" y="34" width="17" height="11" rx="2" fill="currentColor"/>
-    <path d="M22 32 H40 L44 36" stroke-width="3"/>
-    <path d="M22 32 L20 25 H13" stroke-width="3"/>
-    <path d="M26 32 L30 26 H41 L42 32 Z" fill="currentColor"/>
-    <path d="M41 29 H52 L53 33 H44" fill="currentColor"/>
-    <rect x="42" y="15" width="15" height="11" rx="1" fill="currentColor"/>
-    <path d="M49 26 V29"/>
-  </g>
-</symbol>
-
-<!-- دفتر نسیه — the signature artifact, as an icon. -->
-<symbol id="jsm-daftar" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3"
-     stroke-linejoin="round" stroke-linecap="round">
-    <rect x="10" y="8" width="44" height="48" fill="currentColor"/>
-    <path d="M20 8 V56" stroke="#fff" stroke-width="2.5" opacity="0.9"/>
-    <g stroke="#fff" stroke-width="2.4" opacity="0.9">
-      <path d="M26 20 H46 M26 30 H46 M26 40 H38"/>
-    </g>
-  </g>
-</symbol>
-
-<!-- دست — the manicule, the printer's pointing fist.
-     Objects alone float and become a sticker sheet; a hand acts, and acting is
-     what makes the absent face read as a choice rather than an omission. A
-     naturalistic hand is illegible at icon size (the first attempt read as a
-     mitten), so this is the letterpress manicule ☞ instead — which is also
-     exactly the right register: it was a stock ornament in the era's print.
-     Points inline-start, so it must mirror under RTL like any directional mark. -->
 <symbol id="jsm-dast" viewBox="0 0 64 64">
   <g fill="currentColor" stroke="currentColor" stroke-width="2.4"
      stroke-linejoin="round" stroke-linecap="round">
@@ -190,14 +64,6 @@
     </g>
   </g>
 </symbol>
-
-<!-- «ارزون‌ترین» stamp plate, empty. The word is set in Jomhuria over it. -->
-<symbol id="jsm-stamp" viewBox="0 0 64 64">
-  <g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
-    <rect x="6" y="18" width="52" height="28" rx="4"/>
-    <rect x="11" y="23" width="42" height="18" rx="2" fill="currentColor"/>
-  </g>
-</symbol>
 </svg>
 
 <!-- ══ nameplate — the page is an issue of a neighbourhood paper ══════════ -->
@@ -205,10 +71,20 @@
   <div class="wrap nameplate__row">
     <p class="nameplate__side">نرخ‌نامهٔ محله<br>خرید با چشمِ باز</p>
     <a class="nameplate__logo logo" href="./" aria-label="آقا جاسم">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 391 161" role="img" aria-label="آقا جاسم">
+      <img src="./assets/logo/jasem-mark.svg" alt="" width="44" height="44" class="nameplate__mark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 391 161" role="img" aria-label="آقا جاسم" color="#1C1712">
   <title>آقا جاسم</title>
-  <g fill="currentColor">
-    <g transform="translate(15.44 105.15)">
+  <!--
+    Chromatic misregistration, carried by the wordmark itself: the same shaped
+    path group printed three times — شنگرف, صورتی, then مرکب on top — offset by
+    the misregister metric, exactly the way a cheap three-plate job never lined
+    up. Composed from the measured paths make_wordmark.py emitted; the Persian
+    was shaped by HarfBuzz before outlining and must never be re-typed by hand.
+    The top plate follows currentColor so a one-ink cut is always available.
+  -->
+  <defs>
+    <g id="jsm-wm">
+      <g transform="translate(15.44 105.15)">
       <path transform="translate(0.00 -0.00) scale(0.053333 -0.053333)" d="M407 -499Q375 -130 373 4Q371 100 390.5 146.0Q410 192 464 192Q521 192 617.0 144.0Q713 96 780 48L847 0L973 193Q998 109 1068.5 54.5Q1139 0 1229 0H1376V436H1215Q1175 436 1140.0 455.0Q1105 474 1079.5 505.5Q1054 537 1028.5 576.5Q1003 616 982.0 658.0Q961 700 935.0 739.5Q909 779 882.0 810.5Q855 842 817.5 861.0Q780 880 737 880Q665 880 615.5 842.0Q566 804 495 708Q373 543 400 436H375Q369 436 359.5 436.0Q350 436 322.5 431.0Q295 426 270.0 417.0Q245 408 214.5 386.5Q184 365 162.0 335.0Q140 305 125.0 255.0Q110 205 110 143V-648ZM569 516Q569 604 649 604Q688 604 743.5 562.0Q799 520 835 478L871 436H662Q629 436 599.0 456.0Q569 476 569 516Z"/>
     <path transform="translate(69.65 -0.00) scale(0.053333 -0.053333)" d="M655 194Q655 190 656.0 183.5Q657 177 662.0 158.0Q667 139 674.5 122.0Q682 105 698.0 84.0Q714 63 735.5 48.0Q757 33 791.0 22.5Q825 12 866 12Q917 12 958.0 29.5Q999 47 1024.5 74.5Q1050 102 1067.5 138.0Q1085 174 1092.0 209.5Q1099 245 1099 280L1098 579Q1098 636 1076.0 697.5Q1054 759 1032 792L1010 825L811 668Q846 635 869.0 601.0Q892 567 899.0 538.0Q906 509 900.0 485.5Q894 462 870.5 449.0Q847 436 809 436Q781 436 762.5 452.5Q744 469 737.5 492.5Q731 516 728.0 539.0Q725 562 726 578L728 595H581Q582 589 582.5 578.0Q583 567 580.0 539.5Q577 512 569.0 491.0Q561 470 540.5 453.0Q520 436 489 436Q443 436 421.5 476.0Q400 516 401 556L402 595H256V479Q256 460 241.0 448.0Q226 436 193 436H-70V0H52Q90 0 122.5 6.5Q155 13 177.5 24.5Q200 36 219.0 50.5Q238 65 249.5 81.0Q261 97 270.0 113.0Q279 129 283.5 143.5Q288 158 290.5 169.5Q293 181 294 187V194Q294 186 296.0 173.0Q298 160 309.5 126.5Q321 93 339.5 67.0Q358 41 396.0 20.0Q434 -1 485 -1Q514 -1 539.0 10.0Q564 21 580.5 38.0Q597 55 611.0 75.5Q625 96 633.0 117.0Q641 138 646.0 155.0Q651 172 653 183Z"/>
     <path transform="translate(132.48 -0.00) scale(0.053333 -0.053333)" d="M411 0H699V436H479Q454 436 444 464Q442 472 442 479L443 1362L110 1104V301Q110 176 198.0 88.0Q286 0 411 0Z"/>
@@ -217,7 +93,11 @@
     <path transform="translate(283.15 -0.00) scale(0.053333 -0.053333)" d="M164 1281 284 1397 400 1281H430L567 1413V1441L430 1572H400L284 1457L164 1572H134L2 1441V1413L134 1281ZM128 904Q128 992 208 992Q247 992 302.5 950.0Q358 908 394 866L430 825H222Q188 825 158.0 844.5Q128 864 128 904ZM-70 0H394Q445 0 486.0 17.5Q527 35 553.0 62.5Q579 90 596.5 126.0Q614 162 621.0 197.5Q628 233 628 268V790Q628 961 530.5 1072.0Q433 1183 287 1183Q137 1183 68.5 1104.5Q0 1026 0 897V674Q0 603 50.0 553.0Q100 503 171 503H419Q433 503 443.0 493.0Q453 483 453 469Q453 455 443.0 445.5Q433 436 419 436H-70Z"/>
     <path transform="translate(320.85 -0.00) scale(0.053333 -0.053333)" d="M634 1371 613 1474Q541 1446 471.0 1437.5Q401 1429 354.0 1434.0Q307 1439 260.5 1455.0Q214 1471 197.0 1480.5Q180 1490 161 1502Q158 1504 157 1505Q76 1553 7 1450L-60 1353L4 1289L48 1356Q48 1356 105 1327Q304 1239 474 1285Q562 1310 634 1371ZM151 0 384 177 404 934 488 996 383 1362 154 1174Q116 1142 96.5 1096.5Q77 1051 81 1002Z"/>
     </g>
-  </g>
+    </g>
+  </defs>
+  <use href="#jsm-wm" fill="#D93A1F" transform="translate(3 3)"/>
+  <use href="#jsm-wm" fill="#E5187E" transform="translate(-3 -2)"/>
+  <use href="#jsm-wm" fill="currentColor"/>
 </svg>
     </a>
     <p class="nameplate__side nameplate__side--end">سال اول · شمارهٔ یک<br>رایگان — مثل همیشه</p>
@@ -226,30 +106,51 @@
 
 <main id="main">
 
-  <!-- ══ hero: the poster ═════════════════════════════════════════════════ -->
-  <section class="hero cropmarks">
-    <div class="wrap">
-      <h1 class="hero__title"><span class="misregister"
+  <!-- ══ hero: the wall ═══════════════════════════════════════════════════ -->
+  <section class="hero bulbframe">
+    <!-- The WebGL wall mounts here. Decoration only; when gated off this
+         keeps its CSS poster paint. -->
+    <div class="wall" id="wall" aria-hidden="true"></div>
+
+    <div class="wrap hero__wrap">
+      <h1 class="hero__title paste" style="--i:0"><span class="misregister"
         ><span class="ghost" aria-hidden="true">آقا جاسم</span>آقا جاسم</span></h1>
 
-      <p class="hero__banner"><span>می‌ره، می‌گرده، قیمتا رو درمی‌آره.</span></p>
+      <p class="hero__banner paste" style="--i:1"><span>می‌ره، می‌گرده، قیمتا رو درمی‌آره.</span></p>
 
-      <div class="hero__cols">
-        <p class="hero__lede">
+      <p class="hero__stencil paste" style="--i:2" aria-label="خرید با چشمِ باز">
+        <span aria-hidden="true">خرید با چشمِ باز</span>
+      </p>
+
+      <div class="hero__cols paste" style="--i:3">
+        <p class="hero__lede sheet-note">
           بهش می‌گی چی می‌خوای. می‌ره سه تا پلتفرم رو می‌گرده، سه تا سبد
           می‌آره — با قیمت، با تاریخ انقضا، با کیفیت. بعد نظرش‌و می‌گه:
           کدوم صرف می‌کنه.
         </p>
         <p class="hero__cta">
-          <a class="button" href="#download">بگیرش<span class="button__note">اندروید · رایگان</span></a>
+          <a class="button" href="#download" data-magnet>بگیرش<span class="button__note">اندروید · رایگان</span></a>
           <svg class="hero__hand icon-directional" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-dast"/></svg>
         </p>
       </div>
+
+      <!-- The rosette, pasted loose. Draggable with JS. -->
+      <p class="starburst hero__sticker paste" style="--i:4" data-drag aria-hidden="true">ارزون!</p>
     </div>
   </section>
 
-  <!-- ══ the ledger — دفتر نسیه, the thesis as an artifact ════════════════ -->
-  <section class="wrap demo">
+  <!-- ══ chant — the cinema marquee, with its bulbs ═══════════════════════ -->
+  <aside class="chant" aria-label="ارزون‌ترین کجاست؟ آقا جاسم می‌دونه.">
+    <div class="chant__bulbs" aria-hidden="true"></div>
+    <div class="chant__track" aria-hidden="true">
+      <span>ارزون‌ترین کجاست؟ ٭ آقا جاسم می‌دونه ٭ گرون نخر ٭ تاریخش‌و نگاه کن ٭ </span
+      ><span>ارزون‌ترین کجاست؟ ٭ آقا جاسم می‌دونه ٭ گرون نخر ٭ تاریخش‌و نگاه کن ٭ </span>
+    </div>
+    <div class="chant__bulbs chant__bulbs--end" aria-hidden="true"></div>
+  </aside>
+
+  <!-- ══ the ledger — دفتر نسیه, the thesis as an artifact, now a machine ═ -->
+  <section class="wrap demo sheet">
     <div class="ledger halftone">
       <div class="ledger__inner">
         <p class="ledger__note">
@@ -262,13 +163,11 @@
             <span class="row__name">دیجی‌کالا جت
               <span class="row__items">شیر پرچرب ۱ لیتری · نان بربری · سیب قرمز ۱ کیلو</span>
             </span>
-            <span class="row__price">۲۴۸٬۰۰۰ تومان</span>
+            <span class="row__price"><span class="reel" data-price="۲۴۸٬۰۰۰">۲۴۸٬۰۰۰</span> تومان</span>
           </div>
 
           <div class="row row--win">
             <svg class="row__circle" viewBox="0 0 460 96" aria-hidden="true" preserveAspectRatio="none">
-              <!-- Open path, overshooting its own start: nobody draws a closed
-                   ellipse by hand. -->
               <path d="M96 12 C36 14 8 34 12 54 C16 76 78 88 214 88
                        C350 88 444 76 448 52 C452 30 396 14 268 10
                        C196 8 130 10 84 20"/>
@@ -276,68 +175,63 @@
             <span class="row__name">اسنپ‌مارکت
               <span class="row__items">شیر پرچرب ۱ لیتری · نان بربری · سیب قرمز ۱ کیلو</span>
             </span>
-            <span class="row__price">۲۱۹٬۰۰۰ تومان</span>
-            <p class="stamp">ارزون‌ترین</p>
+            <span class="row__price"><span class="reel" data-price="۲۱۹٬۰۰۰">۲۱۹٬۰۰۰</span> تومان</span>
+            <p class="sticker">ارزون‌ترین</p>
           </div>
 
           <div class="row">
             <span class="row__name">اکالا
               <span class="row__items">شیر پرچرب ۱ لیتری · نان بربری · سیب قرمز ۱ کیلو</span>
             </span>
-            <span class="row__price">۲۶۵٬۰۰۰ تومان</span>
+            <span class="row__price"><span class="reel" data-price="۲۶۵٬۰۰۰">۲۶۵٬۰۰۰</span> تومان</span>
           </div>
         </div>
       </div>
     </div>
-    <p class="demo__caption">دفترِ آقا جاسم — تو بالای صفحه می‌نویسی، اون زیرش جواب می‌ده.</p>
+    <p class="demo__foot">
+      <button class="button button--search" type="button" id="search-again" hidden>دوباره بگرد!</button>
+      <span class="demo__caption">دفترِ آقا جاسم — تو بالای صفحه می‌نویسی، اون زیرش جواب می‌ده.</span>
+    </p>
   </section>
 
-  <!-- ══ chant — the repeated line of a cinema marquee ════════════════════ -->
-  <aside class="chant" aria-label="ارزون‌ترین کجاست؟ آقا جاسم می‌دونه.">
-    <div class="chant__track" aria-hidden="true">
-      <span>ارزون‌ترین کجاست؟ ٭ آقا جاسم می‌دونه ٭ گرون نخر ٭ تاریخش‌و نگاه کن ٭ </span
-      ><span>ارزون‌ترین کجاست؟ ٭ آقا جاسم می‌دونه ٭ گرون نخر ٭ تاریخش‌و نگاه کن ٭ </span>
-    </div>
-  </aside>
-
-  <!-- ══ how — three matchbox labels pasted on the red wall ═══════════════ -->
-  <section class="section inked halftone">
+  <!-- ══ how — three matchbox labels pasted on the orange wall ════════════ -->
+  <section class="section inked--warm halftone">
     <div class="wrap">
       <h2 class="section__head">چه‌جوری کار می‌کنه</h2>
 
       <ol class="steps">
-        <li class="step matchbox">
+        <li class="step matchbox sheet" data-tilt>
           <span class="matchbox__num" aria-hidden="true">۱</span>
-          <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-daftar"/></svg>
+          <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-daftar"/></svg>
           <h3 class="step__title">بهش می‌گی</h3>
           <p class="step__body">
             همون‌جوری که به یه آدم می‌گی. «شیر و نون و میوه بگیر، مواظب تاریخش
             باش.» لازم نیست اسم دقیق برند رو بلد باشی.
           </p>
         </li>
-        <li class="step matchbox">
+        <li class="step matchbox sheet" data-tilt>
           <span class="matchbox__num" aria-hidden="true">۲</span>
-          <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-honda"/></svg>
+          <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-honda"/></svg>
           <h3 class="step__title">می‌ره می‌گرده</h3>
           <p class="step__body">
             سه تا پلتفرم رو با هم می‌گرده. قیمت، موجودی، تاریخ انقضا، و این‌که
             هر فروشنده تا حالا چه‌جور جنسی داده.
           </p>
         </li>
-        <li class="step matchbox">
+        <li class="step matchbox sheet" data-tilt>
           <span class="matchbox__num" aria-hidden="true">۳</span>
-          <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="#jsm-qapan"/></svg>
+          <svg class="step__obj" viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-etiket"/></svg>
           <h3 class="step__title">نظرش‌و می‌گه</h3>
           <p class="step__body">
-            سه تا سبد کنار هم، با فرقشون. یکی‌شو مهر می‌زنه. اگه مطمئن نباشه،
-            می‌گه مطمئن نیستم — سرت شیره نمی‌ماله.
+            سه تا سبد کنار هم، با فرقشون. رو یکی‌شون اتیکت می‌زنه. اگه مطمئن
+            نباشه، می‌گه مطمئن نیستم — سرت شیره نمی‌ماله.
           </p>
         </li>
       </ol>
     </div>
   </section>
 
-  <!-- ══ platforms ═══════════════════════════════════════════════════════ -->
+  <!-- ══ platforms — torn bus-ticket stubs ════════════════════════════════ -->
   <section class="section section--tight">
     <div class="wrap">
       <h2 class="section__head">کجاها رو می‌گرده</h2>
@@ -351,8 +245,8 @@
     </div>
   </section>
 
-  <!-- ══ who ═════════════════════════════════════════════════════════════ -->
-  <section class="section inked inked--green halftone">
+  <!-- ══ who — the لاجوردی block ══════════════════════════════════════════ -->
+  <section class="section inked--cool halftone">
     <div class="wrap who">
       <div>
         <h2 class="section__head">آقا جاسم کیه؟</h2>
@@ -364,49 +258,69 @@
         </p>
       </div>
       <div class="who__things">
-        <p class="starburst">ارزون!</p>
+        <p class="starburst" data-depth="0.10">ارزون!</p>
         <div class="who__objects" aria-hidden="true">
-          <svg viewBox="0 0 64 64"><use href="#jsm-hat"/></svg>
-          <svg viewBox="0 0 64 64"><use href="#jsm-tasbih"/></svg>
-          <svg viewBox="0 0 64 64"><use href="#jsm-estekan"/></svg>
-          <svg viewBox="0 0 64 64"><use href="#jsm-zanbil"/></svg>
+          <svg viewBox="0 0 64 64" data-depth="0.05"><use href="./assets/icon/objects.svg#jsm-hat"/></svg>
+          <svg viewBox="0 0 64 64" data-depth="0.12"><use href="./assets/icon/objects.svg#jsm-nooshabe"/></svg>
+          <svg viewBox="0 0 64 64" data-depth="0.08"><use href="./assets/icon/objects.svg#jsm-radio"/></svg>
+          <svg viewBox="0 0 64 64" data-depth="0.15"><use href="./assets/icon/objects.svg#jsm-hendevaneh"/></svg>
+          <svg viewBox="0 0 64 64" data-depth="0.06"><use href="./assets/icon/objects.svg#jsm-televizion"/></svg>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ honesty — the part nobody else prints ═════════════════════════════ -->
+  <!-- ══ the second chant, لاجوردی cut ════════════════════════════════════ -->
+  <aside class="chant chant--cool" aria-label="گرون نخر. کلاه سرت نره. آقا جاسم هست.">
+    <div class="chant__track chant__track--rev" aria-hidden="true">
+      <span>گرون نخر ٭ کلاه سرت نره ٭ آقا جاسم هست ٭ تاریخش‌و نگاه کن ٭ </span
+      ><span>گرون نخر ٭ کلاه سرت نره ٭ آقا جاسم هست ٭ تاریخش‌و نگاه کن ٭ </span>
+    </div>
+  </aside>
+
+  <!-- ══ honesty — the part nobody else prints ════════════════════════════ -->
   <section class="section">
     <div class="wrap">
       <h2 class="section__head">سرت شیره نمی‌ماله</h2>
       <ul class="oaths">
         <li class="oath">
-          <span class="oath__mark" aria-hidden="true">٭</span>
+          <svg class="oath__tick" viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M4 15 C7 17 9.5 20 11 22 C14 15 20 8 25 5"/>
+          </svg>
           اگه مطمئن نباشه همون جنسیه که خواستی، می‌گه «مطمئن نیستم». یه جنسِ
           ارزونِ اشتباه، از یه «نبودِ» راست گرون‌تر درمی‌آد.
         </li>
         <li class="oath">
-          <span class="oath__mark" aria-hidden="true">٭</span>
+          <svg class="oath__tick" viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M4 15 C7 17 9.5 20 11 22 C14 15 20 8 25 5"/>
+          </svg>
           تاریخ انقضا رو قبل از قیمت نگاه می‌کنه. شیری که فردا خراب می‌شه،
           ارزون نیست.
         </li>
         <li class="oath">
-          <span class="oath__mark" aria-hidden="true">٭</span>
+          <svg class="oath__tick" viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M4 15 C7 17 9.5 20 11 22 C14 15 20 8 25 5"/>
+          </svg>
           هیچ‌جا نبود؟ می‌گه نبود. «نبود» خطا نیست — دروغش خطاست.
         </li>
       </ul>
     </div>
   </section>
 
-  <!-- ══ download — the coupon ═════════════════════════════════════════════ -->
+  <!-- ══ download — the coupon, with a scratch-off panel ══════════════════ -->
   <section class="section section--tight" id="download">
     <div class="wrap">
-      <div class="ticket">
+      <div class="ticket sheet">
         <div class="ticket__head">
           <h2 class="ticket__title">بنِ دانلود</h2>
           <p class="ticket__meta">رایگان · بدون قرعه‌کشی · <span class="ltr" dir="ltr">APK</span></p>
         </div>
         <div class="ticket__body">
+          <!-- Scratching honestly reveals «به‌زودی»; without JS it is printed. -->
+          <div class="scratch">
+            <p class="scratch__prize">به‌زودی</p>
+            <canvas class="scratch__foil" aria-hidden="true"></canvas>
+          </div>
           <div class="stores"><span class="store" aria-disabled="true"><span class="store__name">کافه بازار</span><span class="store__note">اندروید</span><span class="store__soon">به‌زودی</span></span>
         <span class="store" aria-disabled="true"><span class="store__name">مایکت</span><span class="store__note">اندروید</span><span class="store__soon">به‌زودی</span></span>
         <span class="store" aria-disabled="true"><span class="store__name">دانلود مستقیم</span><span class="store__note">فایل APK</span><span class="store__soon">به‌زودی</span></span></div>
@@ -423,38 +337,37 @@
 <!-- ══ colophon ═══════════════════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="wrap footer__inner">
-    <div class="footer__objects" aria-hidden="true">
-      <svg viewBox="0 0 64 64"><use href="#jsm-hat"/></svg>
-      <svg viewBox="0 0 64 64"><use href="#jsm-tasbih"/></svg>
-      <svg viewBox="0 0 64 64"><use href="#jsm-estekan"/></svg>
-      <svg viewBox="0 0 64 64"><use href="#jsm-zanbil"/></svg>
+    <div class="footer__objects">
+      <button class="footer__hat" type="button" id="hat" aria-label="کلاه آقا جاسم">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-hat"/></svg>
+      </button>
+      <!-- Inlined, not <use>d: a shadow tree cannot be animated from outside. -->
+      <svg class="footer__fan" viewBox="0 0 64 64" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="3"
+           stroke-linejoin="round" stroke-linecap="round">
+          <circle cx="32" cy="27" r="19"/>
+          <g class="fan__blades" fill="currentColor" stroke-width="2.4">
+            <path d="M32 27 Q22 15 30 10 Q37 13 32 27 Z"/>
+            <path d="M32 27 Q17 30 18 39 Q25 43 32 27 Z"/>
+            <path d="M32 27 Q45 35 46 27 Q44 19 32 27 Z"/>
+          </g>
+          <circle cx="32" cy="27" r="3.4" fill="currentColor" stroke="none"/>
+          <path d="M32 46 V52"/>
+          <path d="M20 58 Q32 52 44 58 Z" fill="currentColor"/>
+        </g>
+      </svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-estekan"/></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-zanbil"/></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="./assets/icon/objects.svg#jsm-darbutri"/></svg>
     </div>
     <p>آقا جاسم · <span class="ltr" dir="ltr">aghajasem.ir</span></p>
     <p class="footer__press">چاپِ محله · هر روز، سرِ صبح</p>
   </div>
 </footer>
 
-<!-- The one orchestrated moment: the stamp lands when the ledger is actually
-     on screen, not on a timer racing the scroll position. Without JS the
-     animations simply run on load, exactly as before. -->
-<script>
-(function () {
-  var root = document.documentElement;
-  if (!("IntersectionObserver" in window)) return;
-  root.classList.add("js");
-  var ledger = document.querySelector(".ledger");
-  if (!ledger) return;
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        ledger.classList.add("is-inked");
-        io.disconnect();
-      }
-    });
-  }, { threshold: 0.5 });
-  io.observe(ledger);
-})();
-</script>
+<!-- app.js is a module: browsers that cannot load it never get the .js
+     class, so nothing hides waiting for script that will not arrive. -->
+<script type="module" src="./assets/js/app.js"></script>
 
 </body>
 </html>

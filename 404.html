@@ -23,13 +23,28 @@
                 font-size: clamp(6rem, 30vw, 14rem);
                 line-height: .8; color: var(--jsm-color-ink-shangarf); }
   .lost__msg { font-size: clamp(1.0625rem, 3vw, 1.375rem); max-inline-size: 34ch; }
-  .lost__obj { inline-size: 72px; color: var(--jsm-color-poster-fg-muted); }
+  .lost__mark { inline-size: 64px; }
+  /* The desk fan turns while he is out looking. Blades only — the cage and
+     base never move. Reduced motion parks it via base.css. */
+  .lost__fan { inline-size: 72px; color: var(--jsm-color-poster-fg-muted); }
 </style>
 </head>
 <body>
   <main class="lost">
-    <svg class="lost__obj" viewBox="0 0 64 64" aria-hidden="true">
-      <use href="/assets/icon/objects.svg#jsm-zanbil"/>
+    <img class="lost__mark logo" src="/assets/logo/jasem-mark.svg" alt="" width="64" height="64">
+    <svg class="lost__fan" viewBox="0 0 64 64" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="3"
+         stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="32" cy="27" r="19"/>
+        <g class="fan__blades" fill="currentColor" stroke-width="2.4">
+          <path d="M32 27 Q22 15 30 10 Q37 13 32 27 Z"/>
+          <path d="M32 27 Q17 30 18 39 Q25 43 32 27 Z"/>
+          <path d="M32 27 Q45 35 46 27 Q44 19 32 27 Z"/>
+        </g>
+        <circle cx="32" cy="27" r="3.4" fill="currentColor" stroke="none"/>
+        <path d="M32 46 V52"/>
+        <path d="M20 58 Q32 52 44 58 Z" fill="currentColor"/>
+      </g>
     </svg>
     <p class="lost__code misregister">
       <span class="ghost" aria-hidden="true">۴۰۴</span>۴۰۴

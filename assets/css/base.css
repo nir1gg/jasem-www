@@ -23,6 +23,9 @@ h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol {
 
 ul, ol { list-style: none; }
 
+/* Author display values beat the UA [hidden] rule; restore its authority. */
+[hidden] { display: none !important; }
+
 img, svg { max-width: 100%; display: block; }
 
 a { color: inherit; }

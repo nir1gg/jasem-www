@@ -1,0 +1,13 @@
+/*  آقا جاسم — WebGL wall layer.
+ *
+ *  Injected by app.js only when the scene actually loads, so none of this is
+ *  render-blocking. The static paint (.wall backgrounds) lives in site.css and
+ *  is the wall for everyone the gates exclude.
+ */
+
+/*  While the scene runs, the painted CSS sheets step back so the two walls do
+ *  not fight; the canvas fades up over them (.wall--on is set by wall.js). */
+.wall.wall--on::after  { opacity: 0.1; }
+.wall.wall--on::before { opacity: 0.12; }
+
+.wall canvas { will-change: transform; }
