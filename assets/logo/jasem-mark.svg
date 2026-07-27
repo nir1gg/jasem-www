@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="آقا جاسم">
+  <title>آقا جاسم</title>
+  <!--
+    The mark is the کلاه مخملی inside a matchbox-label frame: heavy keyline,
+    inset double rule, one naive figurative subject. That is how کبریت توکلی
+    labels were built, and it is the reason this reads as printed rather than
+    as a modern app glyph.
+
+    The hat, not a shopping bag or a price tag: a flat cap would read British,
+    but the velvet hat is the جاهل of Film-Farsi and carries the whole
+    backstory — cheeky, has a code, delivers — in a single silhouette.
+  -->
+  <rect width="120" height="120" rx="10" fill="#D93A1F"/>
+  <rect x="5" y="5" width="110" height="110" rx="6" fill="none"
+        stroke="#1C1712" stroke-width="4"/>
+  <rect x="12.5" y="12.5" width="95" height="95" rx="3" fill="none"
+        stroke="#1C1712" stroke-width="1.6" opacity="0.75"/>
+  <g transform="translate(60 62) scale(1.42) translate(-32 -32)" fill="#E6E0CE">
+    <path d="M20 40 L20.5 25 Q21 16 32 16 Q43 16 43.5 25 L44 40 Z"/>
+    <path d="M6 43.5 Q32 53 58 43.5 Q32 36.5 6 43.5 Z"/>
+    <path d="M19 32.4 H45 v4.4 H19 Z" fill="#D93A1F"/>
+    <path d="M26.6 18.2 Q32 21.4 37.4 18.2" fill="none" stroke="#D93A1F"
+          stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+</svg>

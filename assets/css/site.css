@@ -1,0 +1,403 @@
+/*  آقا جاسم — landing page.
+ *
+ *  Every colour and measurement comes from build/tokens.css. If a value is
+ *  hardcoded here it is a bug; the one exception is the halftone dot geometry,
+ *  which is a gradient recipe rather than a token.
+ *
+ *  The era devices that make this read as print rather than as flat design:
+ *  a keyline on every shape, double rule frames, coarse countable halftone,
+ *  misregistration on headings, starburst badges, and density.
+ */
+
+/* ══ layout ═══════════════════════════════════════════════════════════════ */
+
+.wrap {
+  inline-size: min(1100px, 100% - 2 * var(--jsm-space-4));
+  margin-inline: auto;
+}
+
+.section { padding-block: var(--jsm-space-16); }
+.section--tight { padding-block: var(--jsm-space-12); }
+
+/* ══ era devices ══════════════════════════════════════════════════════════ */
+
+/*  The newspaper-ad double frame: heavy keyline, second rule inset inside it. */
+.frame {
+  position: relative;
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  padding: var(--jsm-space-6);
+  background: var(--jsm-color-poster-bg-canvas);
+}
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1.5px solid var(--jsm-color-poster-line-frame);
+  pointer-events: none;
+}
+.frame--thick { border-width: var(--jsm-metric-frame-rule); }
+
+/*  Coarse countable halftone — ~35 lpi dots, not noise. */
+.halftone { position: relative; isolation: isolate; }
+.halftone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(
+    currentColor calc(var(--jsm-metric-halftone) / 4),
+    transparent calc(var(--jsm-metric-halftone) / 4)
+  );
+  background-size: var(--jsm-metric-halftone) var(--jsm-metric-halftone);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/*  Cheap two-colour printing never lined up. Headings only — on body text this
+ *  is just blurry. The ghost is decorative and aria-hidden in the markup. */
+.misregister {
+  position: relative;
+  display: inline-block;   /* must hug the text, or the ghost drifts to the
+                              container edge and reads as a second word */
+}
+.misregister > .ghost {
+  position: absolute;
+  inset-block-start: var(--jsm-metric-misregister);
+  inset-inline-start: calc(var(--jsm-metric-misregister) * -1);
+  white-space: nowrap;
+  color: var(--jsm-color-ink-surati);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+}
+
+/*  «ارزون!» — the spiky rosette that was on every era price ad. */
+.starburst {
+  --pts:
+    polygon(50% 0%, 60% 12%, 74% 5%, 78% 20%, 93% 19%, 90% 34%, 100% 44%,
+            89% 53%, 96% 66%, 82% 71%, 83% 86%, 68% 82%, 61% 96%, 50% 86%,
+            39% 96%, 32% 82%, 17% 86%, 18% 71%, 4% 66%, 11% 53%, 0% 44%,
+            10% 34%, 7% 19%, 22% 20%, 26% 5%, 40% 12%);
+  clip-path: var(--pts);
+  display: grid;
+  place-items: center;
+  inline-size: 116px;
+  aspect-ratio: 1;
+  background: var(--jsm-color-ink-limu);
+  color: var(--jsm-color-ink-morakkab);
+  font-family: var(--jsm-font-family-display);
+  font-size: var(--jsm-font-size-xl);
+  line-height: 1;
+  text-align: center;
+  rotate: -12deg;
+}
+
+/* ══ masthead ═════════════════════════════════════════════════════════════ */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--jsm-space-4);
+  padding-block: var(--jsm-space-4);
+  border-block-end: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+}
+.masthead__logo { inline-size: clamp(140px, 26vw, 200px); }
+.masthead__logo svg { inline-size: 100%; height: auto; color: var(--jsm-color-poster-fg-primary); }
+.masthead__tag {
+  font-size: var(--jsm-font-size-xs);
+  letter-spacing: var(--jsm-letter-spacing-micro);
+  color: var(--jsm-color-poster-fg-secondary);
+  text-align: end;
+}
+
+/* ══ hero ═════════════════════════════════════════════════════════════════ */
+
+.hero { padding-block: var(--jsm-space-10) var(--jsm-space-12); }
+
+.hero__title {
+  font-family: var(--jsm-font-family-poster);
+  font-size: clamp(3.5rem, 17vw, 8.5rem);
+  line-height: var(--jsm-line-height-poster);
+  margin-block-end: var(--jsm-space-4);
+}
+.hero__lede {
+  font-size: clamp(1.0625rem, 2.4vw, 1.375rem);
+  max-inline-size: 46ch;
+  color: var(--jsm-color-poster-fg-primary);
+  margin-block-end: var(--jsm-space-6);
+}
+
+/* ══ the ledger — دفتر نسیه, the signature element ════════════════════════ */
+
+.ledger {
+  position: relative;
+  background: var(--jsm-color-poster-bg-canvas);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--jsm-metric-rule-pitch) - 1px),
+    var(--jsm-tint-nili-20) calc(var(--jsm-metric-rule-pitch) - 1px),
+    var(--jsm-tint-nili-20) var(--jsm-metric-rule-pitch)
+  );
+  background-position-y: var(--jsm-space-4);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  padding: var(--jsm-space-4) var(--jsm-space-4) var(--jsm-space-6);
+}
+/* The vertical margin rule of a ledger page. */
+.ledger::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 3.25rem;
+  inline-size: var(--jsm-metric-margin-rule);
+  background: var(--jsm-color-poster-line-margin);
+  opacity: 0.75;
+}
+.ledger__inner { padding-inline-start: var(--jsm-space-12); }
+
+/*  The errand, as the resident wrote it. Set in type with an ink-bleed filter
+ *  and a slight rotation rather than true hand-lettering — see the note in
+ *  brand/05-typography.md. It reads as pen on paper without pretending. */
+.ledger__note {
+  color: var(--jsm-color-ink-nili);
+  font-size: clamp(1rem, 2.6vw, 1.375rem);
+  line-height: var(--jsm-metric-rule-pitch);
+  rotate: -0.6deg;
+  filter: url("#jsm-ink");
+  margin-block-end: var(--jsm-space-2);
+}
+
+.ledger__rows { display: grid; }
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--jsm-space-3);
+  /* Snap to the ruling so text sits ON the lines, not between them. */
+  block-size: calc(var(--jsm-metric-rule-pitch) * 2);
+  padding-inline: var(--jsm-space-2);
+  position: relative;
+}
+.row__name {
+  font-family: var(--jsm-font-family-display);
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+}
+.row__items {
+  display: block;
+  font-size: var(--jsm-font-size-xs);
+  color: var(--jsm-color-poster-fg-secondary);
+  line-height: 1.4;
+}
+.row__price {
+  font-weight: var(--jsm-font-weight-bold);
+  font-size: clamp(1.125rem, 3.4vw, 1.5rem);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.row--win .row__price { color: var(--jsm-color-ink-sabz); }
+
+/*  The red pencil circle. An open path with an overshoot where the pencil
+ *  crossed its own start — nobody draws a closed ellipse by hand. */
+.row__circle {
+  position: absolute;
+  inset-block-start: 8%;
+  inset-inline-start: 1%;
+  /* Both dimensions must be explicit. An <svg> is a replaced element with an
+     intrinsic ratio from its viewBox, so with width/height auto the ratio wins
+     over the insets and the box grows past the row. */
+  inline-size: 98%;
+  block-size: 84%;
+  color: var(--jsm-color-poster-stamp-pencil);
+  pointer-events: none;
+  overflow: visible;
+}
+.row__circle path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;  /* the box is stretched non-uniformly;
+                                         without this the stroke stretches too */
+  stroke-linecap: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: jsm-draw var(--jsm-motion-duration-draw)
+             var(--jsm-motion-easing-decelerate) 0.5s forwards;
+}
+@keyframes jsm-draw { to { stroke-dashoffset: 0; } }
+
+/*  The stamp. The only poster element allowed through into the product UI,
+ *  because it is the moment of truth. */
+.stamp {
+  position: absolute;
+  inset-inline-start: 34%;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: var(--jsm-space-1) var(--jsm-space-4) 0;
+  background: var(--jsm-color-poster-stamp-plate);
+  color: var(--jsm-color-poster-stamp-ink);
+  border-radius: var(--jsm-radius-stamp);
+  font-family: var(--jsm-font-family-poster);
+  font-size: 1.75rem;
+  line-height: 1.2;
+  rotate: -7deg;
+  filter: url("#jsm-ink");
+  animation: jsm-slam var(--jsm-motion-duration-stamp)
+             var(--jsm-motion-easing-slam) 0.75s backwards;
+}
+/* Misregistered second impression. */
+.stamp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  translate: 2px 2px;
+  background: var(--jsm-color-poster-stamp-ghost);
+  mix-blend-mode: multiply;
+  border-radius: inherit;
+  z-index: -1;
+}
+@keyframes jsm-slam {
+  from { scale: 1.6; rotate: -14deg; opacity: 0; }
+  to   { scale: 1;   rotate: -7deg;  opacity: 1; }
+}
+
+/* ══ ink blocks ═══════════════════════════════════════════════════════════ */
+
+/*  At least one full-bleed ink section per poster page. An all-paper page,
+ *  however nicely set, is the cream cliché. */
+.inked {
+  background: var(--jsm-color-poster-bg-inked);
+  color: var(--jsm-color-poster-fg-on-inked);
+  border-block: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+}
+.inked--green { background: var(--jsm-color-poster-bg-inked-alt); }
+
+.section__head {
+  font-family: var(--jsm-font-family-display);
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  line-height: var(--jsm-line-height-tight);
+  margin-block-end: var(--jsm-space-6);
+}
+
+/* ══ steps ════════════════════════════════════════════════════════════════ */
+
+.steps {
+  display: grid;
+  gap: var(--jsm-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.step {
+  border: var(--jsm-metric-keyline) solid currentColor;
+  padding: var(--jsm-space-5);
+  display: grid;
+  gap: var(--jsm-space-3);
+  align-content: start;
+}
+.step__obj { inline-size: 56px; height: 56px; }
+.step__title {
+  font-family: var(--jsm-font-family-display);
+  font-size: var(--jsm-font-size-xl);
+  line-height: var(--jsm-line-height-snug);
+}
+.step__body { font-size: var(--jsm-font-size-sm); }
+
+/* ══ platform chips ═══════════════════════════════════════════════════════ */
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--jsm-space-3); }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--jsm-space-2);
+  padding: var(--jsm-space-2) var(--jsm-space-4);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  background: var(--jsm-color-poster-bg-canvas);
+  color: var(--jsm-color-poster-fg-primary);
+  font-size: var(--jsm-font-size-sm);
+  font-weight: var(--jsm-font-weight-medium);
+}
+/* Platform marks are ≤24px and never take a card background —
+   see brand/09-third-party-brands.md. */
+.chip__mark { inline-size: 20px; height: 20px; }
+
+/* ══ download ═════════════════════════════════════════════════════════════ */
+
+.stores {
+  display: grid;
+  gap: var(--jsm-space-3);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.store {
+  display: grid;
+  gap: 2px;
+  padding: var(--jsm-space-4) var(--jsm-space-5);
+  border: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  background: var(--jsm-color-poster-action-bg);
+  color: var(--jsm-color-poster-action-fg);
+  text-decoration: none;
+  box-shadow: var(--jsm-shadow-hard);
+  transition: translate var(--jsm-motion-duration-instant) var(--jsm-motion-easing-standard),
+              box-shadow var(--jsm-motion-duration-instant) var(--jsm-motion-easing-standard);
+}
+.store:hover, .store:focus-visible { translate: 0 3px; box-shadow: 0 1px 0 var(--jsm-color-ink-morakkab); }
+.store__name { font-family: var(--jsm-font-family-display); font-size: var(--jsm-font-size-xl); line-height: 1.2; }
+.store__note { font-size: var(--jsm-font-size-xs); opacity: 0.8; }
+
+.store[aria-disabled="true"] {
+  background: var(--jsm-color-poster-action-disabled-bg);
+  color: var(--jsm-color-poster-action-disabled-fg);
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.store__soon {
+  font-size: var(--jsm-font-size-xs);
+  font-weight: var(--jsm-font-weight-bold);
+}
+
+/* ══ footer ═══════════════════════════════════════════════════════════════ */
+
+.footer {
+  border-block-start: var(--jsm-metric-keyline) solid var(--jsm-color-poster-line-keyline);
+  padding-block: var(--jsm-space-8);
+  font-size: var(--jsm-font-size-xs);
+  color: var(--jsm-color-poster-fg-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--jsm-space-4);
+  justify-content: space-between;
+  align-items: center;
+}
+.footer__objects { display: flex; gap: var(--jsm-space-3); color: var(--jsm-color-poster-fg-muted); }
+.footer__objects svg { inline-size: 30px; height: 30px; }
+
+/* ══ narrow ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .section { padding-block: var(--jsm-space-10); }
+  .ledger__inner { padding-inline-start: var(--jsm-space-8); }
+  .ledger::before { inset-inline-start: 2rem; }
+  .row { block-size: auto; padding-block: var(--jsm-space-3); }
+  /* Narrow rows stack: name over price, both aligned to the start edge. That
+     frees the whole end side for the stamp — putting it at inset-inline-end on
+     a side-by-side row lands it straight on the price, which is the one thing
+     that must never be obscured. */
+  .row {
+    grid-template-columns: 1fr;
+    block-size: auto;
+    row-gap: var(--jsm-space-1);
+    padding-block: var(--jsm-space-3) var(--jsm-space-4);
+  }
+  .row__price { justify-self: start; }
+  .stamp {
+    font-size: 1.25rem;
+    inset-inline-start: auto;
+    inset-inline-end: var(--jsm-space-1);
+    inset-block-start: 50%;
+  }
+  .row__circle { inset-block-start: 4%; block-size: 92%; }
+  .starburst { inline-size: 92px; font-size: var(--jsm-font-size-md); }
+}
