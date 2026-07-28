@@ -501,7 +501,9 @@ function buildCinema() {
   cinema.className = "cinema";
   cinema.setAttribute("aria-hidden", "true");
   const parts = {};
-  for (const name of ["vignette", "grain", "bloom", "seam", "cut", "frame"]) {
+  for (const name of [
+    "vignette", "grain", "bloom", "raster", "beam", "seam", "cut", "frame",
+  ]) {
     const part = document.createElement("i");
     part.className = `cinema__${name}`;
     cinema.appendChild(part);
@@ -536,6 +538,18 @@ if (!reduced) {
     film.bloom.style.opacity = (amount * 0.58).toFixed(3);
     film.bloom.style.transform =
       `translate3d(0, ${(direction * (7 - amount * 3)).toFixed(2)}%, 0) scaleY(${(0.8 + amount * 0.32).toFixed(3)})`;
+    /* Raster motion is deliberately quantized to whole phosphor cells. */
+    const row = coarse ? 7 : 6;
+    const pixel = coarse ? 6 : 4;
+    const rasterX = direction * Math.round(amount * 2) * pixel;
+    const rasterY = Math.round((scrollY % row) - row / 2);
+    film.raster.style.opacity = (amount * (coarse ? 0.48 : 0.4)).toFixed(3);
+    film.raster.style.transform =
+      `translate3d(${rasterX}px, ${rasterY}px, 0) scale(1.02)`;
+    const beamTravel = innerHeight + 72;
+    const beamY = Math.floor(((scrollY * (coarse ? 1.15 : 0.82)) % beamTravel) / row) * row;
+    film.beam.style.opacity = (amount * 0.7).toFixed(3);
+    film.beam.style.transform = `translate3d(0, ${beamY}px, 0)`;
     film.seam.style.opacity = Math.max(0, (amount - 0.08) * 0.72).toFixed(3);
     const travel = innerHeight + 90;
     film.seam.style.transform =

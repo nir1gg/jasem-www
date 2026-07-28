@@ -169,6 +169,58 @@ html.js .hero__wrap :is(a, button, .hero__banner > span, .hero__stencil, .sheet-
   will-change: transform, opacity;
 }
 
+/*  A 16-bit raster wakes only while the page moves. The first gradient cuts
+ *  the image into scan rows; the second lays a coarse RGB phosphor triad over
+ *  each row. app.js shifts the whole plate in integer pixels, so the grid
+ *  snaps like console video rather than swimming like a smooth texture. */
+.cinema__raster {
+  inset: -12px;
+  background-image:
+    repeating-linear-gradient(180deg,
+      transparent 0 2px,
+      var(--jsm-color-ink-morakkab) 2px 3px,
+      transparent 3px 6px),
+    repeating-linear-gradient(90deg,
+      var(--jsm-color-ink-shangarf) 0 1px,
+      transparent 1px 2px,
+      var(--jsm-color-ink-sabz) 2px 3px,
+      var(--jsm-color-ink-lajvardi) 3px 4px);
+  background-size: 100% 6px, 4px 100%;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(1.02);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/*  The beam is the row currently being rendered. Its pixel ladder travels in
+ *  quantized steps and leaves short colored scan rows above and below it. */
+.cinema__beam {
+  inset-inline: -4%;
+  inset-block-start: -72px;
+  block-size: 72px;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 4px,
+      var(--jsm-color-ink-limu) 4px 6px,
+      transparent 6px 10px),
+    repeating-linear-gradient(180deg,
+      transparent 0 5px,
+      var(--jsm-color-ink-shangarf) 5px 6px,
+      transparent 6px 11px),
+    linear-gradient(180deg,
+      transparent,
+      var(--jsm-color-ink-sabz) 42%,
+      var(--jsm-color-ink-kaghaz) 49% 52%,
+      var(--jsm-color-ink-limu) 58%,
+      transparent);
+  background-blend-mode: screen;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
 /* A frame seam traverses the screen with scroll instead of degrading type. */
 .cinema__seam {
   inset-inline: 0;
@@ -241,6 +293,13 @@ html.js .hero__wrap :is(a, button, .hero__banner > span, .hero__stencil, .sheet-
   }
   .cinema__frame { inset: 2px; }
   .cinema__grain { background-size: 11px 13px, 15px 17px; }
+  .cinema__raster {
+    background-size: 100% 7px, 6px 100%;
+  }
+  .cinema__beam {
+    inset-block-start: -64px;
+    block-size: 64px;
+  }
   .cinema__cut { inset-inline-start: 34%; inline-size: 32%; }
 }
 
@@ -249,6 +308,8 @@ html.js .hero__wrap :is(a, button, .hero__banner > span, .hero__stencil, .sheet-
   .cinema__frame { opacity: 0.24 !important; }
   .cinema__grain { opacity: 0.025 !important; transform: none !important; }
   .cinema__bloom,
+  .cinema__raster,
+  .cinema__beam,
   .cinema__seam,
   .cinema__cut { display: none; }
 }
