@@ -9,6 +9,15 @@
  *  devices. Decoration must never tax the people who can least afford it.
  */
 
+/* Analytics is deferred with the behaviour module instead of inflating the
+ * critical HTML. This is PostHog's queueing bootstrap; the SDK stays async. */
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog&&window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ji Yi init fn mn Hr pn bn cn capture calculateEventProperties Sn register register_once register_for_session unregister unregister_for_session In getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync Mn identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Cn xn createPersonProfile setInternalOrTestUser Tn hn Pn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug Ur wt getPageViewId captureTraceFeedback captureTraceMetric an".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+window.posthog.init("phc_kJbr7zje6hXYZ6iqzGRzAx5gmEnuRtKxEZjobepA4iLk", {
+  api_host: "https://eu.i.posthog.com",
+  defaults: "2026-05-30",
+  person_profiles: "always",
+});
+
 const root = document.documentElement;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -481,77 +490,100 @@ if (nobat) {
   });
 }
 
-/* ── CRT scroll: the page re-renders coarse while it moves ──────────────── */
+/* ── cinema scroll: the wall runs through a 1960s film gate ─────────────── */
 
-/*  Old tube logic: while the page scrolls fast the beam cannot keep up, so
- *  the whole print drops to a coarse dot grid; stop, and it resolves back in
- *  steps, not a fade. The tile size follows scroll velocity. The filter is a
- *  JS-only device, so it is built here, not shipped in the critical HTML.
- *  Skipped for reduced motion and for the devices that can least afford a
- *  full-page filter — same doctrine as the wall. */
-function buildCrtFilter() {
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("width", "0");
-  svg.setAttribute("height", "0");
-  svg.setAttribute("aria-hidden", "true");
-  svg.style.position = "absolute";
-  const filter = document.createElementNS(NS, "filter");
-  filter.id = "jsm-crt";
-  filter.setAttribute("color-interpolation-filters", "sRGB");
-  /* Dot-grid samples the page; dilate rebuilds each sample as a block. */
-  for (const [tag, attrs] of [
-    ["feFlood",      { x: 2, y: 2, width: 2, height: 2 }],
-    ["feComposite",  { width: 8, height: 8 }],
-    ["feTile",       { result: "grid" }],
-    ["feComposite",  { in: "SourceGraphic", in2: "grid", operator: "in" }],
-    ["feMorphology", { operator: "dilate", radius: 4 }],
-  ]) {
-    const el = document.createElementNS(NS, tag);
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    filter.appendChild(el);
+/*  The page itself stays untouched and sharp. Fixed, pointer-transparent
+ *  plates create the moving shutter, exposure bloom, film seam, and dust;
+ *  only transform and opacity change, which keeps Safari and phones on the
+ *  compositor instead of repainting the full document through an SVG filter. */
+function buildCinema() {
+  const cinema = document.createElement("div");
+  cinema.className = "cinema";
+  cinema.setAttribute("aria-hidden", "true");
+  const parts = {};
+  for (const name of ["vignette", "grain", "bloom", "seam", "cut", "frame"]) {
+    const part = document.createElement("i");
+    part.className = `cinema__${name}`;
+    cinema.appendChild(part);
+    parts[name] = part;
   }
-  svg.appendChild(filter);
-  document.body.appendChild(svg);
-  return filter;
+  for (const edge of ["top", "bottom"]) {
+    const bar = document.createElement("i");
+    bar.className = `cinema__bar cinema__bar--${edge}`;
+    cinema.appendChild(bar);
+    parts[edge] = bar;
+  }
+  document.body.appendChild(cinema);
+  return { cinema, ...parts };
 }
 
-if (!reduced &&
-    !(navigator.connection || {}).saveData &&
-    (navigator.deviceMemory ?? 8) >= 4) {
-  const crt = buildCrtFilter();
-  const flood = crt.querySelector("feFlood");
-  const tile  = crt.querySelector("feComposite");
-  const morph = crt.querySelector("feMorphology");
-  let px = 0, lastY = scrollY, lastT = performance.now(), vel = 0, settle = 0;
+const film = buildCinema();
 
-  const resample = (n) => {
-    if (n === px) return;
-    px = n;
-    if (!n) { root.classList.remove("crt"); return; }
-    flood.setAttribute("x", n / 4);
-    flood.setAttribute("y", n / 4);
-    flood.setAttribute("width", n / 4);
-    flood.setAttribute("height", n / 4);
-    tile.setAttribute("width", n);
-    tile.setAttribute("height", n);
-    morph.setAttribute("radius", n / 2);
-    root.classList.add("crt");
+if (!reduced) {
+  const coarse = matchMedia("(pointer: coarse)").matches;
+  let lastY = scrollY, lastT = performance.now();
+  let target = 0, energy = 0, direction = 1, raf = 0;
+
+  const expose = (amount) => {
+    const shutter = 0.07 + amount * 0.88;
+    film.top.style.transform = `scaleY(${shutter.toFixed(3)})`;
+    film.bottom.style.transform = `scaleY(${shutter.toFixed(3)})`;
+    film.vignette.style.opacity = (0.18 + amount * 0.52).toFixed(3);
+    film.frame.style.opacity = (0.32 + amount * 0.48).toFixed(3);
+    film.grain.style.opacity = (0.035 + amount * 0.105).toFixed(3);
+    film.grain.style.transform =
+      `translate3d(${((scrollY % 7) - 3).toFixed(1)}px, ${((scrollY * 0.37 % 9) - 4).toFixed(1)}px, 0) scale(1.03)`;
+    film.bloom.style.opacity = (amount * 0.58).toFixed(3);
+    film.bloom.style.transform =
+      `translate3d(0, ${(direction * (7 - amount * 3)).toFixed(2)}%, 0) scaleY(${(0.8 + amount * 0.32).toFixed(3)})`;
+    film.seam.style.opacity = Math.max(0, (amount - 0.08) * 0.72).toFixed(3);
+    const travel = innerHeight + 90;
+    film.seam.style.transform =
+      `translate3d(0, ${((scrollY * 0.58) % travel).toFixed(1)}px, 0)`;
   };
-  const resolve = () => {                    /* step back down, CRT-style */
-    resample(px > 8 ? 8 : px > 4 ? 4 : 0);
-    if (px) settle = setTimeout(resolve, 90);
+
+  const project = () => {
+    target *= 0.84;
+    energy += (target - energy) * 0.24;
+    if (target < 0.003 && energy < 0.004) {
+      target = energy = 0;
+      expose(0);
+      raf = 0;
+      return;
+    }
+    expose(Math.min(1, energy));
+    raf = requestAnimationFrame(project);
   };
 
   addEventListener("scroll", () => {
     const now = performance.now();
-    vel = vel * 0.7 + (Math.abs(scrollY - lastY) / Math.max(now - lastT, 1)) * 0.3;
-    lastY = scrollY; lastT = now;
-    const want = vel > 2.4 ? 12 : vel > 1.2 ? 8 : vel > 0.5 ? 4 : 0;
-    if (want > px) resample(want);
-    clearTimeout(settle);
-    settle = setTimeout(resolve, 130);
+    const dy = scrollY - lastY;
+    const velocity = Math.abs(dy) / Math.max(now - lastT, 1);
+    if (dy) direction = Math.sign(dy);
+    lastY = scrollY;
+    lastT = now;
+    /* Touch scroll reports smaller deltas than a wheel, so it gets a more
+     * sensitive gate rather than a weaker version of the desktop effect. */
+    target = Math.max(target, Math.min(1, velocity / (coarse ? 0.52 : 0.95)));
+    if (!raf) raf = requestAnimationFrame(project);
   }, { passive: true });
+
+  /* Major sections are shots: crossing the narrow center gate flashes one
+   * warm film splice, then that shot is unobserved for the rest of the visit. */
+  film.cut.addEventListener("animationend", () => {
+    film.cinema.classList.remove("cinema--cut");
+  });
+  const cutIO = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      cutIO.unobserve(entry.target);
+      film.cinema.classList.remove("cinema--cut");
+      void film.cut.offsetWidth;
+      film.cinema.classList.add("cinema--cut");
+    }
+  }, { rootMargin: "-44% 0px -44% 0px", threshold: 0 });
+  document.querySelectorAll("main > :is(section, aside)")
+    .forEach((shot) => cutIO.observe(shot));
 }
 
 /* ── the WebGL wall, behind every gate ──────────────────────────────────── */

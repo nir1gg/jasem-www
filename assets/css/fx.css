@@ -98,13 +98,164 @@ html.js .hero__wrap :is(a, button, .hero__banner > span, .hero__stencil, .sheet-
   pointer-events: auto;
 }
 
-/* ══ CRT — the page pixelates while it scrolls ════════════════════════════ */
+/* ══ cinema gate — scroll moves through an old film projector ═════════════ */
 
-/*  Scroll fast and the whole print re-renders coarse, then resolves in
- *  steps — an old tube catching up with the beam. app.js drives the tile
- *  size on #jsm-crt and sets .crt on the root; fixed-position ephemera live
- *  directly under <body>, outside the filtered subtrees, on purpose. */
-html.crt body > :is(.nameplate, main, .footer) { filter: url(#jsm-crt); }
+/*  The former full-page SVG pixel filter was expensive and inconsistent in
+ *  Safari. These isolated fixed plates keep the print sharp and move only on
+ *  the compositor. app.js gives them velocity, direction, and scene cuts. */
+.cinema {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  contain: strict;
+  direction: ltr;
+  pointer-events: none;
+}
+.cinema > i {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+/* A quiet gate is always present; scrolling pulls the corners inward. */
+.cinema__vignette {
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 42%,
+    transparent 61%,
+    var(--jsm-color-ink-morakkab) 100%
+  );
+  opacity: 0.18;
+  will-change: opacity;
+}
+.cinema__frame {
+  inset: 4px;
+  border: 2px solid var(--jsm-color-ink-morakkab);
+  box-shadow: inset 0 0 0 1px var(--jsm-tint-morakkab-40);
+  opacity: 0.32;
+  will-change: opacity;
+}
+
+/* Countable dust rather than a blurred noise texture. The plate shifts a few
+ * pixels with the film and remains static while the page is still. */
+.cinema__grain {
+  inset: -12px;
+  color: var(--jsm-color-ink-morakkab);
+  background-image:
+    repeating-radial-gradient(circle at 18% 32%, currentColor 0 0.7px, transparent 0.9px 5px),
+    repeating-radial-gradient(circle at 72% 61%, currentColor 0 0.6px, transparent 0.8px 7px);
+  background-size: 9px 11px, 13px 15px;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  transform: translate3d(0, 0, 0) scale(1.03);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* Exposure blooms from the projector lamp as the film accelerates. */
+.cinema__bloom {
+  inset: -10%;
+  background:
+    radial-gradient(ellipse at 50% 106%, var(--jsm-color-ink-limu), transparent 54%),
+    linear-gradient(180deg,
+      var(--jsm-color-ink-narenji), transparent 28%, transparent 72%,
+      var(--jsm-color-ink-shangarf));
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scaleY(0.8);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* A frame seam traverses the screen with scroll instead of degrading type. */
+.cinema__seam {
+  inset-inline: 0;
+  inset-block-start: -18px;
+  block-size: 18px;
+  background: linear-gradient(180deg,
+    transparent,
+    var(--jsm-color-ink-morakkab) 43%,
+    var(--jsm-color-ink-limu) 48% 53%,
+    var(--jsm-color-ink-morakkab) 58%,
+    transparent);
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
+/* Each major section crossing the projector gate gets one warm splice. */
+.cinema__cut {
+  inset-block: -8%;
+  inset-inline-start: 39%;
+  inline-size: 22%;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--jsm-color-ink-shangarf) 32%,
+    var(--jsm-color-ink-limu) 50%,
+    var(--jsm-color-ink-narenji) 61%,
+    transparent 82%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translate3d(70vw, 0, 0) scaleX(0.35);
+  will-change: transform, opacity;
+}
+.cinema--cut .cinema__cut {
+  animation: jsm-film-cut 680ms var(--jsm-motion-easing-standard);
+}
+@keyframes jsm-film-cut {
+  0%   { opacity: 0;    transform: translate3d(70vw, 0, 0) scaleX(0.35); }
+  26%  { opacity: 0.58; }
+  52%  { opacity: 0.28; transform: translate3d(0, 0, 0) scaleX(1.2); }
+  100% { opacity: 0;    transform: translate3d(-70vw, 0, 0) scaleX(0.5); }
+}
+
+/* Film-gate shutters become letterbox bars under momentum. Registration
+ * dashes make the bars feel printed rather than like generic black chrome. */
+.cinema__bar {
+  inset-inline: 0;
+  block-size: 64px;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 13px,
+      var(--jsm-color-ink-kaghaz) 13px 17px,
+      transparent 17px 31px),
+    var(--jsm-color-ink-morakkab);
+  transform: scaleY(0.07);
+  will-change: transform;
+}
+.cinema__bar--top {
+  inset-block-start: 0;
+  transform-origin: center top;
+}
+.cinema__bar--bottom {
+  inset-block-end: 0;
+  transform-origin: center bottom;
+}
+
+@media (max-width: 720px) {
+  .cinema__bar {
+    block-size: 58px;
+    block-size: clamp(52px, 9svh, 72px);
+  }
+  .cinema__frame { inset: 2px; }
+  .cinema__grain { background-size: 11px 13px, 15px 17px; }
+  .cinema__cut { inset-inline-start: 34%; inline-size: 32%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinema__vignette { opacity: 0.1 !important; }
+  .cinema__frame { opacity: 0.24 !important; }
+  .cinema__grain { opacity: 0.025 !important; transform: none !important; }
+  .cinema__bloom,
+  .cinema__seam,
+  .cinema__cut { display: none; }
+}
+
+@media (prefers-contrast: more) {
+  .cinema { display: none; }
+}
 
 /* ══ ephemera — spray trail and confetti (nodes made by app.js) ═══════════ */
 
