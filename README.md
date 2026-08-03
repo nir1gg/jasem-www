@@ -2,5 +2,5 @@
 
 **Generated. Do not edit.**
 
-Every file here is published by `nir1gg/jasem-shenasnameh` and will be
+Every file here is published by `aghajasem/shenasnameh` and will be
 deleted on the next publish. Edit the source there.
