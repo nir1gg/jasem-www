@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شناسنامهٔ آقا جاسم — راهنمای طراحی</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="./assets/icon/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/css/tokens.css">
+<link rel="stylesheet" href="./assets/css/fonts.css">
+<link rel="stylesheet" href="./assets/css/base.css">
+<link rel="stylesheet" href="./assets/css/site.css">
+<style>
+  /*  This page holds no copy of the tokens — it fetches tokens.json and renders
+   *  itself from that, so it cannot drift from what actually ships. Change a hex
+   *  in primitives.toml, rebuild, reload: the swatch moves. That round trip is
+   *  the proof the whole pipeline is wired. */
+  body { background: var(--jsm-color-counter-bg-canvas); }
+  .sg { display: grid; gap: var(--jsm-space-10); padding-block: var(--jsm-space-8); }
+  .sg h2 {
+    font-family: var(--jsm-font-family-display);
+    font-size: var(--jsm-font-size-2xl);
+    border-block-end: var(--jsm-metric-keyline) solid var(--jsm-color-counter-line-keyline);
+    padding-block-end: var(--jsm-space-2);
+    margin-block-end: var(--jsm-space-4);
+  }
+  .sg h3 {
+    font-size: var(--jsm-font-size-sm);
+    letter-spacing: var(--jsm-letter-spacing-micro);
+    color: var(--jsm-color-counter-fg-secondary);
+    margin-block: var(--jsm-space-5) var(--jsm-space-2);
+  }
+  .grid { display: grid; gap: var(--jsm-space-3);
+          grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); }
+  .sw { border: var(--jsm-metric-keyline) solid var(--jsm-color-counter-line-keyline);
+        background: var(--jsm-color-counter-bg-surface); }
+  .sw__chip { block-size: 66px; border-block-end: 1px solid var(--jsm-color-counter-line-subtle); }
+  .sw__meta { padding: var(--jsm-space-2) var(--jsm-space-3); display: grid; gap: 1px; }
+  .sw__path { font-size: 11px; direction: ltr; text-align: left; word-break: break-all;
+              color: var(--jsm-color-counter-fg-primary); font-weight: 700; }
+  .sw__val  { font-size: 11px; direction: ltr; text-align: left;
+              color: var(--jsm-color-counter-fg-secondary); }
+  .sw__ratio { font-size: 11px; direction: ltr; text-align: left; }
+  .pass { color: var(--jsm-color-ink-sabz); } .fail { color: var(--jsm-color-ink-ajor); }
+  table { inline-size: 100%; border-collapse: collapse; font-size: var(--jsm-font-size-sm); }
+  th, td { text-align: start; padding: var(--jsm-space-2) var(--jsm-space-3);
+           border-block-end: 1px solid var(--jsm-color-counter-line-subtle); }
+  th { font-size: 11px; color: var(--jsm-color-counter-fg-secondary); font-weight: 500; }
+  td.v { direction: ltr; text-align: left; font-size: 12px; }
+  /* Card states, rendered from the domain tokens rather than restyled here. */
+  .cards { display: grid; gap: var(--jsm-space-3);
+           grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  .card { border: var(--jsm-metric-keyline) solid; padding: var(--jsm-space-4);
+          display: grid; gap: var(--jsm-space-1); position: relative; }
+  .card__plat { font-family: var(--jsm-font-family-display);
+                font-size: var(--jsm-font-size-lg); }
+  .card__state { font-size: var(--jsm-font-size-sm); }
+  .card__price { font-weight: 700; font-size: var(--jsm-font-size-xl);
+                 font-variant-numeric: tabular-nums; }
+  .card__key { font-size: 11px; direction: ltr; text-align: left; opacity: .55; }
+  .flagchip { display: inline-flex; gap: 6px; padding: 3px 10px; font-size: 12px;
+              inline-size: fit-content; border-radius: 999px; }
+  .objs { display: flex; flex-wrap: wrap; gap: var(--jsm-space-4); }
+  .objs figure { text-align: center; font-size: 11px; display: grid; gap: 6px; }
+  .objs svg { inline-size: 46px; block-size: 46px; }
+  .note { font-size: var(--jsm-font-size-sm); color: var(--jsm-color-counter-fg-secondary);
+          max-inline-size: 68ch; }
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<!--
+  آقا جاسم — the object set.
+
+  We do not draw his face. The identity is carried by his things, which is both
+  a design choice and an era-correct one: کبریت توکلی matchbox labels and shop
+  signage worked the same way, one naive figurative subject inside a heavy
+  keyline. Every symbol here is built on a 64×64 grid with a 3px stroke so they
+  keep the same weight when set beside each other.
+
+  Notes on specificity, because the generic version of each of these is wrong:
+    کلاه مخملی  not a flat cap. A flat cap reads British; the velvet hat is the
+                جاهل of Film-Farsi and carries the whole backstory in one shape.
+    هوندا ۱۲۵   not a Vespa. Upright commuter bike with a rear rack and a crate;
+                the rack is what makes the silhouette legible as an errand.
+    زنبیل حصیری  woven reed, not the plastic string bag — that one reads as a
+                housewife at the bazaar rather than as the man running errands.
+    قپان        a steelyard, not a two-pan balance. Same idea, less European.
+
+  Use: <svg class="obj"><use href="./assets/icon/objects.svg#jsm-hat"/></svg>
+  Fill and stroke both follow currentColor.
+-->
+<defs>
+  <style>
+    symbol { --jsm-obj-w: 3; }
+    symbol * { vector-effect: non-scaling-stroke; }
+  </style>
+</defs>
+
+<!-- کلاه مخملی — the primary mark. Low pinched crown, wide upturned brim. -->
+<symbol id="jsm-hat" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M20 40 L20.5 25 Q21 16 32 16 Q43 16 43.5 25 L44 40 Z" fill="currentColor"/>
+    <path d="M26 17.5 Q32 21 38 17.5" stroke-width="2.4" fill="none" stroke="#fff"
+          opacity="0.85"/>
+    <path d="M19 34.5 H45" stroke-width="4.5" stroke="#fff" opacity="0.9"/>
+    <path d="M6 43.5 Q32 53 58 43.5 Q32 36.5 6 43.5 Z" fill="currentColor"/>
+  </g>
+</symbol>
+
+<!-- تسبیح — RETIRED in 2.0.0 with every religious object. The loading indicator
+     is now the پنکهٔ رومیزی (jsm-panke); a test fails if this id returns. -->
+
+<!-- قپان — the steelyard. The product metaphor as a physical object.
+     Legibility needs all four parts present and separated: suspension hook,
+     graduated beam, hanging pan, sliding counterweight. -->
+<symbol id="jsm-qapan" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M24 8 a6 6 0 1 1 0 12" stroke-width="2.6"/>
+    <path d="M24 20 V26"/>
+    <path d="M8 28 H58" stroke-width="4"/>
+    <path d="M34 28 v5 M40 28 v5 M46 28 v5 M52 28 v5" stroke-width="2"/>
+    <path d="M14 28 L10 38 M14 28 L20 38"/>
+    <path d="M6 38 H26 L22 50 H10 Z" fill="currentColor"/>
+    <path d="M44 28 L44 34"/>
+    <path d="M44 34 L49 46 L39 46 Z" fill="currentColor"/>
+  </g>
+</symbol>
+
+<!-- استکان کمرباریک و نعلبکی — the errand man's fee is a glass of tea. -->
+<symbol id="jsm-estekan" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M22 14 L25 30 Q26 34 32 36 Q38 34 39 30 L42 14 Z" fill="currentColor"/>
+    <path d="M32 36 V44"/>
+    <path d="M10 47 Q32 58 54 47 Q32 42 10 47 Z" fill="currentColor"/>
+    <path d="M46 20 a5 5 0 0 1 0 10" stroke-width="2.6"/>
+  </g>
+</symbol>
+
+<!-- زنبیل حصیری — woven reed basket, hung off the handlebar. -->
+<symbol id="jsm-zanbil" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M22 24 Q22 10 32 10 Q42 10 42 24" stroke-width="3"/>
+    <path d="M12 26 H52 L46 54 H18 Z" fill="currentColor"/>
+    <g stroke="#fff" stroke-width="2" opacity="0.85">
+      <path d="M14 34 H50 M15.5 42 H48.5"/>
+      <path d="M24 27 L22 53 M32 27 V53 M40 27 L42 53"/>
+    </g>
+  </g>
+</symbol>
+
+<!-- هوندا ۱۲۵ — rear rack and crate are what make it read as an errand.
+     The engine block and fuel tank are load-bearing: without their mass this
+     silhouette is a bicycle, which is a different man doing a different job. -->
+<symbol id="jsm-honda" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="14" cy="47" r="10" stroke-width="3.4"/>
+    <circle cx="50" cy="47" r="10" stroke-width="3.4"/>
+    <circle cx="14" cy="47" r="2.6" fill="currentColor" stroke="none"/>
+    <circle cx="50" cy="47" r="2.6" fill="currentColor" stroke="none"/>
+    <rect x="24" y="34" width="17" height="11" rx="2" fill="currentColor"/>
+    <path d="M22 32 H40 L44 36" stroke-width="3"/>
+    <path d="M22 32 L20 25 H13" stroke-width="3"/>
+    <path d="M26 32 L30 26 H41 L42 32 Z" fill="currentColor"/>
+    <path d="M41 29 H52 L53 33 H44" fill="currentColor"/>
+    <rect x="42" y="15" width="15" height="11" rx="1" fill="currentColor"/>
+    <path d="M49 26 V29"/>
+  </g>
+</symbol>
+
+<!-- دفتر نسیه — the signature artifact, as an icon. -->
+<symbol id="jsm-daftar" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <rect x="10" y="8" width="44" height="48" fill="currentColor"/>
+    <path d="M20 8 V56" stroke="#fff" stroke-width="2.5" opacity="0.9"/>
+    <g stroke="#fff" stroke-width="2.4" opacity="0.9">
+      <path d="M26 20 H46 M26 30 H46 M26 40 H38"/>
+    </g>
+  </g>
+</symbol>
+
+<!-- دست — the manicule, the printer's pointing fist.
+     Objects alone float and become a sticker sheet; a hand acts, and acting is
+     what makes the absent face read as a choice rather than an omission. A
+     naturalistic hand is illegible at icon size (the first attempt read as a
+     mitten), so this is the letterpress manicule ☞ instead — which is also
+     exactly the right register: it was a stock ornament in the era's print.
+     Points inline-start, so it must mirror under RTL like any directional mark. -->
+<symbol id="jsm-dast" viewBox="0 0 64 64">
+  <g fill="currentColor" stroke="currentColor" stroke-width="2.4"
+     stroke-linejoin="round" stroke-linecap="round">
+    <!-- fist -->
+    <rect x="26" y="20" width="22" height="26" rx="7"/>
+    <!-- thumb, riding on top of the fist -->
+    <path d="M31 21 a6 5 0 0 1 11 0" stroke-width="2.4"/>
+    <!-- index finger, blunt round tip: a fingertip, not an arrowhead -->
+    <rect x="7" y="27" width="24" height="9" rx="4.5"/>
+    <!-- cuff -->
+    <path d="M47 19 h7 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-7 Z"/>
+    <!-- curled fingers, knocked out of the fist -->
+    <g stroke="#fff" stroke-width="2.2" fill="none" opacity="0.85">
+      <path d="M33 37 h11 M33 42 h11"/>
+      <path d="M47 24 v16"/>
+    </g>
+  </g>
+</symbol>
+
+<!-- مهر — RETIRED in 2.0.0. The winner device is the rosette price sticker
+     (jsm-etiket below, icon/ui/sticker.svg in the product). -->
+
+<!-- نوشابهٔ شیشه‌ای — the soda-ad anchor. Glass bottle, crown cap, paper label. -->
+<symbol id="jsm-nooshabe" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M26 4 H38 L37 9 H27 Z" fill="currentColor"/>
+    <path d="M28 9 V18 Q28 23 24 27 Q22 29 22 33 V53 Q22 58 27 58 H37 Q42 58 42 53 V33
+             Q42 29 40 27 Q36 23 36 18 V9 Z" fill="currentColor"/>
+    <g stroke="#fff" opacity="0.9">
+      <path d="M22 37 H42" stroke-width="10"/>
+    </g>
+    <path d="M26 37 Q29 34.5 32 37 Q35 39.5 38 37" stroke-width="2.4"/>
+  </g>
+</symbol>
+
+<!-- درِ بطری — the mark's frame as an object; a bullet, an ornament. -->
+<symbol id="jsm-darbutri" viewBox="0 0 64 64">
+  <path fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
+        d="M32.0 8.0 L37.0 11.8 L43.2 10.7 L45.8 16.4 L51.8 18.4 L51.4 24.6 L55.8 29.1
+           L52.6 34.5 L54.4 40.5 L49.1 43.8 L47.9 50.0 L41.7 50.4 L37.7 55.3 L32.0 52.8
+           L26.3 55.3 L22.3 50.4 L16.1 50.0 L14.9 43.8 L9.6 40.5 L11.4 34.5 L8.2 29.1
+           L12.6 24.6 L12.2 18.4 L18.2 16.4 L20.8 10.7 L27.0 11.8 Z"/>
+  <circle cx="32" cy="32" r="15" fill="none" stroke="#fff" stroke-width="2.4" opacity="0.9"/>
+  <circle cx="32" cy="32" r="4" fill="#fff" opacity="0.9"/>
+</symbol>
+
+<!-- پنکهٔ رومیزی — THE loading indicator since 2.0.0: the blades turn, the cage
+     and base do not. Inline the blade group and rotate it around (32 27);
+     rotating a <use> of the whole symbol spins the base, which is wrong. -->
+<symbol id="jsm-panke" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="32" cy="27" r="19"/>
+    <g class="panke__blades" fill="currentColor" stroke-width="2.4">
+      <path d="M32 27 Q22 15 30 10 Q37 13 32 27 Z"/>
+      <path d="M32 27 Q17 30 18 39 Q25 43 32 27 Z"/>
+      <path d="M32 27 Q45 35 46 27 Q44 19 32 27 Z"/>
+    </g>
+    <circle cx="32" cy="27" r="3.4" fill="currentColor" stroke="none"/>
+    <path d="M32 46 V52"/>
+    <path d="M20 58 Q32 52 44 58 Z" fill="currentColor"/>
+  </g>
+</symbol>
+
+<!-- رادیو ترانزیستوری — the 60s living room; a marquee ornament. -->
+<symbol id="jsm-radio" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M46 20 L58 7"/>
+    <rect x="6" y="20" width="52" height="32" rx="3" fill="currentColor"/>
+    <g stroke="#fff" stroke-width="2.4" opacity="0.9">
+      <path d="M13 27 V45 M19 27 V45 M25 27 V45"/>
+      <circle cx="44" cy="33" r="7" fill="none"/>
+      <path d="M44 33 L48 29"/>
+      <path d="M38 46 H50"/>
+    </g>
+  </g>
+</symbol>
+
+<!-- اتیکت قیمت — the rosette price sticker as an object. One device at two
+     scales: «ارزون!» on posters, «ارزون‌ترین» on the winning card. -->
+<symbol id="jsm-etiket" viewBox="0 0 64 64">
+  <path fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
+        d="M32.0 4.0 L36.67 11.53 L44.15 6.77 L45.09 15.58 L53.89 14.54 L50.92 22.89
+           L59.3 25.77 L53.0 32.0 L59.3 38.23 L50.92 41.11 L53.89 49.46 L45.09 48.42
+           L44.15 57.23 L36.67 52.47 L32.0 60.0 L27.33 52.47 L19.85 57.23 L18.91 48.42
+           L10.11 49.46 L13.08 41.11 L4.7 38.23 L11.0 32.0 L4.7 25.77 L13.08 22.89
+           L10.11 14.54 L18.91 15.58 L19.85 6.77 L27.33 11.53 Z"/>
+  <circle cx="32" cy="32" r="14" fill="none" stroke="#fff" stroke-width="2.4" opacity="0.9"/>
+  <path d="M25 32 Q28.5 28.5 32 32 Q35.5 35.5 39 32" fill="none" stroke="#fff"
+        stroke-width="2.4" stroke-linecap="round" opacity="0.9"/>
+</symbol>
+
+<!-- لامپ — the marquee bulb. -->
+<symbol id="jsm-lamp" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="32" cy="26" r="14" fill="currentColor"/>
+    <path d="M27 29 L30 23 L34 29 L37 23" stroke="#fff" stroke-width="2.2" opacity="0.9"/>
+    <path d="M27 44 H37 M27 49 H37" stroke-width="3.4"/>
+    <path d="M29 54 H35"/>
+    <path d="M32 4 V8 M14 12 L17 15 M50 12 L47 15 M10 26 H14 M50 26 H54" stroke-width="2.6"/>
+  </g>
+</symbol>
+
+<!-- هندوانه — groceries, and pure playfulness. A slice, not the whole fruit:
+     the whole fruit is a green ball; the slice is unmistakable. -->
+<symbol id="jsm-hendevaneh" viewBox="0 0 64 64">
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M6 40 A26 26 0 0 1 58 40 Z" fill="currentColor"
+          stroke="currentColor" stroke-width="3"/>
+    <path d="M12 40 A20 20 0 0 1 52 40" fill="none" stroke="#fff"
+          stroke-width="2.6" opacity="0.9"/>
+    <g fill="#fff" opacity="0.9" stroke="none">
+      <ellipse cx="25" cy="31" rx="1.9" ry="2.8"/>
+      <ellipse cx="39" cy="31" rx="1.9" ry="2.8"/>
+      <ellipse cx="32" cy="24" rx="1.9" ry="2.8"/>
+    </g>
+  </g>
+</symbol>
+
+<!-- تلویزیون قدیمی — the "commercial" frame device. Rabbit ears, two dials. -->
+<symbol id="jsm-televizion" viewBox="0 0 64 64">
+  <g fill="none" stroke="currentColor" stroke-width="3"
+     stroke-linejoin="round" stroke-linecap="round">
+    <path d="M22 18 L32 8 M42 18 L32 8" stroke-width="2.6"/>
+    <rect x="6" y="18" width="52" height="34" rx="3" fill="currentColor"/>
+    <rect x="12" y="24" width="31" height="22" rx="2" fill="none"
+          stroke="#fff" stroke-width="2.6" opacity="0.9"/>
+    <g fill="#fff" opacity="0.9" stroke="none">
+      <circle cx="51" cy="29" r="3"/>
+      <circle cx="51" cy="40" r="3"/>
+    </g>
+    <path d="M14 56 L12 60 M50 56 L52 60" stroke-width="2.6"/>
+  </g>
+</symbol>
+</svg>
+
+<div class="wrap sg">
+
+  <header>
+    <h1 style="font-family:var(--jsm-font-family-poster);font-size:var(--jsm-font-size-4xl);line-height:1">
+      راهنمای طراحی
+    </h1>
+    <p class="note" id="meta"></p>
+    <p class="note">
+      این صفحه هیچ نسخه‌ای از توکن‌ها ندارد؛ همه‌چیز را از
+      <code class="ltr" dir="ltr">tokens.json</code> می‌خواند. پس هرگز از چیزی
+      که واقعاً منتشر می‌شود جدا نمی‌افتد.
+    </p>
+  </header>
+
+  <section><h2>رنگ</h2><div id="colors"></div></section>
+
+  <section>
+    <h2>کنتراست</h2>
+    <p class="note">
+      هر جفتی که طراحی واقعاً استفاده می‌کند، با کف WCAG خودش. سازنده اگر یکی
+      از این‌ها بیفتد اصلاً خروجی نمی‌دهد.
+    </p>
+    <div id="contrast"></div>
+  </section>
+
+  <section><h2>تایپ</h2><div id="type"></div></section>
+
+  <section>
+    <h2>وضعیت کارت‌ها</h2>
+    <p class="note">
+      از پنج حالت، فقط یکی قرمز است. سه‌تای دیگر «نبودِ داده» را می‌گویند نه
+      «خطا» — اگر همه‌شان قرمز باشند، رنگ دیگر معنایی ندارد.
+    </p>
+    <div class="cards" id="cards"></div>
+    <h3>پوشش‌ها</h3>
+    <div id="overlays"></div>
+  </section>
+
+  <section><h2>فاصله و اندازه</h2><div id="metrics"></div></section>
+
+  <section>
+    <h2>اشیاء</h2>
+    <p class="note">صورتش را نمی‌کشیم. هویت را وسایلش می‌سازند.</p>
+    <div class="objs" id="objects"></div>
+  </section>
+
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+
+/* WCAG relative luminance — mirrors scripts/tokens/color.py so the page can
+   show the same numbers the build gates on. */
+const lum = (hex) => {
+  const [r,g,b] = [1,3,5].map(i => parseInt(hex.slice(i,i+2),16)/255)
+    .map(c => c <= 0.04045 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4));
+  return 0.2126*r + 0.7152*g + 0.0722*b;
+};
+const ratio = (a,b) => { const [x,y] = [lum(a),lum(b)].sort((m,n)=>n-m);
+                         return (x+0.05)/(y+0.05); };
+
+fetch('./assets/tokens.json').then(r => r.json()).then(data => {
+  const T = data.tokens;
+  const of = (p) => T[p] && T[p].value;
+  const entries = Object.entries(T);
+
+  $('meta').textContent =
+    `نسخهٔ ${data.meta.version} · ${data.meta.count} توکن · ${data.meta.layers.join(' ← ')}`;
+
+  /* ── colour, grouped by the layer/family it belongs to ── */
+  const groups = {};
+  for (const [path, t] of entries) {
+    if (t.type !== 'color') continue;
+    const key = path.split('.').slice(0, path.startsWith('tint.counter') ? 3 : 2).join('.');
+    (groups[key] ||= []).push([path, t]);
+  }
+  $('colors').innerHTML = Object.entries(groups).map(([name, items]) => `
+    <h3 class="ltr" dir="ltr">${esc(name)}</h3>
+    <div class="grid">${items.map(([path, t]) => {
+      const onLight = ratio(t.value, '#FFFFFF'), onDark = ratio(t.value, '#1C1712');
+      const best = Math.max(onLight, onDark);
+      return `<div class="sw">
+        <div class="sw__chip" style="background:${t.value}"></div>
+        <div class="sw__meta">
+          <span class="sw__path">${esc(path)}</span>
+          <span class="sw__val">${esc(t.value)}${t.raw !== undefined ? ' · ' + esc(t.raw) + '%' : ''}</span>
+          <span class="sw__ratio ${best >= 4.5 ? 'pass' : ''}">${best.toFixed(2)}:1 best</span>
+        </div></div>`;
+    }).join('')}</div>`).join('');
+
+  /* ── contrast pairs actually used by the design ── */
+  const PAIRS = [
+    ['color.poster.fg.primary','color.poster.bg.canvas',4.5,'متن روی کاغذ'],
+    ['color.poster.fg.secondary','color.poster.bg.canvas',4.5,'متن دوم'],
+    ['color.poster.fg.onInked','color.poster.bg.inked',3.0,'روی شنگرف — فقط درشت'],
+    ['color.poster.fg.onInked','color.poster.bg.inkedAlt',4.5,'روی سبز'],
+    ['color.poster.fg.onInked','color.poster.bg.inkedCool',4.5,'روی لاجوردی'],
+    ['color.poster.fg.onWarm','color.poster.bg.inkedWarm',4.5,'مرکب روی نارنجی'],
+    ['color.poster.fg.flag','color.poster.bg.inkedCool',3.0,'لیمویی روی لاجوردی — فقط درشت'],
+    ['color.poster.action.fg','color.poster.action.bg',4.5,'لیمویی روی مرکب'],
+    ['color.poster.sticker.fg','color.poster.sticker.bg',3.0,'اتیکت ارزون‌ترین'],
+    ['color.counter.fg.primary','color.counter.bg.surface',4.5,'متن کارت'],
+    ['color.counter.price.amount','color.counter.bg.surface',4.5,'قیمت'],
+    ['flag.lowConfidence.chipFg','flag.lowConfidence.chipBg',4.5,'چیپ نامطمئن'],
+  ];
+  $('contrast').innerHTML = `<table><thead><tr>
+      <th>نقش</th><th>پیش‌زمینه</th><th>زمینه</th><th>نسبت</th><th>کف</th></tr></thead>
+    <tbody>${PAIRS.map(([fg,bg,min,label]) => {
+      const a = of(fg), b = of(bg);
+      if (!a || !b) return '';
+      const r = ratio(a,b), ok = r + 1e-9 >= min;
+      return `<tr><td>${esc(label)}</td>
+        <td class="v">${esc(a)}</td><td class="v">${esc(b)}</td>
+        <td class="v ${ok?'pass':'fail'}">${r.toFixed(2)}:1</td>
+        <td class="v">${min}</td></tr>`;
+    }).join('')}</tbody></table>`;
+
+  /* ── type ── */
+  const SPECIMENS = [
+    ['type.hero','آقا جاسم','poster'],
+    ['type.section','چه‌جوری کار می‌کنه','display'],
+    ['type.title','اسنپ‌مارکت','display'],
+    ['type.body','بهش می‌گی چی می‌خوای، می‌ره می‌گرده و قیمت‌ها رو درمی‌آره.','body'],
+    ['type.price','۱۲۵٬۰۰۰ تومان','body'],
+    ['type.micro','شیر پرچرب ۱ لیتری · نان بربری','body'],
+  ];
+  $('type').innerHTML = SPECIMENS.map(([role, sample, fam]) => {
+    const size = of(role + '.size'), lead = of(role + '.leading');
+    const family = of('font.family.' + fam);
+    const stack = Array.isArray(family) ? family.join(', ') : family;
+    return `<h3 class="ltr" dir="ltr">${esc(role)} — ${esc(size)}px / ${esc(lead)}</h3>
+      <p style="font-family:${stack};font-size:min(${size}px, 14vw);line-height:${lead};margin:0">
+        ${esc(sample)}</p>`;
+  }).join('');
+
+  /* ── card states, straight from the domain tokens ── */
+  const STATES = ['ok','notInIndex','notFoundOnPlatform','notConnected','fetchFailed'];
+  $('cards').innerHTML = STATES.map(s => {
+    const g = (slot) => of(`card.status.${s}.${slot}`);
+    const label = of(`card.status.${s}.label`);
+    return `<div class="card" style="background:${g('bg')};border-color:${g('border')};color:${g('fg')}">
+      <span class="card__plat">اسنپ‌مارکت</span>
+      ${s === 'ok'
+        ? `<span class="card__price" style="color:${g('accent')}">۲۱۹٬۰۰۰ تومان</span>`
+        : `<span class="card__state">${esc(label)}</span>`}
+      <span class="card__key">${esc(s)}</span>
+    </div>`;
+  }).join('');
+
+  const lc = (k) => of('flag.lowConfidence.' + k);
+  const ch = (k) => of('emphasis.cheapest.' + k);
+  $('overlays').innerHTML = `
+    <div class="cards">
+      <div class="card" style="background:${of('card.status.ok.bg')};
+           border-color:${of('card.status.ok.border')};
+           border-inline-start:4px solid ${lc('hairline')}">
+        <span class="card__plat">اسنپ‌مارکت</span>
+        <span class="flagchip" style="background:${lc('chipBg')};color:${lc('chipFg')}">
+          ${esc(lc('label'))}</span>
+        <span class="card__price" style="color:${of('card.status.ok.accent')}">۲۱۹٬۰۰۰ تومان</span>
+        <span class="card__key">ok + lowConfidence</span>
+      </div>
+      <div class="card" style="background:${ch('bg')};border-color:${ch('ring')};
+           border-width:${of('emphasis.cheapest.metric.ringWidth')}px">
+        <span class="card__plat">اسنپ‌مارکت</span>
+        <span class="card__price" style="color:${of('color.counter.price.amount')}">۲۱۹٬۰۰۰ تومان</span>
+        <span class="flagchip" style="background:${ch('badgeBg')};color:${ch('badgeFg')}">
+          ${esc(ch('label'))}</span>
+        <span class="card__key">emphasis.cheapest</span>
+      </div>
+    </div>
+    <p class="note" style="margin-block-start:var(--jsm-space-3)">
+      مهرِ «${esc(ch('label'))}» وقتی نتیجه <em>نامطمئن</em> است زده نمی‌شود —
+      مهر زدن روی چیزی که مطمئن نیستیم درست باشد، تنها راهی است که این قابلیت
+      می‌تواند واقعاً گمراه‌کننده شود.
+    </p>`;
+
+  /* ── metrics ── */
+  const dims = entries.filter(([p,t]) => t.type === 'dimension' &&
+                (p.startsWith('space.') || p.startsWith('metric.') || p.startsWith('radius.')));
+  $('metrics').innerHTML = `<table><thead><tr>
+      <th>توکن</th><th>مقدار</th><th></th></tr></thead><tbody>${
+    dims.map(([p,t]) => `<tr><td class="v">${esc(p)}</td><td class="v">${esc(t.value)}px</td>
+      <td><span style="display:block;block-size:10px;inline-size:${Math.min(t.value,240)}px;
+        background:var(--jsm-color-ink-sabz)"></span></td></tr>`).join('')}</tbody></table>`;
+
+  /* ── objects ── */
+  const OBJ = [['jsm-hat','کلاه مخملی'],['jsm-qapan','قپان'],
+               ['jsm-estekan','استکان'],['jsm-zanbil','زنبیل'],['jsm-honda','هوندا ۱۲۵'],
+               ['jsm-daftar','دفتر نسیه'],['jsm-dast','دست'],
+               ['jsm-nooshabe','نوشابه'],['jsm-darbutri','درِ بطری'],
+               ['jsm-panke','پنکه'],['jsm-radio','رادیو'],['jsm-etiket','اتیکت قیمت'],
+               ['jsm-lamp','لامپ'],['jsm-hendevaneh','هندوانه'],['jsm-televizion','تلویزیون']];
+  $('objects').innerHTML = OBJ.map(([id,fa]) =>
+    `<figure><svg viewBox="0 0 64 64"><use href="#${id}"/></svg><figcaption>${fa}</figcaption></figure>`
+  ).join('');
+}).catch(err => {
+  $('meta').textContent = 'tokens.json بارگذاری نشد — این صفحه باید روی HTTP سرو شود، نه file://';
+  console.error(err);
+});
+</script>
+</body>
+</html>

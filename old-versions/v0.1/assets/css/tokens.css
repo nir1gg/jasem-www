@@ -1,5 +1,5 @@
 /* GENERATED FILE — DO NOT EDIT.
- * Source: tokens/*.toml in aghajasem/shenasnameh
+ * Source: tokens/*.toml in nir1gg/jasem-shenasnameh
  * Regenerate: python3 scripts/build_tokens.py
  */
 
@@ -21,14 +21,6 @@
   --jsm-color-ink-ajor: #8e2b1b;
   --jsm-color-ink-kahroba: #c98a00;
   --jsm-color-ink-abi: #1f5aa8;
-  --jsm-color-toy-zard: #ffc61e;
-  --jsm-color-toy-porteqal: #ff8a1e;
-  --jsm-color-toy-marjan: #c93e2c;
-  --jsm-color-toy-asemani: #8fd0f4;
-  --jsm-color-toy-pesteh: #7fb069;
-  --jsm-color-toy-qahve: #7a4a2b;
-  --jsm-color-toy-zoghal: #2e2620;
-  --jsm-color-toy-shir: #fff4e4;
   --jsm-space-0: 0;
   --jsm-space-1: 4px;
   --jsm-space-2: 8px;
@@ -191,22 +183,6 @@
   --jsm-color-counter-action-disabled-fg: #68635c;
   --jsm-color-counter-price-amount: #0b6b5e;
   --jsm-color-counter-price-strike: #68635c;
-  --jsm-color-toy-bg-canvas: #fff4e4;
-  --jsm-color-toy-bg-surface: #ffffff;
-  --jsm-color-toy-bg-ground: #ffc61e;
-  --jsm-color-toy-bg-inked: #2e2620;
-  --jsm-color-toy-bg-accent: #8fd0f4;
-  --jsm-color-toy-bg-warm: #ff8a1e;
-  --jsm-color-toy-bg-wood: #7a4a2b;
-  --jsm-color-toy-fg-primary: #2e2620;
-  --jsm-color-toy-fg-on-dark: #fff4e4;
-  --jsm-color-toy-line-keyline: #2e2620;
-  --jsm-color-toy-action-bg: #c93e2c;
-  --jsm-color-toy-action-fg: #fff4e4;
-  --jsm-color-toy-action-bg-alt: #ff8a1e;
-  --jsm-color-toy-action-fg-alt: #2e2620;
-  --jsm-color-toy-sticker-bg: #7fb069;
-  --jsm-color-toy-sticker-fg: #2e2620;
   --jsm-type-hero-family: Jomhuria, Tahoma, sans-serif;
   --jsm-type-hero-size: 112px;
   --jsm-type-hero-weight: 400;

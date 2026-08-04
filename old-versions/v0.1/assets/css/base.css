@@ -1,0 +1,102 @@
+/*  Reset and RTL foundation.
+ *
+ *  Logical properties only. Never margin-left/right for anything that should
+ *  mirror — the whole page is dir="rtl" and physical properties are how RTL
+ *  layouts break.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Jomhuria and Lalezar ship ONE weight. A synthesised bold smears the
+     outlines, and in Arabic script that breaks letter joining outright. */
+  font-synthesis: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol { list-style: none; }
+
+/* Author display values beat the UA [hidden] rule; restore its authority. */
+[hidden] { display: none !important; }
+
+img, svg { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+body {
+  font-family: var(--jsm-font-family-body);
+  font-size: var(--jsm-font-size-md);
+  line-height: var(--jsm-line-height-body);
+  color: var(--jsm-color-poster-fg-primary);
+  background: var(--jsm-color-poster-bg-canvas);
+  /* Era print is crowded; the page should never feel airy and centred. */
+  text-rendering: optimizeLegibility;
+}
+
+/*  Inline Latin inside Persian needs its own direction, or bidi reordering
+ *  mangles the punctuation around it. Applies to "Cafe Bazaar", URLs, "APK". */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+/*  Directional icons mirror under RTL. Logos and objects never do. */
+[dir="rtl"] .icon-directional { transform: scaleX(-1); }
+.logo, .platform-mark { transform: none !important; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--jsm-color-ink-surati);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--jsm-space-4);
+  inset-block-start: -100%;
+  z-index: 10;
+  padding: var(--jsm-space-3) var(--jsm-space-4);
+  background: var(--jsm-color-poster-action-bg);
+  color: var(--jsm-color-poster-action-fg);
+}
+.skip-link:focus { inset-block-start: var(--jsm-space-4); }
+
+/*  Halftone and misregistration are printing artifacts, not effects. They are
+ *  texture only and must never carry meaning, so dropping them costs nothing. */
+@media (prefers-contrast: more) {
+  .halftone::after,
+  .misregister::before { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

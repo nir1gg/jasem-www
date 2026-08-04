@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 260" role="img" aria-label="آقا جاسم">
+  <title>آقا جاسم سلام می‌کند</title>
+  <!--
+    آقا جاسم himself, waving hello — naive matchbox-label drawing: heavy
+    keylines, flat inks, no gradients. The animation is CSS inside the file so
+    it runs even as an <img>: the right hand waves, the body sways, the
+    mustache wiggles, and every few seconds he raises his استکان to you.
+    All of it parks under prefers-reduced-motion.
+  -->
+  <style>
+    .sway  { transform-origin: 110px 240px; animation: sway 4.2s ease-in-out infinite alternate; }
+    .wave  { transform-origin: 156px 168px; animation: wave 1.3s ease-in-out infinite alternate; }
+    .tea   { transform-origin: 66px 170px;  animation: tea 7s ease-in-out infinite; }
+    .brow  { transform-origin: 110px 92px;  animation: brow 7s ease-in-out infinite; }
+    .stash { transform-origin: 110px 124px; animation: stash 3.4s ease-in-out infinite alternate; }
+    @keyframes sway  { to { transform: rotate(1.6deg); } }
+    @keyframes wave  { from { transform: rotate(-16deg); } to { transform: rotate(14deg); } }
+    @keyframes tea   { 0%, 64%, 100% { transform: rotate(0deg); }
+                       72%, 88%      { transform: rotate(-30deg); } }
+    @keyframes brow  { 0%, 64%, 100% { transform: translateY(0); }
+                       72%, 88%      { transform: translateY(-4px); } }
+    @keyframes stash { to { transform: rotate(2.2deg); } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+
+  <g class="sway">
+    <!-- the waving arm, behind the torso -->
+    <g class="wave" stroke-linecap="round">
+      <path d="M154 168 L188 112" stroke="#1C1712" stroke-width="17"/>
+      <circle cx="192" cy="102" r="13" fill="#E6E0CE" stroke="#1C1712" stroke-width="3"/>
+      <path d="M185 93 L183 86 M192 91 L192 83 M199 93 L202 86" fill="none"
+            stroke="#1C1712" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- the tea arm: every few seconds he raises the استکان -->
+    <g class="tea" stroke-linecap="round">
+      <path d="M68 172 L46 206" stroke="#1C1712" stroke-width="17"/>
+      <circle cx="43" cy="212" r="11" fill="#E6E0CE" stroke="#1C1712" stroke-width="3"/>
+      <g stroke="#1C1712" stroke-width="2.4">
+        <path d="M32 190 L35 202 Q36 205 41 206.5 Q46 205 47 202 L50 190 Z"
+              fill="#E6E0CE"/>
+        <path d="M28 209 Q41 215 54 209 Q41 205 28 209 Z" fill="#E6E0CE"/>
+        <path d="M38 184 q2 -4 0 -7 M44 184 q2 -4 0 -7" fill="none" opacity="0.7"/>
+      </g>
+    </g>
+
+    <!-- torso: dark jacket, paper shirt, vermilion kerchief -->
+    <path d="M56 244 Q54 176 84 164 L110 156 L136 164 Q166 176 164 244 Z"
+          fill="#1C1712" stroke="#1C1712" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M92 160 L110 156 L128 160 L121 186 L110 196 L99 186 Z" fill="#E6E0CE"/>
+    <path d="M110 196 L104 206 L110 216 L116 206 Z" fill="#D93A1F"/>
+    <path d="M70 190 l14 -5 -3 12 Z" fill="#D93A1F"/>
+
+    <!-- head -->
+    <g>
+      <circle cx="64" cy="112" r="7" fill="#E6E0CE" stroke="#1C1712" stroke-width="3"/>
+      <circle cx="156" cy="112" r="7" fill="#E6E0CE" stroke="#1C1712" stroke-width="3"/>
+      <ellipse cx="110" cy="110" rx="46" ry="44" fill="#E6E0CE"
+               stroke="#1C1712" stroke-width="3"/>
+      <!-- the velvet hat, band in vermilion -->
+      <path d="M76 66 L79 36 Q81 18 110 18 Q139 18 141 36 L144 66 Z"
+            fill="#1C1712"/>
+      <path d="M77 52 H143 v9 H77 Z" fill="#D93A1F"/>
+      <path d="M50 74 Q110 92 170 74 Q110 58 50 74 Z" fill="#1C1712"/>
+      <!-- brows lift when the glass lifts -->
+      <g class="brow" fill="none" stroke="#1C1712" stroke-width="5" stroke-linecap="round">
+        <path d="M82 93 Q92 87 102 92"/>
+        <path d="M118 92 Q128 87 138 93"/>
+      </g>
+      <!-- happy shut eyes: the wink, both sides -->
+      <g fill="none" stroke="#1C1712" stroke-width="3.4" stroke-linecap="round">
+        <path d="M85 104 Q93 110 101 104"/>
+        <path d="M119 104 Q127 110 135 104"/>
+      </g>
+      <circle cx="110" cy="115" r="6.5" fill="#E6E0CE" stroke="#1C1712" stroke-width="3"/>
+      <!-- the mustache -->
+      <g class="stash" fill="#1C1712">
+        <path d="M110 126 Q92 116 76 126 Q84 140 106 132 L110 128 Z"/>
+        <path d="M110 126 Q128 116 144 126 Q136 140 114 132 L110 128 Z"/>
+      </g>
+      <path d="M102 144 Q110 148 118 144" fill="none" stroke="#1C1712"
+            stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
