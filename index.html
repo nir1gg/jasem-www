@@ -5,22 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>آقا جاسم — بارکد رو نشونش بده</title>
 <meta name="description" content="بارکد هر جنسی رو نشونش بده؛ آقا جاسم قیمتش رو تو دیجی‌کالا جت، اسنپ‌مارکت و اکالا درمی‌آره و می‌گه کدوم صرف می‌کنه.">
-
 <meta property="og:type" content="website">
 <meta property="og:title" content="آقا جاسم — بارکد رو نشونش بده">
 <meta property="og:description" content="بارکد هر جنسی رو نشونش بده؛ آقا جاسم قیمتش رو تو دیجی‌کالا جت، اسنپ‌مارکت و اکالا درمی‌آره و می‌گه کدوم صرف می‌کنه.">
 <meta property="og:url" content="https://aghajasem.ir">
 <meta property="og:locale" content="fa_IR">
-<meta property="og:image" content="https://aghajasem.ir/assets/social/og-aghajasem.png">
+<meta property="og:image" content="https://aghajasem.ir/assets/social/og-aghajasem.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FFC61E">
-
 <link rel="icon" href="./assets/icon/favicon.png" type="image/png">
-
-<!-- Only the two faces above the fold. A third request here is a regression. -->
+<link rel="apple-touch-icon" href="./assets/icon/app-icon-192.png">
 <link rel="preload" href="./assets/fonts/Jomhuria-Regular.subset.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./assets/fonts/Vazirmatn-Regular.subset.woff2" as="font" type="font/woff2" crossorigin>
-
 <link rel="stylesheet" href="./assets/css/tokens.css">
 <link rel="stylesheet" href="./assets/css/fonts.css">
 <link rel="stylesheet" href="./assets/css/base.css">
@@ -28,28 +24,26 @@
 <link rel="stylesheet" href="./assets/css/toy.css">
 </head>
 <body>
-
 <a class="skip-link" href="#main">برو به متن اصلی</a>
-
-<!-- ══ header ══ -->
-<header class="masthead">
+<header class="masthead" id="masthead">
   <div class="wrap masthead__row">
     <a class="masthead__brand logo" href="./" aria-label="آقا جاسم">
-      <img src="./assets/icon/favicon.png" alt="" width="40" height="40" class="masthead__mark">
+      <img src="./assets/icon/app-icon-192.png" alt="" width="40" height="40" class="masthead__mark">
       <span class="masthead__word">آقا جاسم</span>
     </a>
     <nav class="masthead__nav" aria-label="بخش‌های صفحه">
       <a href="#how">چه‌جوری کار می‌کنه</a>
       <a href="#who">آقا جاسم کیه؟</a>
+      <button class="sound" type="button" id="sound" aria-pressed="false">
+        <span class="sound__eq" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="sound__word">صدا</span>
+      </button>
       <a class="masthead__cta" href="#download">بگیرش</a>
     </nav>
   </div>
 </header>
-
 <main id="main">
-
-  <!-- ══ hero: «show him the barcode» ══ -->
-  <section class="hero">
+  <section class="hero" data-scene data-scene-from="top">
     <div class="wrap hero__grid">
       <div class="hero__copy">
         <p class="hero__kicker">نرخ‌نامهٔ محله، تو جیبت</p>
@@ -60,27 +54,26 @@
           صرف می‌کنه.
         </p>
         <div class="hero__cta">
-          <a class="btn btn--cta" href="#download" data-magnet>بگیرش</a>
+          <a class="btn btn--cta" href="#download" data-magnet data-click="tap">بگیرش</a>
           <p class="hero__note">اندروید · رایگان</p>
         </div>
       </div>
-
       <figure class="hero__stage">
-        <img class="hero__render" src="./assets/illustration/3d/jasem-hero.webp"
-             width="1200" height="896" fetchpriority="high"
-             alt="آقا جاسم لبخندزنان دست تکون می‌ده و گوشی‌اش رو با بارکد روی صفحه نشون می‌ده">
-        <span class="floaty floaty--sticker" aria-hidden="true">ارزون‌ترین</span>
-        <span class="floaty floaty--tag" aria-hidden="true">۳ پلتفرم، یه بارکد</span>
+        <span class="hero__figure" data-parallax data-speed="0.10" data-scale="1.05">
+          <img class="hero__render" src="./assets/illustration/3d/jasem-hero.webp"
+               width="1200" height="896" fetchpriority="high"
+               alt="آقا جاسم لبخندزنان دست تکون می‌ده و گوشی‌اش رو با بارکد روی صفحه نشون می‌ده">
+          <span class="hero__beam" aria-hidden="true"></span>
+        </span>
+        <span class="floaty floaty--sticker" data-parallax data-speed="-0.12" aria-hidden="true">ارزون‌ترین</span>
+        <span class="floaty floaty--tag" data-parallax data-speed="-0.08" aria-hidden="true">۳ پلتفرم، یه بارکد</span>
       </figure>
     </div>
   </section>
-
-  <!-- ══ the fake scan — honest about being a demo ══ -->
   <section class="scan" id="scan">
     <div class="wrap">
       <h2 class="section__head reveal">اول خودش نشونت می‌ده</h2>
       <p class="section__lede reveal">بزن رو دکمه. همون‌کاری رو می‌کنی که تو فروشگاه می‌کنی.</p>
-
       <div class="demo reveal" id="demo">
         <div class="demo__scene">
           <svg class="demo__barcode" viewBox="0 0 220 120" aria-label="بارکد نمایشی">
@@ -115,7 +108,6 @@
           </svg>
           <span class="demo__beam" aria-hidden="true"></span>
         </div>
-
         <div class="demo__results" id="demo-results">
           <div class="bubble" style="--i:0">
             <span class="bubble__plat">دیجی‌کالا جت</span>
@@ -131,7 +123,6 @@
             <span class="bubble__price">۲۶۵٬۰۰۰ <small>تومان</small></span>
           </div>
         </div>
-
         <div class="demo__foot">
           <button class="btn btn--scan" type="button" id="scan-btn">اسکن کن</button>
           <p class="demo__caption">قیمتا برای نمایشه — تو اپ همین سه تا سبد با قیمتِ واقعی میاد.</p>
@@ -139,14 +130,25 @@
       </div>
     </div>
   </section>
-
-  <!-- ══ how ══ -->
   <section class="section" id="how">
     <div class="wrap">
       <h2 class="section__head reveal">چه‌جوری کار می‌کنه</h2>
       <ol class="steps">
         <li class="step reveal" style="--i:0">
           <span class="step__num" aria-hidden="true">۱</span>
+          <svg class="toy toy--card" viewBox="0 0 64 64" aria-hidden="true">
+            <rect class="toy__plate" x="6" y="14" width="52" height="36" rx="8"/>
+            <g class="toy__bars">
+              <rect x="14" y="22" width="3" height="20"/>
+              <rect x="20" y="22" width="2" height="20"/>
+              <rect x="25" y="22" width="4" height="20"/>
+              <rect x="32" y="22" width="2" height="20"/>
+              <rect x="37" y="22" width="3" height="20"/>
+              <rect x="43" y="22" width="2" height="20"/>
+              <rect x="48" y="22" width="4" height="20"/>
+            </g>
+            <rect class="toy__beam" x="10" y="30" width="44" height="3" rx="1.5"/>
+          </svg>
           <h3 class="step__title">بارکد رو نشونش بده</h3>
           <p class="step__body">
             تو فروشگاه، کنار یخچال، هرجا. بارکد جنس رو جلوش بگیر — همون‌جوری
@@ -155,6 +157,15 @@
         </li>
         <li class="step reveal" style="--i:1">
           <span class="step__num" aria-hidden="true">۲</span>
+          <svg class="toy toy--cart" viewBox="0 0 64 64" aria-hidden="true">
+            <g class="toy__basket">
+              <path class="toy__solid" d="M12 24 h40 l-5 22 a4 4 0 0 1 -4 3 H21 a4 4 0 0 1 -4 -3 Z"/>
+              <path class="toy__line" d="M22 30 v14 M32 30 v14 M42 30 v14"/>
+            </g>
+            <circle class="toy__wheel toy__wheel--a" cx="24" cy="55" r="4"/>
+            <circle class="toy__wheel toy__wheel--b" cx="42" cy="55" r="4"/>
+            <path class="toy__line" d="M6 14 h7 l3 10"/>
+          </svg>
           <h3 class="step__title">می‌ره می‌گرده</h3>
           <p class="step__body">
             سه تا پلتفرم رو با هم چک می‌کنه: قیمت، موجودی، تاریخ انقضا. مثل
@@ -163,6 +174,13 @@
         </li>
         <li class="step reveal" style="--i:2">
           <span class="step__num" aria-hidden="true">۳</span>
+          <svg class="toy toy--tag" viewBox="0 0 64 64" aria-hidden="true">
+            <g class="toy__swing">
+              <path class="toy__line" d="M32 4 v10"/>
+              <path class="toy__win" d="M32 14 l20 12 v20 a4 4 0 0 1 -4 4 H16 a4 4 0 0 1 -4 -4 V26 Z"/>
+              <path class="toy__tick" d="M22 38 l7 7 13 -14"/>
+            </g>
+          </svg>
           <h3 class="step__title">می‌گه کدوم صرف می‌کنه</h3>
           <p class="step__body">
             سه تا سبد کنار هم، رو ارزون‌ترین‌ش اتیکت می‌زنه. مطمئن نباشه،
@@ -172,8 +190,34 @@
       </ol>
     </div>
   </section>
-
-  <!-- ══ platforms ══ -->
+  <section class="reel" aria-label="واژه‌های اروندِ جاسم">
+    <div class="reel__track" id="reel-track">
+      <span class="reel__item">زنبیل</span>
+      <span class="reel__item">بارکد</span>
+      <span class="reel__item">قیمت</span>
+      <span class="reel__item">تاریخ</span>
+      <span class="reel__item">ارزون‌ترین</span>
+      <span class="reel__item">مطمئن نیستم</span>
+      <span class="reel__item">اسنپ‌مارکت</span>
+      <span class="reel__item">اکالا</span>
+      <span class="reel__item">دیجی‌کالا جت</span>
+      <span class="reel__item">شیر</span>
+      <span class="reel__item">نبود، دروغ نیست</span>
+      <span class="reel__item">هوندا</span>
+      <span class="reel__item">زنبیل</span>
+      <span class="reel__item">بارکد</span>
+      <span class="reel__item">قیمت</span>
+      <span class="reel__item">تاریخ</span>
+      <span class="reel__item">ارزون‌ترین</span>
+      <span class="reel__item">مطمئن نیستم</span>
+      <span class="reel__item">اسنپ‌مارکت</span>
+      <span class="reel__item">اکالا</span>
+      <span class="reel__item">دیجی‌کالا جت</span>
+      <span class="reel__item">شیر</span>
+      <span class="reel__item">نبود، دروغ نیست</span>
+      <span class="reel__item">هوندا</span>
+    </div>
+  </section>
   <section class="section section--tight">
     <div class="wrap">
       <h2 class="section__head reveal">کجاها رو می‌گرده</h2>
@@ -186,8 +230,6 @@
       </p>
     </div>
   </section>
-
-  <!-- ══ who ══ -->
   <section class="section who" id="who">
     <div class="wrap who__grid">
       <div class="who__copy">
@@ -205,13 +247,12 @@
       </div>
       <figure class="who__stage reveal">
         <img class="who__render" src="./assets/illustration/3d/jasem-family.webp"
-             width="1376" height="768" loading="lazy"
+             width="1376" height="768" loading="lazy" data-parallax
+             data-speed="-0.06" data-scale="1.06"
              alt="آقا جاسم و بی‌بی با دو نوه‌شون، ایستاده کنار هوندا قرمز">
       </figure>
     </div>
   </section>
-
-  <!-- ══ honesty ══ -->
   <section class="section">
     <div class="wrap">
       <h2 class="section__head reveal">سرت شیره نمی‌ماله</h2>
@@ -239,13 +280,12 @@
       </ul>
     </div>
   </section>
-
-  <!-- ══ scan render interlude ══ -->
-  <section class="section section--tight interlude">
+  <section class="section section--tight interlude" data-scene>
     <div class="wrap interlude__grid">
       <figure class="interlude__stage reveal">
         <img class="interlude__render" src="./assets/illustration/3d/jasem-scan.webp"
-             width="1200" height="896" loading="lazy"
+             width="1200" height="896" loading="lazy" data-parallax
+             data-speed="0.08" data-scale="1.05"
              alt="آقا جاسم با گوشی بارکدِ یه پاکت شیر رو اسکن می‌کنه؛ پرتوی قرمز روی بارکده">
       </figure>
       <div class="interlude__copy reveal">
@@ -257,8 +297,29 @@
       </div>
     </div>
   </section>
-
-  <!-- ══ download ══ -->
+  <section class="ride" id="ride" data-scene>
+    <div class="wrap">
+      <p class="ride__eyebrow reveal">اروندِ جاسم</p>
+      <h2 class="section__head reveal">می‌ره و می‌آد</h2>
+    </div>
+    <div class="wrap">
+      <figure class="ride__figure">
+        <div class="ride__window">
+          <img class="ride__render" src="./assets/illustration/3d/jasem-ride.webp"
+               width="1376" height="768" loading="lazy"
+               alt="آقا جاسم سوار هوندا قرمزش، با جعبهٔ خرید بسته به ترک">
+        </div>
+        <ol class="ride__stops" aria-hidden="true">
+          <li class="ride__stop" style="--i:0">دیجی‌کالا جت</li>
+          <li class="ride__stop" style="--i:1">اسنپ‌مارکت</li>
+          <li class="ride__stop" style="--i:2">اکالا</li>
+        </ol>
+        <figcaption class="ride__caption">
+          هر بار که بارکد رو نشونش می‌دی، همین مسیر رو می‌ره.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
   <section class="section download" id="download">
     <div class="wrap">
       <div class="ticket reveal">
@@ -273,10 +334,7 @@
       </div>
     </div>
   </section>
-
 </main>
-
-<!-- ══ colophon ══ -->
 <footer class="footer">
   <div class="wrap footer__inner">
     <p class="footer__brand logo">آقا جاسم</p>
@@ -287,10 +345,6 @@
     </p>
   </div>
 </footer>
-
-<!-- app.js is a module: browsers that cannot load it never get the .js
-     class, so nothing hides waiting for script that will not arrive. -->
 <script type="module" src="./assets/js/app.js"></script>
-
 </body>
 </html>

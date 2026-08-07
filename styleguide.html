@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>شناسنامهٔ آقا جاسم — راهنمای طراحی</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="./assets/icon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="./assets/icon/favicon.png" type="image/png">
 <link rel="stylesheet" href="./assets/css/tokens.css">
 <link rel="stylesheet" href="./assets/css/fonts.css">
 <link rel="stylesheet" href="./assets/css/base.css">
@@ -68,37 +68,13 @@
 </style>
 </head>
 <body>
-
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-<!--
-  آقا جاسم — the object set.
-
-  We do not draw his face. The identity is carried by his things, which is both
-  a design choice and an era-correct one: کبریت توکلی matchbox labels and shop
-  signage worked the same way, one naive figurative subject inside a heavy
-  keyline. Every symbol here is built on a 64×64 grid with a 3px stroke so they
-  keep the same weight when set beside each other.
-
-  Notes on specificity, because the generic version of each of these is wrong:
-    کلاه مخملی  not a flat cap. A flat cap reads British; the velvet hat is the
-                جاهل of Film-Farsi and carries the whole backstory in one shape.
-    هوندا ۱۲۵   not a Vespa. Upright commuter bike with a rear rack and a crate;
-                the rack is what makes the silhouette legible as an errand.
-    زنبیل حصیری  woven reed, not the plastic string bag — that one reads as a
-                housewife at the bazaar rather than as the man running errands.
-    قپان        a steelyard, not a two-pan balance. Same idea, less European.
-
-  Use: <svg class="obj"><use href="./assets/icon/objects.svg#jsm-hat"/></svg>
-  Fill and stroke both follow currentColor.
--->
 <defs>
-  <style>
+<style>
     symbol { --jsm-obj-w: 3; }
     symbol * { vector-effect: non-scaling-stroke; }
   </style>
 </defs>
-
-<!-- کلاه مخملی — the primary mark. Low pinched crown, wide upturned brim. -->
 <symbol id="jsm-hat" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -109,13 +85,6 @@
     <path d="M6 43.5 Q32 53 58 43.5 Q32 36.5 6 43.5 Z" fill="currentColor"/>
   </g>
 </symbol>
-
-<!-- تسبیح — RETIRED in 2.0.0 with every religious object. The loading indicator
-     is now the پنکهٔ رومیزی (jsm-panke); a test fails if this id returns. -->
-
-<!-- قپان — the steelyard. The product metaphor as a physical object.
-     Legibility needs all four parts present and separated: suspension hook,
-     graduated beam, hanging pan, sliding counterweight. -->
 <symbol id="jsm-qapan" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -129,8 +98,6 @@
     <path d="M44 34 L49 46 L39 46 Z" fill="currentColor"/>
   </g>
 </symbol>
-
-<!-- استکان کمرباریک و نعلبکی — the errand man's fee is a glass of tea. -->
 <symbol id="jsm-estekan" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -140,8 +107,6 @@
     <path d="M46 20 a5 5 0 0 1 0 10" stroke-width="2.6"/>
   </g>
 </symbol>
-
-<!-- زنبیل حصیری — woven reed basket, hung off the handlebar. -->
 <symbol id="jsm-zanbil" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -153,10 +118,6 @@
     </g>
   </g>
 </symbol>
-
-<!-- هوندا ۱۲۵ — rear rack and crate are what make it read as an errand.
-     The engine block and fuel tank are load-bearing: without their mass this
-     silhouette is a bicycle, which is a different man doing a different job. -->
 <symbol id="jsm-honda" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -173,8 +134,6 @@
     <path d="M49 26 V29"/>
   </g>
 </symbol>
-
-<!-- دفتر نسیه — the signature artifact, as an icon. -->
 <symbol id="jsm-daftar" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -185,37 +144,19 @@
     </g>
   </g>
 </symbol>
-
-<!-- دست — the manicule, the printer's pointing fist.
-     Objects alone float and become a sticker sheet; a hand acts, and acting is
-     what makes the absent face read as a choice rather than an omission. A
-     naturalistic hand is illegible at icon size (the first attempt read as a
-     mitten), so this is the letterpress manicule ☞ instead — which is also
-     exactly the right register: it was a stock ornament in the era's print.
-     Points inline-start, so it must mirror under RTL like any directional mark. -->
 <symbol id="jsm-dast" viewBox="0 0 64 64">
   <g fill="currentColor" stroke="currentColor" stroke-width="2.4"
      stroke-linejoin="round" stroke-linecap="round">
-    <!-- fist -->
     <rect x="26" y="20" width="22" height="26" rx="7"/>
-    <!-- thumb, riding on top of the fist -->
     <path d="M31 21 a6 5 0 0 1 11 0" stroke-width="2.4"/>
-    <!-- index finger, blunt round tip: a fingertip, not an arrowhead -->
     <rect x="7" y="27" width="24" height="9" rx="4.5"/>
-    <!-- cuff -->
     <path d="M47 19 h7 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-7 Z"/>
-    <!-- curled fingers, knocked out of the fist -->
     <g stroke="#fff" stroke-width="2.2" fill="none" opacity="0.85">
       <path d="M33 37 h11 M33 42 h11"/>
       <path d="M47 24 v16"/>
     </g>
   </g>
 </symbol>
-
-<!-- مهر — RETIRED in 2.0.0. The winner device is the rosette price sticker
-     (jsm-etiket below, icon/ui/sticker.svg in the product). -->
-
-<!-- نوشابهٔ شیشه‌ای — the soda-ad anchor. Glass bottle, crown cap, paper label. -->
 <symbol id="jsm-nooshabe" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -228,8 +169,6 @@
     <path d="M26 37 Q29 34.5 32 37 Q35 39.5 38 37" stroke-width="2.4"/>
   </g>
 </symbol>
-
-<!-- درِ بطری — the mark's frame as an object; a bullet, an ornament. -->
 <symbol id="jsm-darbutri" viewBox="0 0 64 64">
   <path fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
         d="M32.0 8.0 L37.0 11.8 L43.2 10.7 L45.8 16.4 L51.8 18.4 L51.4 24.6 L55.8 29.1
@@ -239,10 +178,6 @@
   <circle cx="32" cy="32" r="15" fill="none" stroke="#fff" stroke-width="2.4" opacity="0.9"/>
   <circle cx="32" cy="32" r="4" fill="#fff" opacity="0.9"/>
 </symbol>
-
-<!-- پنکهٔ رومیزی — THE loading indicator since 2.0.0: the blades turn, the cage
-     and base do not. Inline the blade group and rotate it around (32 27);
-     rotating a <use> of the whole symbol spins the base, which is wrong. -->
 <symbol id="jsm-panke" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -257,8 +192,6 @@
     <path d="M20 58 Q32 52 44 58 Z" fill="currentColor"/>
   </g>
 </symbol>
-
-<!-- رادیو ترانزیستوری — the 60s living room; a marquee ornament. -->
 <symbol id="jsm-radio" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -272,9 +205,6 @@
     </g>
   </g>
 </symbol>
-
-<!-- اتیکت قیمت — the rosette price sticker as an object. One device at two
-     scales: «ارزون!» on posters, «ارزون‌ترین» on the winning card. -->
 <symbol id="jsm-etiket" viewBox="0 0 64 64">
   <path fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
         d="M32.0 4.0 L36.67 11.53 L44.15 6.77 L45.09 15.58 L53.89 14.54 L50.92 22.89
@@ -286,8 +216,6 @@
   <path d="M25 32 Q28.5 28.5 32 32 Q35.5 35.5 39 32" fill="none" stroke="#fff"
         stroke-width="2.4" stroke-linecap="round" opacity="0.9"/>
 </symbol>
-
-<!-- لامپ — the marquee bulb. -->
 <symbol id="jsm-lamp" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -298,9 +226,6 @@
     <path d="M32 4 V8 M14 12 L17 15 M50 12 L47 15 M10 26 H14 M50 26 H54" stroke-width="2.6"/>
   </g>
 </symbol>
-
-<!-- هندوانه — groceries, and pure playfulness. A slice, not the whole fruit:
-     the whole fruit is a green ball; the slice is unmistakable. -->
 <symbol id="jsm-hendevaneh" viewBox="0 0 64 64">
   <g stroke-linejoin="round" stroke-linecap="round">
     <path d="M6 40 A26 26 0 0 1 58 40 Z" fill="currentColor"
@@ -314,8 +239,6 @@
     </g>
   </g>
 </symbol>
-
-<!-- تلویزیون قدیمی — the "commercial" frame device. Rabbit ears, two dials. -->
 <symbol id="jsm-televizion" viewBox="0 0 64 64">
   <g fill="none" stroke="currentColor" stroke-width="3"
      stroke-linejoin="round" stroke-linecap="round">
@@ -331,9 +254,7 @@
   </g>
 </symbol>
 </svg>
-
 <div class="wrap sg">
-
   <header>
     <h1 style="font-family:var(--jsm-font-family-poster);font-size:var(--jsm-font-size-4xl);line-height:1">
       راهنمای طراحی
@@ -345,9 +266,7 @@
       که واقعاً منتشر می‌شود جدا نمی‌افتد.
     </p>
   </header>
-
   <section><h2>رنگ</h2><div id="colors"></div></section>
-
   <section>
     <h2>کنتراست</h2>
     <p class="note">
@@ -356,9 +275,7 @@
     </p>
     <div id="contrast"></div>
   </section>
-
   <section><h2>تایپ</h2><div id="type"></div></section>
-
   <section>
     <h2>وضعیت کارت‌ها</h2>
     <p class="note">
@@ -369,17 +286,13 @@
     <h3>پوشش‌ها</h3>
     <div id="overlays"></div>
   </section>
-
   <section><h2>فاصله و اندازه</h2><div id="metrics"></div></section>
-
   <section>
     <h2>اشیاء</h2>
     <p class="note">صورتش را نمی‌کشیم. هویت را وسایلش می‌سازند.</p>
     <div class="objs" id="objects"></div>
   </section>
-
 </div>
-
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
